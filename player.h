@@ -2,22 +2,39 @@
 
 #include "gameObject.h"
 #include "animationModel.h"
+//前方宣言
+namespace Timer { class Delay; }
+//class Sound::Audio;
+namespace Sound { class Audio; }
 
-class Player : public GameObject
-{
+namespace Player
+{ 
+	class PlayerObject : public GameObject
+	{
 
-private:
+	private:
 
-	DirectX::SimpleMath::Vector3		m_Velocity{};
-	class Audio*	m_SE{};
+		DirectX::SimpleMath::Vector3		m_Velocity{};
 
-	class AnimationModel* m_Model;
-	int	m_Frame;
-	float	m_BlendRate;
+		class AnimationModel* m_Model;
+		int	m_Frame;
+		float	m_BlendRate;
 
-public:
-	void Init() override;
-	void Update() override;
-	void PreDraw() override;
+		Timer::Delay* m_Delay{};
+		Sound::Audio* m_SE{};
 
-};
+		//プレイヤー
+		class Move* m_PlayerMove{};				//移動
+		class Floating* m_PlayerFloating{};		//浮遊
+		class Evasive* m_PlayerEvasive{};		//回避
+
+	public:
+		void Init() override;
+		void Update() override;
+		void PreDraw() override;
+
+		void SetVelocity(DirectX::SimpleMath::Vector3 Velocity) { m_Velocity = Velocity; }
+		DirectX::SimpleMath::Vector3 GetVelocity() { return m_Velocity; }
+
+	};
+}

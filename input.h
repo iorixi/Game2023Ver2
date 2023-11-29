@@ -1,4 +1,9 @@
-#pragma once
+#pragma 
+
+const int LEFTARROW = 37;
+const int UPARROW = 38;
+const int RIGHTARROW = 39;
+const int DOWNARROW = 40;
 
 class Input
 {

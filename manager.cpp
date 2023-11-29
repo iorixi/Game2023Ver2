@@ -19,7 +19,7 @@ void Manager::Init(Application* ap)
 	Renderer::Init(ap);
 
 	// 音初期化
-	Audio::InitMaster();
+	Sound::Audio::InitMaster();
 
 	// 入力を初期化
 	Input::Init();
@@ -40,7 +40,7 @@ void Manager::Uninit()
 	Input::Uninit();
 
 	// オーディオ終了
-	Audio::UninitMaster();
+	Sound::Audio::UninitMaster();
 
 	// タイマ解像度を元に戻す
 	timeEndPeriod(1);

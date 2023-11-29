@@ -97,6 +97,9 @@
     <Filter Include="ソース ファイル\Object\Score">
       <UniqueIdentifier>{961853d0-90bd-4a7c-ba15-78afd53f6754}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Time">
+      <UniqueIdentifier>{a86eadfe-ef65-40b9-9d0a-6409d7692573}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -230,6 +233,21 @@
     </ClCompile>
     <ClCompile Include="utility.cpp">
       <Filter>ソース ファイル\System</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEvasive.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerFloating.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>ソース ファイル\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Delay.cpp">
+      <Filter>ソース ファイル\Time</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +409,21 @@
     </ClInclude>
     <ClInclude Include="utility.h">
       <Filter>ソース ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEvasive.h">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerFloating.h">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMove.h">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>ソース ファイル\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Delay.h">
+      <Filter>ソース ファイル\Time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
