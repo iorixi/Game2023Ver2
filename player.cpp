@@ -3,27 +3,28 @@
 #include "renderer.h"
 #include "modelRenderer.h"
 #include "shader.h"
-#include "player.h"
+#include "Player.h"
 #include "input.h"
 #include "cylinder.h"
 #include "box.h"
 #include "audio.h"
 #include "bullet.h"
 #include "shadow.h"
-
 #include "goal.h"
-
 #include "collision.h"
-
 #include "camera.h"
-
 #include "animationModel.h"
-
 #include "field.h"
+#include "PlayerMove.h"
+#include "PlayerFloating.h"
+#include "PlayerEvasive.h"
 
 using namespace DirectX::SimpleMath;
+using namespace Player;
+using namespace Sound;
 
-void Player::Init()
+
+void PlayerObject::Init()
 {
 //	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");  20230909-02
 	AddComponent<Shader>()->Load("shader\\vertexLightingOneSkinVS.cso", "shader\\vertexLightingPS.cso"); //20230909-02
@@ -57,9 +58,14 @@ void Player::Init()
 	m_SE->Load("asset\\audio\\wan.wav");
 
 	m_Scale = Vector3(0.01f, 0.01f, 0.01f);
+
+	//プレイヤーのコンポーネント
+	m_PlayerMove = AddComponent<Player::Move>();
+	m_PlayerFloating = AddComponent<Player::Floating>();
+	m_PlayerEvasive = AddComponent<Player::Evasive>();
 }
 
-void Player::Update()
+void PlayerObject::Update()
 {
 	Vector3 oldPosition = m_Position;
 
@@ -70,48 +76,11 @@ void Player::Update()
 	Vector3 ZAxis = Vector3(viewmtx._13, 0.0f, viewmtx._33);
 	Vector3 XAxis = Vector3(viewmtx._11, 0.0f, viewmtx._31);
 
-	if (Input::GetKeyPress('A'))
-	{
-		m_Position -= XAxis * 0.05f;
-	}
-	if (Input::GetKeyPress('D'))
-	{
-		m_Position += XAxis * 0.05f;
-	}
-
-	// 左矢印キー
-	if (Input::GetKeyPress(37))
-	{
-		m_Rotation.y -= 0.01f;
-	}
-
-	// 右矢印キー
-	if (Input::GetKeyPress(39))
-	{
-		m_Rotation.y += 0.01f;
-	}
-
-	// 前方ベクトルを取得
-//	Vector3 forward = GetForward();
+	//前向きベクトルを取得
 	Vector3 forward = ZAxis;
 
-	if (Input::GetKeyPress('W'))
-	{
-		m_Position += forward * 0.1f;
-	}
-	if (Input::GetKeyPress('S'))
-	{
-		m_Position -= forward * 0.1f;
-	}
-
-	//ジャンプ
-	if (Input::GetKeyTrigger('J'))
-	{
-		m_Velocity.y = 0.35f;
-	}
-
 	//重力
-	m_Velocity.y -= 0.015f;
+	//m_Velocity.y -= 0.015f;
 
 	//抵抗
 	m_Velocity.y -= m_Velocity.y * 0.01f;
@@ -186,7 +155,7 @@ void Player::Update()
 }
 
 
-void Player::PreDraw()
+void PlayerObject::PreDraw()
 {
 	m_Model->Update("Idle", m_Frame, "Run", m_Frame, m_BlendRate);
 }

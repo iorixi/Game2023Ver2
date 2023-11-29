@@ -17,5 +17,5 @@ public:
 	void Update() override;
 
 	void SetVelocity(DirectX::SimpleMath::Vector3 Velocity) { m_Velocity = Velocity; }
-
+	DirectX::SimpleMath::Vector3 GetVelocity() { return m_Velocity; }
 };

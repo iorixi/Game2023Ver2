@@ -4,7 +4,7 @@
 
 #include "camera.h"
 #include "field.h"
-#include "player.h"
+#include "Player.h"
 
 #include "game.h"
 #include "input.h"
@@ -27,6 +27,7 @@
 #include "Enemy.h"
 
 using namespace DirectX::SimpleMath;
+using namespace Player;
 
 // ƒQ[ƒ€‰Šúˆ—
 void Game::Init()
@@ -34,7 +35,7 @@ void Game::Init()
 	AddGameObject<Camera>(0);
 	AddGameObject<Sky>(1);
 	AddGameObject<Field>(1);
-	AddGameObject<Player>(1);
+	AddGameObject<PlayerObject>(1);
 	AddGameObject<Enemy>(1);
 	AddGameObject<Score>(3);
 

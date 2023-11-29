@@ -2,9 +2,10 @@
 #include "manager.h"
 #include "renderer.h"
 #include "camera.h"
-#include "player.h"
+#include "Player.h"
 
 using namespace DirectX::SimpleMath;
+using namespace Player;
 
 void Camera::Init()
 {
@@ -19,13 +20,13 @@ void Camera::Uninit()
 void Camera::Update()
 {
 	Scene* nowscene = Manager::GetScene();
-	Player* playerobj = nowscene->GetGameObject<Player>();
+	PlayerObject* PlayerObjectobj = nowscene->GetGameObject<PlayerObject>();
 
-	Vector3 forward = playerobj->GetForward();
-	Vector3 playerpos = playerobj->GetPosition();
+	Vector3 forward = PlayerObjectobj->GetForward();
+	Vector3 PlayerObjectpos = PlayerObjectobj->GetPosition();
 
-	this->m_Position = playerpos - forward * 7.0f;
-	this->m_Target = playerpos + forward * 3.0f;
+	this->m_Position = PlayerObjectpos - forward * 7.0f;
+	this->m_Target = PlayerObjectpos + forward * 3.0f;
 	this->m_Position.y += 2.0f;
 
 }

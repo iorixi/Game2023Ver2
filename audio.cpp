@@ -2,9 +2,7 @@
 #include "main.h"
 #include "audio.h"
 
-
-
-
+using namespace Sound;
 
 IXAudio2*				Audio::m_Xaudio = NULL;
 IXAudio2MasteringVoice*	Audio::m_MasteringVoice = NULL;
