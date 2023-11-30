@@ -2,17 +2,17 @@
 
 using namespace Timer;
 
-void Delay::Init()
+void DelayCompnent::Init()
 {
 	startTime = timeGetTime();//¶¬Žž‚ÉŽžŠÔ‚ð“ü‚ê‚é
 }
 
-void Delay::Update()
+void DelayCompnent::Update()
 {
 	Time::Update();
 }
 
-bool Delay::DelayProgrees()
+bool DelayCompnent::DelayProgrees()
 {
 	//Œo‰ßŽžŠÔ‚ªÝ’è‚µ‚½ŽžŠÔ‚ð’´‚¦‚½‚ç
 	if (nowTime > delayTime)
@@ -30,12 +30,12 @@ bool Delay::DelayProgrees()
 	return false;
 }
 
-void Delay::SetdelayTime(float _delayTime)
+void DelayCompnent::SetdelayTime(float _delayTime)
 {
 	delayTime = _delayTime;
 }
 
-void Delay::SetLoop(bool _loop)
+void DelayCompnent::SetLoop(bool _loop)
 {
 	loop = _loop;
 }

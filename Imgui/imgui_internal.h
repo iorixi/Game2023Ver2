@@ -2066,7 +2066,7 @@ struct ImGuiContext
     ImVector<ImGuiPtrOrIndex>       CurrentTabBarStack;
     ImVector<ImGuiShrinkWidthItem>  ShrinkWidthBuffer;
 
-    // Hover Delay system
+    // Hover DelayCompnent system
     ImGuiID                 HoverItemDelayId;
     ImGuiID                 HoverItemDelayIdPreviousFrame;
     float                   HoverItemDelayTimer;                // Currently used by IsItemHovered()

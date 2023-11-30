@@ -1,29 +1,20 @@
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
-
 #include "camera.h"
 #include "field.h"
 #include "Player.h"
-
 #include "game.h"
 #include "input.h"
 #include "audio.h"
 #include "Polygon2D.h"
-
 #include "manager.h"
 #include "transition.h"
-
 #include "result.h"
-
 #include "utility.h"
-
 #include "sky.h"
-
 #include "score.h"
-
 #include "explosion.h"
-
 #include "Enemy.h"
 
 using namespace DirectX::SimpleMath;

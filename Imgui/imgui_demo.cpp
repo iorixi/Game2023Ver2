@@ -2569,7 +2569,7 @@ static void ShowDemoWindowWidgets()
             ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y
         );
         ImGui::BulletText(
-            "with Hovering Delay or Stationary test:\n"
+            "with Hovering DelayCompnent or Stationary test:\n"
             "IsItemHovered() = = %d\n"
             "IsItemHovered(_Stationary) = %d\n"
             "IsItemHovered(_DelayShort) = %d\n"

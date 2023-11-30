@@ -91,9 +91,6 @@
     <Filter Include="ソース ファイル\Input">
       <UniqueIdentifier>{29fa9b1f-4cd0-4dec-9231-d28960c47be2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Object\Object">
-      <UniqueIdentifier>{5f854c4b-f317-444c-b36b-19394f02e325}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Object\Score">
       <UniqueIdentifier>{961853d0-90bd-4a7c-ba15-78afd53f6754}</UniqueIdentifier>
     </Filter>
@@ -247,6 +244,12 @@
       <Filter>ソース ファイル\Time</Filter>
     </ClCompile>
     <ClCompile Include="Delay.cpp">
+      <Filter>ソース ファイル\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerShot.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ScheduledTask .cpp">
       <Filter>ソース ファイル\Time</Filter>
     </ClCompile>
   </ItemGroup>
@@ -423,6 +426,12 @@
       <Filter>ソース ファイル\Time</Filter>
     </ClInclude>
     <ClInclude Include="Delay.h">
+      <Filter>ソース ファイル\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerShot.h">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ScheduledTask .h">
       <Filter>ソース ファイル\Time</Filter>
     </ClInclude>
   </ItemGroup>

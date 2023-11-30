@@ -2,8 +2,9 @@
 
 #include "gameObject.h"
 #include "animationModel.h"
+
 //前方宣言
-namespace Timer { class Delay; }
+namespace Timer { class DelayCompnent; }
 //class Sound::Audio;
 namespace Sound { class Audio; }
 
@@ -20,13 +21,14 @@ namespace Player
 		int	m_Frame;
 		float	m_BlendRate;
 
-		Timer::Delay* m_Delay{};
+		Timer::DelayCompnent* m_Delay{};
 		Sound::Audio* m_SE{};
 
 		//プレイヤー
 		class Move* m_PlayerMove{};				//移動
 		class Floating* m_PlayerFloating{};		//浮遊
 		class Evasive* m_PlayerEvasive{};		//回避
+		class Shot* m_PlayerShot{};//射撃
 
 	public:
 		void Init() override;

@@ -12,7 +12,7 @@
 namespace Timer
 {
 
-	class Delay : public Time
+	class DelayCompnent : public Time
 	{
 
 		bool delayProgress = false;//Žw’èŽžŠÔ‚ªŒo‰ß‚µ‚½‚©
@@ -48,5 +48,6 @@ namespace Timer
 	private:
 
 	};
+
 }
 

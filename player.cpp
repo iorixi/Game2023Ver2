@@ -18,6 +18,7 @@
 #include "PlayerMove.h"
 #include "PlayerFloating.h"
 #include "PlayerEvasive.h"
+#include "PlayerShot.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -59,10 +60,17 @@ void PlayerObject::Init()
 
 	m_Scale = Vector3(0.01f, 0.01f, 0.01f);
 
+	m_Delay = AddComponent<Timer::DelayCompnent>();
+	m_Delay->SetLoop(true);
+	m_Delay->SetdelayTime(0.2f);
+
 	//プレイヤーのコンポーネント
 	m_PlayerMove = AddComponent<Player::Move>();
 	m_PlayerFloating = AddComponent<Player::Floating>();
 	m_PlayerEvasive = AddComponent<Player::Evasive>();
+	m_PlayerShot = AddComponent<Player::Shot>();
+
+
 }
 
 void PlayerObject::Update()
@@ -118,17 +126,7 @@ void PlayerObject::Update()
 		m_Position.y = groundHeight;
 		m_Velocity.y = 0.0f;
 	}
-
-	//弾発射
-	if (Input::GetKeyTrigger('K'))
-	{
-		Scene* scene = Manager::GetScene();
-		Bullet* bullet = scene->AddGameObject<Bullet>(2);
-		bullet->SetPosition(m_Position + Vector3(0.0f, 1.0f, 0.0f));
-		bullet->SetVelocity(forward * 0.5f);
-
-		m_SE->Play();
-	}
+	
 
 	if (Input::GetKeyPress('W'))
 	{
