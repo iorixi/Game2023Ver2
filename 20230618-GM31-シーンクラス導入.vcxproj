@@ -173,9 +173,11 @@
     <ClCompile Include="PlayerEvasive.cpp" />
     <ClCompile Include="PlayerFloating.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="PlayerShot.cpp" />
     <ClCompile Include="Polygon2D.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="ScheduledTask .cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shadow.cpp" />
@@ -232,10 +234,12 @@
     <ClInclude Include="PlayerEvasive.h" />
     <ClInclude Include="PlayerFloating.h" />
     <ClInclude Include="PlayerMove.h" />
+    <ClInclude Include="PlayerShot.h" />
     <ClInclude Include="Polygon2D.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="ScheduledTask .h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shadow.h" />
