@@ -14,7 +14,7 @@ using namespace Timer;
 void Player::Shot::Init()
 {
 	// m_ScheduledTaskの初期化
-	m_ScheduledTask = std::make_unique<ScheduledTask>(0.8f);
+	m_ScheduledTask = std::make_unique<ScheduledTask>(0.3f);
 }
 
 void Player::Shot::Update()
@@ -24,6 +24,7 @@ void Player::Shot::Update()
 	//現在のシーンのプレイヤーのオブジェクトを取得
 	PlayerObject* player = scene->GetGameObject<PlayerObject>();
 
+	//現在のシーンのカメラを取得
 	Camera* cameraobj = scene->GetGameObject<Camera>();
 
 	Matrix viewmtx = cameraobj->GetViewMatrix();
@@ -31,8 +32,9 @@ void Player::Shot::Update()
 
 	//前向きベクトルを取得
 	Vector3 forward = ZAxis;
+
 	//弾発射
-	if (Input::GetKeyTrigger('K'))
+	if (m_ScheduledTask->GetFlg())
 	{
 		Bullet* bullet = scene->AddGameObject<Bullet>(2);
 		bullet->SetPosition(player->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));

@@ -72,7 +72,6 @@ void ImguiManager::Update()
 	Renderer::GetDeviceContext()->ClearRenderTargetView(Renderer::GetRenderTargetview(), color);
 
 	// ImGui‚Ì•`‰æƒf[ƒ^‚ğ•`‰æ
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
 void ImguiManager::Draw()

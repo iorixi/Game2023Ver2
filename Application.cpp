@@ -7,6 +7,7 @@
 #include "fpscontrol.h"
 #include "renderer.h"
 #include "manager.h"
+#include "input.h"
 
 HWND Application::hwnd = nullptr;
 
@@ -202,6 +203,7 @@ void Application::MainLoop()
 			// デルタタイムを計算
 			delta_time = fpsrate.CalcDelta();
 
+			Input::UpdateAsync(); // キー入力の非同期更新
 			Manager::Update(delta_time);        // ゲーム更新
 			Manager::Draw(delta_time);		    // ゲーム描画
 
