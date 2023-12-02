@@ -1,12 +1,10 @@
-
 #include "main.h"
 #include "audio.h"
 
 using namespace Sound;
 
-IXAudio2*				Audio::m_Xaudio = NULL;
-IXAudio2MasteringVoice*	Audio::m_MasteringVoice = NULL;
-
+IXAudio2* Audio::m_Xaudio = NULL;
+IXAudio2MasteringVoice* Audio::m_MasteringVoice = NULL;
 
 void Audio::InitMaster()
 {
@@ -20,7 +18,6 @@ void Audio::InitMaster()
 	m_Xaudio->CreateMasteringVoice(&m_MasteringVoice);
 }
 
-
 void Audio::UninitMaster()
 {
 	m_MasteringVoice->DestroyVoice();
@@ -28,17 +25,8 @@ void Audio::UninitMaster()
 	CoUninitialize();
 }
 
-
-
-
-
-
-
-
-
-void Audio::Load(const char *FileName)
+void Audio::Load(const char* FileName)
 {
-
 	// サウンドデータ読込
 	WAVEFORMATEX wfx = { 0 };
 
@@ -50,7 +38,6 @@ void Audio::Load(const char *FileName)
 		MMCKINFO mmckinfo = { 0 };
 		UINT32 buflen;
 		LONG readlen;
-
 
 		hmmio = mmioOpen((LPSTR)FileName, &mmioinfo, MMIO_READ);
 		assert(hmmio);
@@ -78,26 +65,20 @@ void Audio::Load(const char *FileName)
 		datachunkinfo.ckid = mmioFOURCC('d', 'a', 't', 'a');
 		mmioDescend(hmmio, &datachunkinfo, &riffchunkinfo, MMIO_FINDCHUNK);
 
-
-
 		buflen = datachunkinfo.cksize;
 		m_SoundData = new unsigned char[buflen];
 		readlen = mmioRead(hmmio, (HPSTR)m_SoundData, buflen);
 
-
 		m_Length = readlen;
 		m_PlayLength = readlen / wfx.nBlockAlign;
 
-
 		mmioClose(hmmio, 0);
 	}
-
 
 	// サウンドソース生成
 	m_Xaudio->CreateSourceVoice(&m_SourceVoice, &wfx);
 	assert(m_SourceVoice);
 }
-
 
 void Audio::Uninit()
 {
@@ -107,15 +88,10 @@ void Audio::Uninit()
 	delete[] m_SoundData;
 }
 
-
-
-
-
 void Audio::Play(bool Loop)
 {
 	m_SourceVoice->Stop();
 	m_SourceVoice->FlushSourceBuffers();
-
 
 	// バッファ設定
 	XAUDIO2_BUFFER bufinfo;
@@ -136,17 +112,12 @@ void Audio::Play(bool Loop)
 
 	m_SourceVoice->SubmitSourceBuffer(&bufinfo, NULL);
 
-/*
-	float outputMatrix[4] = { 0.0f , 0.0f, 1.0f , 0.0f };
-	m_SourceVoice->SetOutputMatrix(m_MasteringVoice, 2, 2, outputMatrix);
-	//m_SourceVoice->SetVolume(0.1f);
-*/
-
+	/*
+		float outputMatrix[4] = { 0.0f , 0.0f, 1.0f , 0.0f };
+		m_SourceVoice->SetOutputMatrix(m_MasteringVoice, 2, 2, outputMatrix);
+		//m_SourceVoice->SetVolume(0.1f);
+	*/
 
 	// 再生
 	m_SourceVoice->Start();
-
 }
-
-
-

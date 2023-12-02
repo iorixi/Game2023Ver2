@@ -1,33 +1,24 @@
-
 #include "main.h"
 #include "input.h"
-
 
 BYTE Input::m_OldKeyState[256];
 BYTE Input::m_KeyState[256];
 
-
 void Input::Init()
 {
-
-	memset( m_OldKeyState, 0, 256 );
-	memset( m_KeyState, 0, 256 );
-
+	memset(m_OldKeyState, 0, 256);
+	memset(m_KeyState, 0, 256);
 }
 
 void Input::Uninit()
 {
-
-
 }
 
 void Input::Update()
 {
+	memcpy(m_OldKeyState, m_KeyState, 256);
 
-	memcpy( m_OldKeyState, m_KeyState, 256 );
-
-	GetKeyboardState( m_KeyState );
-
+	GetKeyboardState(m_KeyState);
 }
 
 bool Input::GetKeyPress(BYTE KeyCode)

@@ -1,8 +1,9 @@
 #pragma once
 
+class GameObject;
+
 class Component
 {
-
 protected:
 
 	class  GameObject* m_GameObject = nullptr;
@@ -16,5 +17,4 @@ public:
 	virtual void Uninit() {};
 	virtual void Update() {};
 	virtual void Draw() {};
-
 };

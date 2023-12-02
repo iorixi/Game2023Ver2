@@ -17,10 +17,8 @@ public:
 
 	// スライダー付きの数値調整UIを追加
 	void AddSliderNum(const char* label, float* value, float min, float max);
-	// チェックボックスを追加	
+	// チェックボックスを追加
 	void AddCheckbox(const char* label, bool* value);
 
 private:
-
 };
-

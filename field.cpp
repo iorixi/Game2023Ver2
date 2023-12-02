@@ -57,7 +57,6 @@ void Field::Uninit()
 	m_Texture->Release();
 }
 
-
 void Field::Update()
 {
 }
@@ -90,14 +89,13 @@ void Field::Draw()
 
 // 現在位置の高さを求める
 float  Field::GetFieldHeight(Vector3 pos) {
-
 	float t;
 
 	// 面数分
 	for (unsigned int idx = 0; idx < m_planes.size(); idx++) {
 		Vector3 up = { 0,1,0 };
 		Vector3 startpoint = { pos.x,0,pos.z };
-		Plane p =m_planes[idx].GetPlaneInfo().plane;
+		Plane p = m_planes[idx].GetPlaneInfo().plane;
 		Vector3 ans;
 
 		bool sts = LinetoPlaneCross(p, startpoint, up, t, ans);
@@ -118,7 +116,6 @@ float  Field::GetFieldHeight(Vector3 pos) {
 
 // 現在位置の高さを求める（四角形番号を指定して）
 float  Field::GetFieldHeightBySqno(Vector3 pos) {
-
 	float t;
 
 	// 現在位置からのっかている四角形番号を取得
@@ -151,7 +148,7 @@ float  Field::GetFieldHeightBySqno(Vector3 pos) {
 
 	// 上面チェック
 	{
-		int idx = sqno * 2+1;
+		int idx = sqno * 2 + 1;
 
 		// 面数分
 		Vector3 up = { 0,1,0 };
@@ -166,11 +163,10 @@ float  Field::GetFieldHeightBySqno(Vector3 pos) {
 				m_planes[idx].GetPlaneInfo().p1,
 				m_planes[idx].GetPlaneInfo().p2, ans);
 			if (sts) {
-					oldheight = ans.y;
-					return ans.y;
+				oldheight = ans.y;
+				return ans.y;
 			}
 		}
-
 	}
 
 	// 見つからなかった場合は０
@@ -180,7 +176,6 @@ float  Field::GetFieldHeightBySqno(Vector3 pos) {
 
 // 平面の方程式を生成する
 void Field::MakeEquatation() {
-
 	// 面数を取得
 	int numface;
 	numface = m_planemesh.GetIndices().size() / 3;
@@ -190,7 +185,6 @@ void Field::MakeEquatation() {
 
 	// 面数分ループ
 	for (unsigned int idx = 0; idx < numface; idx++) {
-
 		CPlaneMesh::FACE f = m_planemesh.GetTriangle(idx);
 
 		VERTEX_3D v0 = vertices[f.idx[0]];

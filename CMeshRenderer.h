@@ -26,13 +26,13 @@ public:
 		m_VertexBuffer.SetGPU();
 		m_IndexBuffer.SetGPU();
 
-//		Renderer::SetWire();
+		//		Renderer::SetWire();
 
 		devicecontext->DrawIndexed(
 			m_IndexNum,					// 描画するインデックス数（面数×３）
 			0,							// 最初のインデックスバッファの位置
 			0);							// 頂点バッファの最初から使う
 
-//		Renderer::SetSolid();
+		//		Renderer::SetSolid();
 	}
 };

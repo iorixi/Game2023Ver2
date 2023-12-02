@@ -6,7 +6,6 @@ namespace Player
 {
 	class Floating : public Component
 	{
-
 		//上下の移動スピード
 		float m_FloatingMoveSpeed = 0.20f;
 		//待機状態の時の上下移動最大距離
@@ -23,7 +22,5 @@ namespace Player
 
 		virtual void Init() override;
 		virtual void Update() override;
-
-
 	};
 }

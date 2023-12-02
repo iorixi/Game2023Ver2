@@ -8,9 +8,10 @@
 #include "renderer.h"
 #include "manager.h"
 
+HWND Application::hwnd = nullptr;
+
 //Imguiでマウスで操作できるようにする
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 
 //-----------------------------------------------------------------------------
 // Constant Values.
@@ -26,29 +27,36 @@ const auto WindowName = TEXT("2023 framework ひな型");    //!< ウィンド�
 //      コンストラクタです.
 //-----------------------------------------------------------------------------
 Application::Application(uint32_t width, uint32_t height)
-: m_hInst   (nullptr)
-, m_hWnd    (nullptr)
-, m_Width   (width)
-, m_Height  (height)
-{ /* DO_NOTHING */ }
+	: m_hInst(nullptr)
+	, m_hWnd(nullptr)
+	, m_Width(width)
+	, m_Height(height)
+{ /* DO_NOTHING */
+}
 
 //-----------------------------------------------------------------------------
 //      デストラクタです.
 //-----------------------------------------------------------------------------
 Application::~Application()
-{ /* DO_NOTHING */ }
+{ /* DO_NOTHING */
+}
 
 //-----------------------------------------------------------------------------
 //      実行します.
 //-----------------------------------------------------------------------------
 void Application::Run()
 {
-    if (InitApp())
-    { 
-        MainLoop(); 
-    }
+	if (InitApp())
+	{
+		MainLoop();
+	}
 
-    TermApp();
+	TermApp();
+}
+
+HWND Application::GetHwnd()
+{
+	return hwnd;
 }
 
 //-----------------------------------------------------------------------------
@@ -56,14 +64,14 @@ void Application::Run()
 //-----------------------------------------------------------------------------
 bool Application::InitApp()
 {
-    // ウィンドウの初期化.
-    if (!InitWnd())
-    { 
-        return false; 
-    }
+	// ウィンドウの初期化.
+	if (!InitWnd())
+	{
+		return false;
+	}
 
-    // 正常終了.
-    return true;
+	// 正常終了.
+	return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -71,8 +79,8 @@ bool Application::InitApp()
 //-----------------------------------------------------------------------------
 void Application::TermApp()
 {
-    // ウィンドウの終了処理.
-    TermWnd();
+	// ウィンドウの終了処理.
+	TermWnd();
 }
 
 //-----------------------------------------------------------------------------
@@ -80,70 +88,77 @@ void Application::TermApp()
 //-----------------------------------------------------------------------------
 bool Application::InitWnd()
 {
-    // インスタンスハンドルを取得.
-    auto hInst = GetModuleHandle(nullptr);
-    if (hInst == nullptr)
-    { 
-        return false; 
-    }
+	// インスタンスハンドルを取得.
+	auto hInst = GetModuleHandle(nullptr);
+	if (hInst == nullptr)
+	{
+		return false;
+	}
 
-    // ウィンドウの設定.
-    WNDCLASSEX wc = {};
-    wc.cbSize           = sizeof(WNDCLASSEX);
-    wc.style            = CS_HREDRAW | CS_VREDRAW;
-    wc.lpfnWndProc      = WndProc;
-    wc.hIcon            = LoadIcon(hInst, IDI_APPLICATION);
-    wc.hCursor          = LoadCursor(hInst, IDC_ARROW);
-    wc.hbrBackground    = GetSysColorBrush(COLOR_BACKGROUND);
-    wc.lpszMenuName     = nullptr;
-    wc.lpszClassName    = ClassName;
-    wc.hIconSm          = LoadIcon(hInst, IDI_APPLICATION);
+	// ウィンドウの設定.
+	WNDCLASSEX wc = {};
+	wc.cbSize = sizeof(WNDCLASSEX);
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = WndProc;
+	wc.hIcon = LoadIcon(hInst, IDI_APPLICATION);
+	wc.hCursor = LoadCursor(hInst, IDC_ARROW);
+	wc.hbrBackground = GetSysColorBrush(COLOR_BACKGROUND);
+	wc.lpszMenuName = nullptr;
+	wc.lpszClassName = ClassName;
+	wc.hIconSm = LoadIcon(hInst, IDI_APPLICATION);
 
-    // ウィンドウの登録.
-    if (!RegisterClassEx(&wc))
-    { return false; }
+	// ウィンドウの登録.
+	if (!RegisterClassEx(&wc))
+	{
+		return false;
+	}
 
-    // インスタンスハンドル設定.
-    m_hInst = hInst;
+	// インスタンスハンドル設定.
+	m_hInst = hInst;
 
-    // ウィンドウのサイズを設定.
-    RECT rc = {};
-    rc.right  = static_cast<LONG>(m_Width);
-    rc.bottom = static_cast<LONG>(m_Height);
+	// ウィンドウのサイズを設定.
+	RECT rc = {};
+	rc.right = static_cast<LONG>(m_Width);
+	rc.bottom = static_cast<LONG>(m_Height);
 
-    // ウィンドウサイズを調整.
-    auto style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
-    AdjustWindowRect(&rc, style, FALSE);
+	// ウィンドウサイズを調整.
+	auto style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
+	AdjustWindowRect(&rc, style, FALSE);
 
-    // ウィンドウを生成.
-    m_hWnd = CreateWindowEx(
-        0,
-        ClassName,
-        WindowName,
-        style,
-        CW_USEDEFAULT,
-        CW_USEDEFAULT,
-        rc.right  - rc.left,
-        rc.bottom - rc.top,
-        nullptr,
-        nullptr,
-        m_hInst,
-        nullptr);
+	// ウィンドウを生成.
+	m_hWnd = CreateWindowEx(
+		0,
+		ClassName,
+		WindowName,
+		style,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		rc.right - rc.left,
+		rc.bottom - rc.top,
+		nullptr,
+		nullptr,
+		m_hInst,
+		nullptr);
 
-    if (m_hWnd == nullptr)
-    { return false; }
- 
-    // ウィンドウを表示.
-    ShowWindow(m_hWnd, SW_SHOWNORMAL);
+	// m_hWndの値をstatic変数hwndに保存
+	hwnd = m_hWnd;
 
-    // ウィンドウを更新.
-    UpdateWindow(m_hWnd);
+	if (m_hWnd == nullptr)
+	{
+		return false;
+	}
 
-    // ウィンドウにフォーカスを設定.
-    SetFocus(m_hWnd);
+	// ウィンドウを表示.
+	ShowWindow(m_hWnd, SW_SHOWNORMAL);
 
-    // 正常終了.
-    return true;
+	// ウィンドウを更新.
+	UpdateWindow(m_hWnd);
+
+	// ウィンドウにフォーカスを設定.
+	SetFocus(m_hWnd);
+
+	// 正常終了.
+	return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -151,14 +166,14 @@ bool Application::InitWnd()
 //-----------------------------------------------------------------------------
 void Application::TermWnd()
 {
-    delete imguiManager;
+	// ウィンドウの登録を解除.
+	if (m_hInst != nullptr)
+	{
+		UnregisterClass(ClassName, m_hInst);
+	}
 
-    // ウィンドウの登録を解除.
-    if (m_hInst != nullptr)
-    { UnregisterClass(ClassName, m_hInst); }
-
-    m_hInst = nullptr;
-    m_hWnd  = nullptr;
+	m_hInst = nullptr;
+	m_hWnd = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -166,43 +181,37 @@ void Application::TermWnd()
 //-----------------------------------------------------------------------------
 void Application::MainLoop()
 {
-    MSG msg = {};
+	MSG msg = {};
 
-    // FPS調整クラス
-    FPS fpsrate(60);
+	// FPS調整クラス
+	FPS fpsrate(60);
 
-    // ゲームの初期処理
-    Manager::Init(this);
+	// ゲームの初期処理
+	Manager::Init(this);
 
-    //Imgui初期化
-    imguiManager = new ImguiManager();
-    imguiManager->Init(m_hWnd);
+	while (WM_QUIT != msg.message)
+	{
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) == TRUE)
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		else {
+			uint64_t delta_time = 0;
 
+			// デルタタイムを計算
+			delta_time = fpsrate.CalcDelta();
 
-    while(WM_QUIT != msg.message)
-    {
-        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) == TRUE)
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-        else {
-            uint64_t delta_time = 0;
+			Manager::Update(delta_time);        // ゲーム更新
+			Manager::Draw(delta_time);		    // ゲーム描画
 
-            // デルタタイムを計算
-            delta_time = fpsrate.CalcDelta();
+			// 規定時間まで時間調整
+			fpsrate.Wait();
+		}
+	}
 
-            Manager::Update(delta_time, imguiManager);        // ゲーム更新
-            Manager::Draw(delta_time, imguiManager);		    // ゲーム描画
-
-            // 規定時間まで時間調整
-            fpsrate.Wait();
-        }
-    }
-
-    // ゲームの終了処理
-    Manager::Uninit();
-
+	// ゲームの終了処理
+	Manager::Uninit();
 }
 
 //-----------------------------------------------------------------------------
@@ -210,18 +219,18 @@ void Application::MainLoop()
 //-----------------------------------------------------------------------------
 LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wp, lp))
-        return true;
-    switch(msg)
-    {
-        case WM_DESTROY:
-            { PostQuitMessage(0); }
-            break;
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wp, lp))
+		return true;
+	switch (msg)
+	{
+	case WM_DESTROY:
+	{ PostQuitMessage(0); }
+	break;
 
-        default:
-            { /* DO_NOTHING */ }
-            break;
-    }
+	default:
+	{ /* DO_NOTHING */ }
+	break;
+	}
 
-    return DefWindowProc(hWnd, msg, wp, lp);
+	return DefWindowProc(hWnd, msg, wp, lp);
 }

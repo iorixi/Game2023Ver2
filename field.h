@@ -7,7 +7,6 @@
 
 class Field : public GameObject
 {
-
 private:
 
 	CMeshRenderer		m_renderer;						// フィールドのレンダラ
@@ -29,7 +28,6 @@ public:
 
 	// GetMAX XZ
 	DirectX::SimpleMath::Vector3 GetMax() {
-
 		DirectX::SimpleMath::Vector3 max;
 
 		max.x = m_planemesh.GetWidth() / 2.0f;

@@ -59,11 +59,7 @@ void Floating::Update()
 		}
 	}
 
-
-
 	playerVelocity.y += m_StandFloatingDistance;
 
 	player->SetVelocity(playerVelocity);
-
-
 }

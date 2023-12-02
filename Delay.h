@@ -2,19 +2,16 @@
 #include "Time.h"
 #include "component.h"
 
-
 /// <summary>
-/// 
+///
 /// 時間を遅延させるクラス
-/// 
+///
 /// </summary>
 
 namespace Timer
 {
-
 	class DelayCompnent : public Time
 	{
-
 		bool delayProgress = false;//指定時間が経過したか
 		bool loop = false;//ループさせるか
 		float delayTime = 0.0f;//遅延時間
@@ -44,10 +41,6 @@ namespace Timer
 		/// </summary>
 		void SetLoop(bool _loop);
 
-
 	private:
-
 	};
-
 }
-

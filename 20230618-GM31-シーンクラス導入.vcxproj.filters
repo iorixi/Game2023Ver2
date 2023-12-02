@@ -97,6 +97,9 @@
     <Filter Include="ソース ファイル\Time">
       <UniqueIdentifier>{a86eadfe-ef65-40b9-9d0a-6409d7692573}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Imgui\gui">
+      <UniqueIdentifier>{bb2abe5d-41b7-4282-898a-af4a884100c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,27 +131,6 @@
     </ClCompile>
     <ClCompile Include="collision.cpp">
       <Filter>ソース ファイル\Object\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Imgui\imgui_tables.cpp">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Imgui\imgui_widgets.cpp">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Imgui\imgui.cpp">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Imgui\imgui_demo.cpp">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Imgui\imgui_draw.cpp">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Imgui\imgui_impl_dx11.cpp">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Imgui\imgui_impl_win32.cpp">
-      <Filter>ソース ファイル\Imgui</Filter>
     </ClCompile>
     <ClCompile Include="ImguiManager.cpp">
       <Filter>ソース ファイル\Imgui\Manager</Filter>
@@ -249,8 +231,29 @@
     <ClCompile Include="PlayerShot.cpp">
       <Filter>ソース ファイル\Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="ScheduledTask .cpp">
+    <ClCompile Include="ScheduledTask.cpp">
       <Filter>ソース ファイル\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui.cpp">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_demo.cpp">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_draw.cpp">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_impl_dx11.cpp">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_impl_win32.cpp">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_tables.cpp">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Imgui\imgui_widgets.cpp">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,30 +292,6 @@
     </ClInclude>
     <ClInclude Include="collision.h">
       <Filter>ソース ファイル\Object\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Imgui\imgui_impl_win32.h">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Imgui\imgui_internal.h">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Imgui\imstb_rectpack.h">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Imgui\imstb_textedit.h">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Imgui\imstb_truetype.h">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Imgui\imconfig.h">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Imgui\imgui.h">
-      <Filter>ソース ファイル\Imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Imgui\imgui_impl_dx11.h">
-      <Filter>ソース ファイル\Imgui</Filter>
     </ClInclude>
     <ClInclude Include="ImguiManager.h">
       <Filter>ソース ファイル\Imgui\Manager</Filter>
@@ -431,8 +410,32 @@
     <ClInclude Include="PlayerShot.h">
       <Filter>ソース ファイル\Character\Player</Filter>
     </ClInclude>
-    <ClInclude Include="ScheduledTask .h">
+    <ClInclude Include="ScheduledTask.h">
       <Filter>ソース ファイル\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imconfig.h">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui.h">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui_impl_dx11.h">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui_impl_win32.h">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imgui_internal.h">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imstb_rectpack.h">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imstb_textedit.h">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\imstb_truetype.h">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

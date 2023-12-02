@@ -4,7 +4,6 @@
 
 class Battery : public GameObject
 {
-
 private:
 
 	GameObject* m_Child{};
@@ -14,5 +13,4 @@ private:
 public:
 	void Init() override;
 	void Update() override;
-
 };

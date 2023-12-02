@@ -20,12 +20,9 @@ bool DelayCompnent::DelayProgrees()
 		//ƒŠƒZƒbƒg‚·‚é‚È‚ç
 		if (loop)
 		{
-
 			SetNowStartTime();
-
 		}
 		return true;
-
 	}
 	return false;
 }

@@ -16,6 +16,7 @@
 #include "score.h"
 #include "explosion.h"
 #include "Enemy.h"
+#include "Application.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -33,6 +34,10 @@ void Game::Init()
 	// 画面遷移オブジェクトを登録
 	m_Transition = AddGameObject<Transition>(3);
 	m_Transition->FadeIn();
+
+	imguiManager = std::make_unique<ImguiManager>();
+
+	imguiManager->Init(Application::GetHwnd());
 }
 
 // ゲーム終了処理
@@ -47,5 +52,20 @@ void Game::Update()
 	if (m_Transition->GetState() == Transition::State::Finish)
 	{
 		Manager::SetScene<Result>();
+	}
+
+	imguiManager->Update();
+	//updateが読み込んだかどうか
+	if (!imguiUpdateFlg)
+	{
+		imguiUpdateFlg = true;
+	}
+}
+
+void Game::Draw()
+{
+	if (imguiUpdateFlg)
+	{
+		imguiManager->Draw();
 	}
 }

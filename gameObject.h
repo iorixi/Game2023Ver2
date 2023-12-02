@@ -7,10 +7,8 @@
 
 #include "component.h"
 
-
 class GameObject
 {
-
 protected:
 	bool		m_Destroy = false;
 
@@ -26,14 +24,12 @@ public:
 	GameObject() {}//コンストラクタ
 	virtual ~GameObject() {}//デストラクタ（仮想関数）
 
-
 	DirectX::SimpleMath::Vector3 GetPosition() { return m_Position; }
 	DirectX::SimpleMath::Vector3 GetRotation() { return m_Rotation; }
 	DirectX::SimpleMath::Vector3 GetScale() { return m_Scale; }
 	void SetPosition(DirectX::SimpleMath::Vector3 Position) { m_Position = Position; }
 	void SetRotation(DirectX::SimpleMath::Vector3 Rotation) { m_Rotation = Rotation; }
 	void SetScale(DirectX::SimpleMath::Vector3 Scale) { m_Scale = Scale; }
-
 
 	DirectX::SimpleMath::Vector3 GetForward()//前方向ベクトル取得
 	{
@@ -137,7 +133,6 @@ public:
 
 	void UpdateBase()
 	{
-
 		for (Component* component : m_Component)
 		{
 			component->Update();
@@ -161,7 +156,6 @@ public:
 		{
 			child->DrawBase(world);
 		}
-
 
 		Renderer::SetWorldMatrix(&world);
 

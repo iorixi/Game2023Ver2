@@ -3,7 +3,7 @@
 #include	<SimpleMath.h>
 #include	"gameObject.h"
 
-class Camera : public GameObject{
+class Camera : public GameObject {
 private:
 
 	DirectX::SimpleMath::Vector3	m_Target{};
@@ -14,8 +14,8 @@ public:
 	void Uninit();
 	void Update();
 	void Draw();
-	DirectX::SimpleMath::Matrix GetViewMatrix() 
-	{ 
+	DirectX::SimpleMath::Matrix GetViewMatrix()
+	{
 		return m_ViewMatrix;
 	}
 };

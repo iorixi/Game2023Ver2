@@ -8,13 +8,11 @@ using Microsoft::WRL::ComPtr;
 
 template <typename T>
 class CVertexBuffer {
-
 	ComPtr<ID3D11Buffer> m_VertexBuffer;
 
 public:
-void Create(const std::vector<T>& vertices) {
-
-	// デバイス取得
+	void Create(const std::vector<T>& vertices) {
+		// デバイス取得
 		ID3D11Device* device = nullptr;
 		device = Renderer::GetDevice();
 		assert(device);
@@ -31,7 +29,6 @@ void Create(const std::vector<T>& vertices) {
 	}
 
 	void SetGPU() {
-
 		// デバイスコンテキスト取得
 		ID3D11DeviceContext* devicecontext = nullptr;
 		devicecontext = Renderer::GetDeviceContext();
@@ -40,6 +37,5 @@ void Create(const std::vector<T>& vertices) {
 		unsigned int stride = sizeof(T);
 		unsigned  offset = 0;
 		devicecontext->IASetVertexBuffers(0, 1, m_VertexBuffer.GetAddressOf(), &stride, &offset);
-
 	}
 };

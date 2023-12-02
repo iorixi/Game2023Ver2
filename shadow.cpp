@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "renderer.h"
 #include "manager.h"
@@ -57,16 +56,11 @@ void Shadow::Init()
 	assert(m_Texture);
 }
 
-
 void Shadow::Uninit()
 {
 	m_VertexBuffer->Release();
 	m_Texture->Release();
 }
-
-
-
-
 
 void Shadow::Update()
 {
@@ -122,22 +116,16 @@ void Shadow::Update()
 
 	m_Position = m_GameObject->GetPosition();
 	m_Position.y = groundHeight;
-
 }
-
-
-
 
 void Shadow::Draw()
 {
-
 	// マトリクス設定
 	Matrix world, scale, trans;
 	scale = DirectX::SimpleMath::Matrix::CreateScale(m_Size);
 	trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_Position.x, m_Position.y, m_Position.z);
 	world = scale * trans;
 	Renderer::SetWorldMatrix(&world);
-
 
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
@@ -163,6 +151,4 @@ void Shadow::Draw()
 	Renderer::GetDeviceContext()->Draw(4, 0);
 
 	Renderer::SetDepthEnable(true);
-
-
 }

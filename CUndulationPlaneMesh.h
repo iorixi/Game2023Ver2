@@ -5,8 +5,6 @@
 #include	"CPlane.h"
 
 class CUndulationPlaneMesh : public CPlaneMesh {
-
-
 public:
 	void MakeUndulation(float min, float max);
 	void MakeUndulationPerlinnoise(float max, double octave, double persistence);

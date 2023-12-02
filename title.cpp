@@ -22,10 +22,9 @@ void Title::Init()
 	m_Transition->FadeIn();
 }
 
-
 void Title::Update()
 {
-	// 
+	//
 	if (m_Transition->GetState() == Transition::State::Stop) {
 		if (Input::GetKeyTrigger(VK_RETURN))
 		{

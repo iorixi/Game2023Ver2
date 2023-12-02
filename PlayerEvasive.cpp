@@ -25,6 +25,4 @@ void Evasive::Update()
 
 	player->SetVelocity(playerVelocity);
 	player->SetRotation(playerRotation);
-
-
 }

@@ -7,7 +7,6 @@ using namespace DirectX::SimpleMath;
 
 void Sprite::Init(int x, int y, int Width, int Height, const char* TextureName)
 {
-
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position = Vector3((float)x, (float)y, 0.0f);
@@ -30,7 +29,6 @@ void Sprite::Init(int x, int y, int Width, int Height, const char* TextureName)
 	vertex[3].Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = Vector2(1.0f, 1.0f);
 
-
 	// 頂点バッファ生成
 	D3D11_BUFFER_DESC bd{};
 	bd.Usage = D3D11_USAGE_DEFAULT;
@@ -50,24 +48,21 @@ void Sprite::Init(int x, int y, int Width, int Height, const char* TextureName)
 		Renderer::GetDevice(),
 		ws.c_str(),
 		nullptr,
-//		&m_TextureResource,
+		//		&m_TextureResource,
 		&m_Texture);
 
 	assert(m_Texture);
 
 	m_Material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Material.TextureEnable = true;
-
 }
 
 void Sprite::Uninit()
 {
 	m_VertexBuffer->Release();
 	m_Texture->Release();
-//	m_TextureResource->Release();
+	//	m_TextureResource->Release();
 }
-
-
 
 void Sprite::Draw()
 {
@@ -90,5 +85,4 @@ void Sprite::Draw()
 
 	// ポリゴン描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
-
 }

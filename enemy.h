@@ -4,10 +4,8 @@
 
 class Enemy : public GameObject
 {
-
 private:
 
 public:
 	void Init() override;
-
 };

@@ -23,9 +23,9 @@ public:
 		if (sleep_time > 0) {
 			float tt = sleep_time / 1000.0f;
 
-			#if defined(DEBUG) || defined(_DEBUG)
-//				std::cout << "sleep time(ms):" << tt << std::endl;
-			#endif
+#if defined(DEBUG) || defined(_DEBUG)
+			//				std::cout << "sleep time(ms):" << tt << std::endl;
+#endif
 
 			std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(tt)));
 			//指定した相対時間だけ現スレッドをブロックする (function template)

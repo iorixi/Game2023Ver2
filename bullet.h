@@ -4,7 +4,6 @@
 
 class Bullet : public GameObject
 {
-
 private:
 
 	DirectX::SimpleMath::Vector3		m_Velocity{};

@@ -8,7 +8,6 @@ void CalcQuadOrientedLine(
 	DirectX::SimpleMath::Vector3 endpos,
 	DirectX::SimpleMath::Vector3* v,
 	float width) {
-
 	// 垂直なベクトルを求める
 	Vector3 zaxis(0, 0, 1);
 	Vector3 line = endpos - startpos;
@@ -28,7 +27,6 @@ void CalcQuadOrientedLine(
 
 	v[2] = startposminus;
 	v[3] = endposminus;
-
 }
 
 // 直線と点の距離を求める
@@ -37,7 +35,6 @@ float calcPointLineDist(
 	const Segment& segment,
 	Vector3& intersectionpoint,
 	float& t) {
-
 	float distance = 0.0f;
 
 	// 線分のベクトルを求める
@@ -76,12 +73,10 @@ float calcPointSegmentDist(
 	const Segment& segment,
 	Vector3& intersectionpoint,
 	float& t) {
-
 	float distance = calcPointLineDist(p, segment, intersectionpoint, t);
 
 	// 交点が線分の外にある（始点に近い）
 	if (t < 0.0f) {
-
 		intersectionpoint = segment.startpoint;		// 開始点が交点
 
 		float l = (p - intersectionpoint).Length();	// 交点との距離を求める
@@ -91,7 +86,6 @@ float calcPointSegmentDist(
 
 	// 交点が線分の外にある（終点に近い）
 	if (t > 1.0f) {
-
 		intersectionpoint = segment.endpoint;		// 終点が交点
 
 		float l = (p - intersectionpoint).Length();	// 交点との距離を求める
@@ -111,7 +105,6 @@ bool CollisionSphereOrientedQuad(
 	float radius,							// 半径
 	Vector3 CirclePos)						// 中心座標
 {
-
 	Vector3 v[4];							// 四角形頂点
 	Vector3 intersectionpoint{};			// 交点
 
@@ -132,7 +125,6 @@ bool CollisionSphereOrientedQuad(
 	s[3].startpoint = v[1];
 	s[3].endpoint = v[3];
 
-
 	float t;
 
 	// 四角形を囲む線分と点の距離を調べる
@@ -141,13 +133,11 @@ bool CollisionSphereOrientedQuad(
 		float distance = calcPointSegmentDist(CirclePos, s[idx], intersectionpoint, t);
 
 		if (distance < radius) {
-
 			return true;
 		}
 	}
 
 	return false;
-
 }
 
 // まっすぐに立ってる円柱と球の当たり判定
@@ -233,7 +223,6 @@ bool CollisionSphereCylinder(BoundingSphere sphere, BoundingCylinder cylinder)
 // 球
 bool CollisionSphere(BoundingSphere p1, BoundingSphere p2)
 {
-
 	float length = (p1.center - p2.center).Length();
 
 	if (p1.radius + p2.radius > length) {
@@ -244,8 +233,7 @@ bool CollisionSphere(BoundingSphere p1, BoundingSphere p2)
 }
 
 // AABB
-bool CollisionAABB(AABB p1, AABB p2){
-
+bool CollisionAABB(AABB p1, AABB p2) {
 	// X座標
 	if (p1.max.x < p2.min.x) {
 		return false;
@@ -276,9 +264,7 @@ bool CollisionAABB(AABB p1, AABB p2){
 	return true;
 }
 
-
-AABB SetAABB(Vector3 centerposition,float width ,int height,int depth) {
-
+AABB SetAABB(Vector3 centerposition, float width, int height, int depth) {
 	AABB aabb{};
 
 	width = width;
@@ -306,7 +292,6 @@ bool CheckInTriangle(
 	const Vector3& b,
 	const Vector3& c,
 	const Vector3& p) {
-
 	Vector3	ab, bc, ca;			// ３辺のベクトル
 	Vector3	ap, bp, cp;			// 内部の点とのベクトル
 	Vector3	normal;				// ３角形の法線ベクトル
@@ -348,7 +333,7 @@ bool LinetoPlaneCross(
 	const Plane& plane,		//平面の方程式
 	const Vector3& p0,			//直線の起点
 	const Vector3& wv,			//直線の方向ベクトル
-	float& t,			// 交点位置情報	
+	float& t,			// 交点位置情報
 	Vector3& ans)		//交点座標
 {
 	//	float t = 0;

@@ -24,34 +24,32 @@ using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Sound;
 
-
 void PlayerObject::Init()
 {
-//	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");  20230909-02
+	//	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");  20230909-02
 	AddComponent<Shader>()->Load("shader\\vertexLightingOneSkinVS.cso", "shader\\vertexLightingPS.cso"); //20230909-02
 
 	m_Model = AddComponent<AnimationModel>();
-	
+
 	m_Model->Load("asset\\model\\Akai.fbx");									// animation ok
 	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Idle");
 	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
 
-//	m_Model->Load("asset\\model\\Akai2.fbx");									// animation ok
-//	m_Model->LoadAnimation("asset\\model\\Akai_Walk.fbx", "Idle");
-//	m_Model->LoadAnimation("asset\\model\\Akai_Walk.fbx", "Run");
+	//	m_Model->Load("asset\\model\\Akai2.fbx");									// animation ok
+	//	m_Model->LoadAnimation("asset\\model\\Akai_Walk.fbx", "Idle");
+	//	m_Model->LoadAnimation("asset\\model\\Akai_Walk.fbx", "Run");
 
-//	m_Model->Load("data\\model\\Walking\\Walking2.fbx");						// animation ok
-//	m_Model->LoadAnimation("data\\model\\Walking\\Walking2.fbx", "Idle");
-//	m_Model->LoadAnimation("data\\model\\Walking\\Walking2.fbx", "Run");
+	//	m_Model->Load("data\\model\\Walking\\Walking2.fbx");						// animation ok
+	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking2.fbx", "Idle");
+	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking2.fbx", "Run");
 
-//	m_Model->Load("data\\model\\Walking\\Walking.fbx");							// animation ok
-//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.fbx", "Idle");
-//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.fbx", "Run");
+	//	m_Model->Load("data\\model\\Walking\\Walking.fbx");							// animation ok
+	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.fbx", "Idle");
+	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.fbx", "Run");
 
-//	m_Model->Load("data\\model\\Walking\\Walking.dae");							// animation ok
-//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.dae", "Idle");		// animation ok
-//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.dae", "Run");			// animation ok
-	
+	//	m_Model->Load("data\\model\\Walking\\Walking.dae");							// animation ok
+	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.dae", "Idle");		// animation ok
+	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.dae", "Run");			// animation ok
 
 	AddComponent<Shadow>()->SetSize(1.5f);
 
@@ -69,8 +67,6 @@ void PlayerObject::Init()
 	m_PlayerFloating = AddComponent<Player::Floating>();
 	m_PlayerEvasive = AddComponent<Player::Evasive>();
 	m_PlayerShot = AddComponent<Player::Shot>();
-
-
 }
 
 void PlayerObject::Update()
@@ -99,7 +95,7 @@ void PlayerObject::Update()
 	// フィールドオブジェクト取得
 	Field* fieldobj = nowscene->GetGameObject<Field>();
 
-	//　範囲チェック 
+	//　範囲チェック
 	Vector3 max = fieldobj->GetMax();
 	Vector3 min = fieldobj->GetMin();
 
@@ -126,13 +122,11 @@ void PlayerObject::Update()
 		m_Position.y = groundHeight;
 		m_Velocity.y = 0.0f;
 	}
-	
 
 	if (Input::GetKeyPress('W'))
 	{
 		m_BlendRate += 0.1f;
 		m_Frame++;
-
 	}
 	else if (Input::GetKeyPress('S'))
 	{
@@ -149,13 +143,9 @@ void PlayerObject::Update()
 		m_BlendRate = 1.0f;
 	if (m_BlendRate < 0.0f)
 		m_BlendRate = 0.0f;
-
 }
-
 
 void PlayerObject::PreDraw()
 {
 	m_Model->Update("Idle", m_Frame, "Run", m_Frame, m_BlendRate);
 }
-
-
