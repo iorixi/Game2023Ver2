@@ -3,7 +3,6 @@
 
 void Shader::Load(const char* VertexShader, const char* PixelShader)
 {
-
 	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, VertexShader);
 
 	Renderer::CreatePixelShader(&m_PixelShader, PixelShader);
@@ -16,7 +15,6 @@ void Shader::Uninit()
 	m_PixelShader->Release();
 }
 
-
 void Shader::Draw()
 {
 	// 入力レイアウト設定
@@ -26,5 +24,3 @@ void Shader::Draw()
 	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, nullptr, 0);
 	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, nullptr, 0);
 }
-
-

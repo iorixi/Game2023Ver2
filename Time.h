@@ -6,10 +6,8 @@
 
 namespace Timer
 {
-
 	class Time : public Component
 	{
-
 	protected:
 		DWORD startTime;//ŠÔŒv‘ªŠJn‚ÌŠÔ
 		double nowTime;//Œ»İ‚ÌŠÔ
@@ -21,7 +19,5 @@ namespace Timer
 		virtual void Update() override;
 
 		void SetNowStartTime();
-
 	};
-
 }

@@ -19,7 +19,6 @@ struct VERTEX_3D
 	float		BoneWeight[4];						// 20230909-02
 };
 
-
 // マテリアル
 struct MATERIAL
 {
@@ -32,7 +31,6 @@ struct MATERIAL
 	float		Dummy[2]{};
 };
 
-
 // 平行光源
 struct LIGHT
 {
@@ -43,7 +41,6 @@ struct LIGHT
 	DirectX::SimpleMath::Color	Ambient;
 };
 
-
 // レンダラ
 class Renderer
 {
@@ -51,29 +48,28 @@ private:
 
 	static D3D_FEATURE_LEVEL       m_FeatureLevel;
 
-	static ID3D11Device*           m_Device;
-	static ID3D11DeviceContext*    m_DeviceContext;
-	static IDXGISwapChain*         m_SwapChain;
+	static ID3D11Device* m_Device;
+	static ID3D11DeviceContext* m_DeviceContext;
+	static IDXGISwapChain* m_SwapChain;
 	static ID3D11RenderTargetView* m_RenderTargetView;
 	static ID3D11DepthStencilView* m_DepthStencilView;
 
-	static ID3D11Buffer*			m_WorldBuffer;
-	static ID3D11Buffer*			m_ViewBuffer;
-	static ID3D11Buffer*			m_ProjectionBuffer;
-	static ID3D11Buffer*			m_MaterialBuffer;
-	static ID3D11Buffer*			m_LightBuffer;
-
+	static ID3D11Buffer* m_WorldBuffer;
+	static ID3D11Buffer* m_ViewBuffer;
+	static ID3D11Buffer* m_ProjectionBuffer;
+	static ID3D11Buffer* m_MaterialBuffer;
+	static ID3D11Buffer* m_LightBuffer;
 
 	static ID3D11DepthStencilState* m_DepthStateEnable;
 	static ID3D11DepthStencilState* m_DepthStateDisable;
 
-	static ID3D11BlendState*		m_BlendState;
-	static ID3D11BlendState*		m_BlendStateATC;
+	static ID3D11BlendState* m_BlendState;
+	static ID3D11BlendState* m_BlendStateATC;
 
 	static Application* m_Application;
 
-	static ID3D11RasterizerState*	m_rssolid;
-	static ID3D11RasterizerState*	m_rswire;
+	static ID3D11RasterizerState* m_rssolid;
+	static ID3D11RasterizerState* m_rswire;
 
 public:
 
@@ -99,14 +95,11 @@ public:
 	static void SetMaterial(MATERIAL Material);
 	static void SetLight(LIGHT Light);
 
-	static ID3D11Device* GetDevice( void ){ return m_Device; }
-	static ID3D11DeviceContext* GetDeviceContext( void ){ return m_DeviceContext; }
+	static ID3D11Device* GetDevice(void) { return m_Device; }
+	static ID3D11DeviceContext* GetDeviceContext(void) { return m_DeviceContext; }
 	static ID3D11RenderTargetView* GetRenderTargetview(void) { return m_RenderTargetView; }
 	static IDXGISwapChain* GetSwapChain(void) { return m_SwapChain; }
 
-
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
-
-
 };

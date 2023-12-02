@@ -1,15 +1,13 @@
 #pragma once
 
-
 #include "gameObject.h"
 #include "component.h"
 
 class Shadow : public Component
 {
-
 private:
-	ID3D11Buffer*				m_VertexBuffer;
-	ID3D11ShaderResourceView*	m_Texture;
+	ID3D11Buffer* m_VertexBuffer;
+	ID3D11ShaderResourceView* m_Texture;
 
 	DirectX::SimpleMath::Vector3 m_Position{};
 	float	m_Size = 1.0f;
@@ -23,5 +21,4 @@ public:
 	void Draw() override;
 
 	void SetSize(float Size) { m_Size = Size; }
-
 };

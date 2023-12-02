@@ -4,10 +4,8 @@
 
 class Cylinder : public GameObject
 {
-
 private:
 
 public:
 	void Init() override;
-
 };

@@ -24,7 +24,6 @@ void Result::Init()
 	m_Transition->FadeIn();
 }
 
-
 void Result::Update()
 {
 	//  画面遷移（フェードイン）が終了しているなら

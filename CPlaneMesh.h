@@ -44,8 +44,6 @@ private:
 	DirectX::SimpleMath::Vector3 m_normal;
 };
 
-
-
 class CPlaneMeshWithoutCommon : public CMesh {
 public:
 	void Init(int divx, int divy,

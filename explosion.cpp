@@ -1,4 +1,3 @@
-
 #include "main.h"
 #include "manager.h"
 #include "renderer.h"
@@ -7,7 +6,6 @@
 #include "camera.h"
 #include "shader.h"
 
-
 ID3D11Buffer* Explosion::m_VertexBuffer{};
 ID3D11ShaderResourceView* Explosion::m_Texture{};
 
@@ -15,8 +13,6 @@ using namespace DirectX::SimpleMath;
 
 void Explosion::Load()
 {
-
-
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position = Vector3(-1.0f, 1.0f, 0.0f);
@@ -53,7 +49,6 @@ void Explosion::Load()
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
 
-
 	// テクスチャ読み込み
 	DirectX::CreateWICTextureFromFile(
 		Renderer::GetDevice(),
@@ -61,29 +56,19 @@ void Explosion::Load()
 		nullptr,
 		&m_Texture);
 
-
 	assert(m_Texture);
-
-
 }
-
 
 void Explosion::Unload()
 {
-
 	m_VertexBuffer->Release();
 	m_Texture->Release();
-
 }
-
-
 
 void Explosion::Init()
 {
 	AddComponent<Shader>()->Load("shader\\unlitTextureVS.cso", "shader\\unlitTexturePS.cso");
-
 }
-
 
 void Explosion::Update()
 {
@@ -94,9 +79,7 @@ void Explosion::Update()
 		SetDestroy();
 		return;
 	}
-
 }
-
 
 void Explosion::Draw()
 {
@@ -133,8 +116,6 @@ void Explosion::Draw()
 
 	Renderer::GetDeviceContext()->Unmap(m_VertexBuffer, 0);
 
-
-
 	// カメラのビューマトリクス取得
 	Scene* scene = Manager::GetScene();
 	Camera* camera = scene->GetGameObject<Camera>();
@@ -156,7 +137,6 @@ void Explosion::Draw()
 	world = scale * invView * trans;
 	Renderer::SetWorldMatrix(&world);
 
-
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
@@ -177,5 +157,4 @@ void Explosion::Draw()
 
 	// ポリゴン描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
-
 }

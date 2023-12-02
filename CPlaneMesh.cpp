@@ -6,7 +6,7 @@ void CPlaneMesh::Init(
 	int width, int height,
 	DirectX::SimpleMath::Color color,
 	DirectX::SimpleMath::Vector3 normal,
-	bool xzflag) 
+	bool xzflag)
 {
 	// サイズセット（幅と高さ）（XY平面）
 	m_width = static_cast<float>(width);
@@ -32,7 +32,6 @@ void CPlaneMesh::Init(
 	}
 	// インデックスデータ生成
 	CreateIndex();
-
 }
 
 void CPlaneMesh::CreateVertex() {
@@ -43,7 +42,6 @@ void CPlaneMesh::CreateVertex() {
 		VERTEX_3D	vtx{};
 
 		for (unsigned int x = 0; x <= m_divX; x++) {
-
 			// 頂点座標セット
 			vtx.Position.x = -m_width / 2.0f + x * m_width / m_divX;
 			vtx.Position.y = -m_height / 2.0f + y * m_height / m_divY;
@@ -73,7 +71,6 @@ void CPlaneMesh::CreateVertexXZ() {
 		VERTEX_3D	vtx{};
 
 		for (unsigned int x = 0; x <= m_divX; x++) {
-
 			// 頂点座標セット
 			vtx.Position.x = -m_width / 2.0f + x * m_width / m_divX;
 			vtx.Position.y = 0.0f;
@@ -102,7 +99,6 @@ void CPlaneMesh::CreateIndex() {
 	// インデックス生成
 	for (unsigned int y = 0; y < m_divY; y++) {
 		for (unsigned int x = 0; x < m_divX; x++) {
-
 			int count = (m_divX + 1) * y + x;		// 左下座標のインデックス
 
 			// 下半分
@@ -116,7 +112,6 @@ void CPlaneMesh::CreateIndex() {
 				m_indices.emplace_back(face.idx[0]);
 				m_indices.emplace_back(face.idx[1]);
 				m_indices.emplace_back(face.idx[2]);
-
 			}
 
 			// 上半分
@@ -129,7 +124,6 @@ void CPlaneMesh::CreateIndex() {
 				m_indices.emplace_back(face.idx[0]);
 				m_indices.emplace_back(face.idx[1]);
 				m_indices.emplace_back(face.idx[2]);
-
 			}
 		}
 	}
@@ -155,13 +149,11 @@ int CPlaneMesh::GetDivY() {
 
 // 指定した3角形番号の三角形インデックスを取得
 CPlaneMesh::FACE CPlaneMesh::GetTriangle(int triangleno) {
-
 	FACE face;
 	face.idx[0] = m_indices[triangleno * 3];
 	face.idx[1] = m_indices[triangleno * 3 + 1];
 	face.idx[2] = m_indices[triangleno * 3 + 2];
 	return face;
-
 }
 
 // 何番目の四角形かを見つける
@@ -210,14 +202,10 @@ int CPlaneMesh::GetSquareNo(DirectX::SimpleMath::Vector3 pos)
 	return squareno;
 }
 
-
-
-
 void CPlaneMeshWithoutCommon::Init(int divx, int divy,
 	int width, int height,
 	DirectX::SimpleMath::Color color,
 	DirectX::SimpleMath::Vector3 normal) {
-
 	// サイズセット（幅と高さ）（XY平面）
 	m_width = static_cast<float>(width);
 	m_height = static_cast<float>(height);
@@ -249,7 +237,6 @@ void CPlaneMeshWithoutCommon::CreateIndex() {
 
 	for (int y = 0; y < m_divY; y++) {
 		for (int x = 0; x < m_divX; x++) {
-
 			VERTEX_3D v;
 
 			v.Position.x = -m_width / 2.0f + x * m_width / m_divX;

@@ -9,10 +9,9 @@ namespace Timer { class DelayCompnent; }
 namespace Sound { class Audio; }
 
 namespace Player
-{ 
+{
 	class PlayerObject : public GameObject
 	{
-
 	private:
 
 		DirectX::SimpleMath::Vector3		m_Velocity{};
@@ -37,6 +36,5 @@ namespace Player
 
 		void SetVelocity(DirectX::SimpleMath::Vector3 Velocity) { m_Velocity = Velocity; }
 		DirectX::SimpleMath::Vector3 GetVelocity() { return m_Velocity; }
-
 	};
 }

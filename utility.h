@@ -25,88 +25,87 @@ HRESULT CompileShaderFromFile(const char* szFileName, LPCSTR szEntryPoint, LPCST
  Structuredバッファを作成
 --------------------------*/
 bool CreateStructuredBuffer(
-    ID3D11Device* device,
-    unsigned int stride,				// ストライドバイト数
-    unsigned int num,					// 個数
-    void* data,							// データ格納メモリ先頭アドレス
-    ID3D11Buffer** pStructuredBuffer	// RWStructuredBuffer
+	ID3D11Device* device,
+	unsigned int stride,				// ストライドバイト数
+	unsigned int num,					// 個数
+	void* data,							// データ格納メモリ先頭アドレス
+	ID3D11Buffer** pStructuredBuffer	// RWStructuredBuffer
 );
 /*------------------------
  Structuredバッファを作成
 --------------------------*/
 bool CreateStructuredBufferWrite(
-    ID3D11Device* device,
-    unsigned int stride,				// ストライドバイト数
-    unsigned int num,					// 個数
-    void* data,							// データ格納メモリ先頭アドレス
-    ID3D11Buffer** pStructuredBuffer	// RWStructuredBuffer
+	ID3D11Device* device,
+	unsigned int stride,				// ストライドバイト数
+	unsigned int num,					// 個数
+	void* data,							// データ格納メモリ先頭アドレス
+	ID3D11Buffer** pStructuredBuffer	// RWStructuredBuffer
 );
 /*------------------------
-    ShaderResourceViewを作成
+	ShaderResourceViewを作成
 --------------------------*/
 bool CreateShaderResourceView(
-    ID3D11Device* device,
-    ID3D11Buffer* pBuffer,	// Buffer
-    ID3D11ShaderResourceView** ppSRV);
+	ID3D11Device* device,
+	ID3D11Buffer* pBuffer,	// Buffer
+	ID3D11ShaderResourceView** ppSRV);
 /*------------------------
 UnOrderedAccessViewを作成
 --------------------------*/
 bool CreateUnOrderAccessView(
-    ID3D11Device* device,
-    ID3D11Buffer* pBuffer,	                    // Buffer
-    ID3D11UnorderedAccessView** ppUAV);
+	ID3D11Device* device,
+	ID3D11Buffer* pBuffer,	                    // Buffer
+	ID3D11UnorderedAccessView** ppUAV);
 /*---------------------------------
 STAGINGバッファを作成しコピーする
 ----------------------------------*/
 ID3D11Buffer* CreateAndCopyToBuffer(
-    ID3D11Device* device,
-    ID3D11DeviceContext* devicecontext,
-    ID3D11Buffer* pBuffer	// RWStructuredBuffer
+	ID3D11Device* device,
+	ID3D11DeviceContext* devicecontext,
+	ID3D11Buffer* pBuffer	// RWStructuredBuffer
 );
 /*------------------------
 頂点バッファを作成
 --------------------------*/
 bool CreateVertexBuffer(
-    ID3D11Device* device,
-    unsigned int stride,				// １頂点当たりバイト数
-    unsigned int vertexnum,				// 頂点数
-    void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
-    ID3D11Buffer** pVertexBuffer		// 頂点バッファ
+	ID3D11Device* device,
+	unsigned int stride,				// １頂点当たりバイト数
+	unsigned int vertexnum,				// 頂点数
+	void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
+	ID3D11Buffer** pVertexBuffer		// 頂点バッファ
 );
 /*------------------------
 頂点バッファを作成(ＣＰＵ書き込み可能)
 --------------------------*/
 bool CreateVertexBufferWrite(
-    ID3D11Device* device,
-    unsigned int stride,				// １頂点当たりバイト数
-    unsigned int vertexnum,				// 頂点数
-    void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
-    ID3D11Buffer** pVertexBuffer		// 頂点バッファ
+	ID3D11Device* device,
+	unsigned int stride,				// １頂点当たりバイト数
+	unsigned int vertexnum,				// 頂点数
+	void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
+	ID3D11Buffer** pVertexBuffer		// 頂点バッファ
 );
 /*------------------------
 頂点バッファ(UAV)を作成
 --------------------------*/
 bool CreateVertexBufferUAV(
-    ID3D11Device* device,
-    unsigned int stride,				// １頂点当たりバイト数
-    unsigned int vertexnum,				// 頂点数
-    void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
-    ID3D11Buffer** pVertexBuffer		// 頂点バッファ
+	ID3D11Device* device,
+	unsigned int stride,				// １頂点当たりバイト数
+	unsigned int vertexnum,				// 頂点数
+	void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
+	ID3D11Buffer** pVertexBuffer		// 頂点バッファ
 );
 /*----------------------------
 コンスタントバッファを作成(MAPで書き換え可能)
 ------------------------------*/
 bool CreateConstantBufferWrite(
-    ID3D11Device* device,					// デバイスオブジェクト
-    unsigned int bytesize,					// コンスタントバッファサイズ
-    ID3D11Buffer** pConstantBuffer			// コンスタントバッファ
+	ID3D11Device* device,					// デバイスオブジェクト
+	unsigned int bytesize,					// コンスタントバッファサイズ
+	ID3D11Buffer** pConstantBuffer			// コンスタントバッファ
 );
 
 bool CreateIndexBuffer(
-    ID3D11Device* device,						// デバイスオブジェクト
-    unsigned int indexnum,						// インデックス数
-    void* indexdata,							// インデックスデータ格納メモリ先頭アドレス
-    ID3D11Buffer** pIndexBuffer);				// インデックスバッファ
-
+	ID3D11Device* device,						// デバイスオブジェクト
+	unsigned int indexnum,						// インデックス数
+	void* indexdata,							// インデックスデータ格納メモリ先頭アドレス
+	ID3D11Buffer** pIndexBuffer);				// インデックスバッファ
 
 void Invoke(std::function<void()> Function, int Time);

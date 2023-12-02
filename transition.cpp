@@ -25,43 +25,39 @@ void Transition::Update()
 {
 	switch (m_State)
 	{
+	case State::Stop:							// フェードイン終了を表す
+		break;
 
-		case State::Stop:							// フェードイン終了を表す
-			break;
+	case State::In:								// フェードイン中（透明度を下げていく）
+	{
+		m_Alpha -= 2.0f / 60.0f;					// １秒間に２ずつ透明
 
-		case State::In:								// フェードイン中（透明度を下げていく）
-		{
-			m_Alpha -= 2.0f / 60.0f;					// １秒間に２ずつ透明
+		if (m_Alpha < 0.0f)							// 完全に透明になったらSTOP状態へ
+			m_State = State::Stop;
 
-			if (m_Alpha < 0.0f)							// 完全に透明になったらSTOP状態へ
-				m_State = State::Stop;
-
-			break;
-		}
-
-		case State::Out:							// フェードアウト中
-		{
-			m_Alpha += 2.0f / 60.0f;					// １秒間に２ずつ不透明
-
-			if (m_Alpha > 1.0f)							// 完全に不透明になったらFINISH状態へ
-				m_State = State::Finish;
-
-			break;
-		}
-
-		case State::Finish:							// フェードアウト終了を表す
-			break;
-
-		default:
-			break;
+		break;
 	}
 
+	case State::Out:							// フェードアウト中
+	{
+		m_Alpha += 2.0f / 60.0f;					// １秒間に２ずつ不透明
+
+		if (m_Alpha > 1.0f)							// 完全に不透明になったらFINISH状態へ
+			m_State = State::Finish;
+
+		break;
+	}
+
+	case State::Finish:							// フェードアウト終了を表す
+		break;
+
+	default:
+		break;
+	}
 
 	// マテリアルの設定
 	MATERIAL material{};
 	material.Diffuse = Color(0.0f, 0.0f, 0.0f, m_Alpha);
 	material.TextureEnable = false;
 	m_Sprite->SetMaterial(material);
-
 }
-

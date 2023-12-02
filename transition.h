@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "gameObject.h"
 
 class Transition : public GameObject
@@ -14,7 +13,6 @@ public:
 		Finish			// ‰æ–Ê‘JˆÚI—¹
 	};
 
-
 private:
 
 	float m_Alpha = 0.0f;
@@ -24,12 +22,10 @@ private:
 
 public:
 
-
 	void Init() override;
 	void Update() override;
 
 	State GetState() { return m_State; }
-
 
 	void FadeIn()
 	{
@@ -41,5 +37,4 @@ public:
 		m_Alpha = 0.0f;
 		m_State = State::Out;
 	}
-
 };

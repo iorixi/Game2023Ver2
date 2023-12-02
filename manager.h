@@ -14,8 +14,8 @@ private:
 public:
 	static void Init(Application* ap);
 	static void Uninit();
-	static void Update(uint64_t d,ImguiManager * imguiManager);
-	static void Draw(uint64_t d, ImguiManager * imguiManager);
+	static void Update(uint64_t d);
+	static void Draw(uint64_t d);
 
 	static class Scene* GetScene()
 	{

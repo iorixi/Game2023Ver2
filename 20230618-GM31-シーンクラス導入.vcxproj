@@ -177,7 +177,7 @@
     <ClCompile Include="Polygon2D.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
-    <ClCompile Include="ScheduledTask .cpp" />
+    <ClCompile Include="ScheduledTask.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shadow.cpp" />
@@ -239,7 +239,7 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="scene.h" />
-    <ClInclude Include="ScheduledTask .h" />
+    <ClInclude Include="ScheduledTask.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shadow.h" />

@@ -4,7 +4,6 @@ using namespace Timer;
 
 void Time::Init()
 {
-	
 }
 
 void Time::Update()
@@ -14,14 +13,10 @@ void Time::Update()
 
 	//ƒ~ƒŠ•b‚©‚ç•b”‚É•ÏŠ·
 	nowTime = (double)(now - startTime) / 1000;
-
 }
-
 
 void Time::SetNowStartTime()
 {
 	//¡‚ÌŠÔ‚ğ•Û‘¶
 	startTime = timeGetTime();
 }
-
-

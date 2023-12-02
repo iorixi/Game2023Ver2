@@ -46,18 +46,17 @@ void Manager::Uninit()
 	timeEndPeriod(1);
 }
 
-void Manager::Update(uint64_t d, ImguiManager* imguiManager)
+void Manager::Update(uint64_t d)
 {
 	Input::Update();
 
-	m_Scene->UpdateBase(imguiManager);
-
+	m_Scene->UpdateBase();
 }
 
-void Manager::Draw(uint64_t d, ImguiManager* imguiManager)
+void Manager::Draw(uint64_t d)
 {
 	Renderer::Begin();
-	m_Scene->DrawBase(imguiManager);
+	m_Scene->DrawBase();
 
 	Renderer::End();
 }

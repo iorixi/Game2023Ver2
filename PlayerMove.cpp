@@ -56,7 +56,6 @@ void Move::Update()
 
 	if (Input::GetKeyPress('W'))
 	{
-
 		playerPos += forward * m_AroundMoveSpeed;
 	}
 	if (Input::GetKeyPress('S'))
@@ -67,5 +66,4 @@ void Move::Update()
 	//プレイヤーの座標を更新
 	player->SetPosition(playerPos);
 	player->SetRotation(playerLotation);
-
 }

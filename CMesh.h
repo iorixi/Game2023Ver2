@@ -17,4 +17,3 @@ public:
 		return m_indices;
 	}
 };
-

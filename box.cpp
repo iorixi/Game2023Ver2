@@ -13,5 +13,5 @@ void Box::Init()
 	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");
 	AddComponent<ModelRenderer>()->Load("asset\\model\\box.obj");
 
-//	AddComponent<Shadow>()->SetSize(8.0f);
+	//	AddComponent<Shadow>()->SetSize(8.0f);
 }

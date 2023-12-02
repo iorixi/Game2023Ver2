@@ -11,13 +11,10 @@ namespace Player
 {
 	class Evasive : public Component
 	{
-
 	public:
 		using Component::Component;
 
 		virtual void Init() override;
 		virtual void Update() override;
-
-
 	};
 }

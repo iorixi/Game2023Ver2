@@ -44,8 +44,8 @@ private:
 	const aiScene* m_AiScene = nullptr;
 	std::unordered_map<std::string, const aiScene*> m_Animation;
 
-	ID3D11Buffer**	m_VertexBuffer;
-	ID3D11Buffer**	m_IndexBuffer;
+	ID3D11Buffer** m_VertexBuffer;
+	ID3D11Buffer** m_IndexBuffer;
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> m_Texture;
 
@@ -62,9 +62,9 @@ private:
 public:
 	using Component::Component;
 
-	void Load( const char *FileName );
-	void LoadAnimation( const char *FileName, const char *Name );
+	void Load(const char* FileName);
+	void LoadAnimation(const char* FileName, const char* Name);
 	void Uninit() override;
-	void Update(const char *AnimationName1, int Frame1, const char *AnimationName2, int Frame2, float BlendRate);
+	void Update(const char* AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRate);
 	void Draw() override;
 };

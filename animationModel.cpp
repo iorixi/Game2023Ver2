@@ -11,7 +11,7 @@ void AnimationModel::Draw()
 	// プリミティブトポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(
 		D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	
+
 	// マテリアル設定
 	MATERIAL material;
 	ZeroMemory(&material, sizeof(material));
@@ -53,7 +53,6 @@ void AnimationModel::Draw()
 
 // 頂点バッファ生成
 void AnimationModel::CreateVertexBufferPerMesh(int m, const aiMesh* mesh) {
-
 	VERTEX_3D* vertex = new VERTEX_3D[mesh->mNumVertices];
 
 	//変形後頂点データ初期化
@@ -131,7 +130,7 @@ void AnimationModel::CreateVertexBufferPerMesh(int m, const aiMesh* mesh) {
 	sd.pSysMem = vertex;
 
 	Renderer::GetDevice()->CreateBuffer(
-		&bd, 
+		&bd,
 		&sd,
 		&m_VertexBuffer[m]);
 
@@ -139,8 +138,7 @@ void AnimationModel::CreateVertexBufferPerMesh(int m, const aiMesh* mesh) {
 }
 
 // インデックスバッファを生成
-void AnimationModel::CreateIndexBufferPerMesh(int m,const aiMesh* mesh) {
-
+void AnimationModel::CreateIndexBufferPerMesh(int m, const aiMesh* mesh) {
 	unsigned int* index = new unsigned int[mesh->mNumFaces * 3];
 
 	for (unsigned int f = 0; f < mesh->mNumFaces; f++)
@@ -168,26 +166,24 @@ void AnimationModel::CreateIndexBufferPerMesh(int m,const aiMesh* mesh) {
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_IndexBuffer[m]);
 
 	delete[] index;
-
 }
 
-
-void AnimationModel::Load( const char *FileName )
+void AnimationModel::Load(const char* FileName)
 {
-	const std::string modelPath( FileName );
+	const std::string modelPath(FileName);
 
 	m_AiScene = aiImportFile(FileName, aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_ConvertToLeftHanded);
 	assert(m_AiScene);
 
-	m_VertexBuffer = new ID3D11Buffer*[m_AiScene->mNumMeshes];
-	m_IndexBuffer = new ID3D11Buffer*[m_AiScene->mNumMeshes];
+	m_VertexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
+	m_IndexBuffer = new ID3D11Buffer * [m_AiScene->mNumMeshes];
 
 	//変形後頂点配列生成
 	m_DeformVertex = new std::vector<DEFORM_VERTEX>[m_AiScene->mNumMeshes];
 
 	//再帰的にボーンの階層構造を生成（ボーン名で検索できる構造を作成）
 	CreateBone(m_AiScene->mRootNode);
-			
+
 	// ボーンの配列位置を格納する				// 20230909
 	unsigned int num = 0;						// 20230909
 	for (auto& data : m_Bone) {					// 20230909
@@ -200,14 +196,14 @@ void AnimationModel::Load( const char *FileName )
 		const aiMesh* mesh = m_AiScene->mMeshes[m];
 
 		// インデックスバッファを生成
-		CreateIndexBufferPerMesh(m,mesh);
+		CreateIndexBufferPerMesh(m, mesh);
 
 		// 頂点バッファを生成
 		CreateVertexBufferPerMesh(m, mesh);
 	}
 
 	//テクスチャ読み込み
-	for(int i = 0; i < m_AiScene->mNumTextures; i++)
+	for (int i = 0; i < m_AiScene->mNumTextures; i++)
 	{
 		ID3D11ShaderResourceView* texture;
 
@@ -236,18 +232,13 @@ void AnimationModel::Load( const char *FileName )
 		&m_BoneCombMtxCBuffer);						// コンスタントバッファ			// 20230909 - 02
 
 	assert(m_BoneCombMtxCBuffer);
-
 }
 
-
-void AnimationModel::LoadAnimation( const char *FileName, const char *Name )
+void AnimationModel::LoadAnimation(const char* FileName, const char* Name)
 {
-
 	m_Animation[Name] = aiImportFile(FileName, aiProcess_ConvertToLeftHanded);
 	assert(m_Animation[Name]);
-
 }
-
 
 void AnimationModel::CreateBone(aiNode* node)
 {
@@ -259,9 +250,7 @@ void AnimationModel::CreateBone(aiNode* node)
 	{
 		CreateBone(node->mChildren[n]);
 	}
-
 }
-
 
 void AnimationModel::Uninit()
 {
@@ -276,7 +265,6 @@ void AnimationModel::Uninit()
 
 	delete[] m_DeformVertex;
 
-
 	for (std::pair<const std::string, ID3D11ShaderResourceView*> pair : m_Texture)
 	{
 		pair.second->Release();
@@ -286,16 +274,14 @@ void AnimationModel::Uninit()
 
 	aiReleaseImport(m_AiScene);
 
-
 	for (std::pair<const std::string, const aiScene*> pair : m_Animation)
 	{
 		aiReleaseImport(pair.second);
 	}
 }
 
-void AnimationModel::Update(const char *AnimationName1, int Frame1, const char *AnimationName2, int Frame2, float BlendRate)
+void AnimationModel::Update(const char* AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRate)
 {
-
 	// アニメーションありか？
 	if (m_Animation.count(AnimationName1) == 0)
 		return;
@@ -342,7 +328,7 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char *
 	}																// 20230909
 
 	// 20230909 転置
-	for (auto& bcmtx : bonecombmtxcontainer) 
+	for (auto& bcmtx : bonecombmtxcontainer)
 	{
 		// 転置する
 		bcmtx.Transpose();
@@ -376,11 +362,10 @@ void AnimationModel::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	//マトリクスの乗算順番に注意
 	aiMatrix4x4 worldMatrix;					// 初期値は単位行列
 
-//	worldMatrix *= matrix;						
+	//	worldMatrix *= matrix;
 
 	worldMatrix = matrix;						// 親の位置、姿勢が初期状態（逆ボーンオフセット行列）
 	worldMatrix *= bone->AnimationMatrix;		// 引数で渡された行列を掛け算（自ノードのアニメーションを反映させる）（ボーン空間でのもの）
-
 
 	bone->Matrix = worldMatrix;					// プログラム内に用意している行列に反映させる
 	bone->Matrix *= bone->OffsetMatrix;			// オフセット行列を反映させる

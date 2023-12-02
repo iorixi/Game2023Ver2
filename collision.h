@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include	<simplemath.h>
 
 // 円柱定義
@@ -76,7 +75,6 @@ bool CollisionSphereOrientedQuad(
 // まっすぐに立ってる円柱と球の当たり判定
 bool CollisionSphereCylinder(BoundingSphere sphere, BoundingCylinder cylinder);
 
-
 // 三角形の内部かどうかを判定する
 bool CheckInTriangle(
 	const DirectX::SimpleMath::Vector3& a,
@@ -84,10 +82,9 @@ bool CheckInTriangle(
 	const DirectX::SimpleMath::Vector3& c,
 	const DirectX::SimpleMath::Vector3& p);
 
-
 bool LinetoPlaneCross(
 	const DirectX::SimpleMath::Plane& plane,		//平面の方程式
 	const DirectX::SimpleMath::Vector3& p0,			//直線の起点
 	const DirectX::SimpleMath::Vector3& wv,			//直線の方向ベクトル
-	float& t,										// 交点位置情報	
+	float& t,										// 交点位置情報
 	DirectX::SimpleMath::Vector3& ans);				//交点座標

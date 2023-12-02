@@ -29,7 +29,6 @@ public:
 
 	void UninitBase()
 	{
-
 		for (auto& objectList : m_GameObject)
 		{
 			for (GameObject* object : objectList)
@@ -45,10 +44,8 @@ public:
 		ModelRenderer::UnloadAll();		// モデルを全てアンロード
 	}
 
-
-	void UpdateBase(ImguiManager *imguManager)
+	void UpdateBase()
 	{
-
 		for (auto& objectList : m_GameObject)
 		{
 			for (GameObject* object : objectList)//範囲forループ
@@ -60,11 +57,10 @@ public:
 			//ラムダ式
 		}
 
-		imguManager->Update();
 		Update();		// シーンの更新処理
 	}
 
-	void DrawBase(ImguiManager* imguManager)
+	void DrawBase()
 	{
 		DirectX::SimpleMath::Matrix matrix;
 		matrix = DirectX::SimpleMath::Matrix::Identity;
@@ -76,7 +72,6 @@ public:
 				object->DrawBase(matrix);				// オブジェクトの描画処理
 			}
 		}
-		imguManager->Draw();
 		Draw();											// シーンの描画処理
 	}
 

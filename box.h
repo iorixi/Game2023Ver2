@@ -4,7 +4,6 @@
 
 class Box : public GameObject
 {
-
 private:
 
 public:
