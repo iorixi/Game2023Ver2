@@ -5,26 +5,26 @@
 
 using namespace DirectX::SimpleMath;
 
-void Sprite::Init(int x, int y, int Width, int Height, const char* TextureName)
+void Sprite::UpdateSpriteBase()
 {
 	VERTEX_3D vertex[4];
 
-	vertex[0].Position = Vector3((float)x, (float)y, 0.0f);
+	vertex[0].Position = Vector3((float)spriteDate.x, (float)spriteDate.y, 0.0f);
 	vertex[0].Normal = Vector3(0.0f, 0.0f, 0.0f);
 	vertex[0].Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[0].TexCoord = Vector2(0.0f, 0.0f);
 
-	vertex[1].Position = Vector3((float)(x + Width), (float)y, 0.0f);
+	vertex[1].Position = Vector3((float)(spriteDate.x + spriteDate.width), (float)spriteDate.y, 0.0f);
 	vertex[1].Normal = Vector3(0.0f, 0.0f, 0.0f);
 	vertex[1].Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[1].TexCoord = Vector2(1.0f, 0.0f);
 
-	vertex[2].Position = Vector3((float)x, (float)(y + Height), 0.0f);
+	vertex[2].Position = Vector3((float)spriteDate.x, (float)(spriteDate.y + spriteDate.height), 0.0f);
 	vertex[2].Normal = Vector3(0.0f, 0.0f, 0.0f);
 	vertex[2].Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[2].TexCoord = Vector2(0.0f, 1.0f);
 
-	vertex[3].Position = Vector3((float)(x + Width), (float)(y + Height), 0.0f);
+	vertex[3].Position = Vector3((float)(spriteDate.x + spriteDate.width), (float)(spriteDate.y + spriteDate.height), 0.0f);
 	vertex[3].Normal = Vector3(0.0f, 0.0f, 0.0f);
 	vertex[3].Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	vertex[3].TexCoord = Vector2(1.0f, 1.0f);
@@ -40,6 +40,16 @@ void Sprite::Init(int x, int y, int Width, int Height, const char* TextureName)
 	sd.pSysMem = vertex;
 
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+}
+
+void Sprite::Init(int x, int y, int Width, int Height, const char* TextureName)
+{
+	spriteDate.x = x;
+	spriteDate.y = y;
+	spriteDate.width = Width;
+	spriteDate.height = Height;
+
+	UpdateSpriteBase();
 
 	std::wstring ws = sjis_to_wide_winapi(TextureName);
 
@@ -52,6 +62,14 @@ void Sprite::Init(int x, int y, int Width, int Height, const char* TextureName)
 		&m_Texture);
 
 	assert(m_Texture);
+
+	m_Material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
+	m_Material.TextureEnable = true;
+}
+
+void Sprite::Update()
+{
+	UpdateSpriteBase();
 
 	m_Material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Material.TextureEnable = true;
@@ -85,4 +103,15 @@ void Sprite::Draw()
 
 	// ƒ|ƒŠƒSƒ“•`‰æ
 	Renderer::GetDeviceContext()->Draw(4, 0);
+}
+
+void Sprite::SetPos(float x, float y)
+{
+	spriteDate.x = x;
+	spriteDate.y = y;
+}
+
+void Sprite::SetSpriteData(SpriteData _spriteData)
+{
+	spriteDate = _spriteData;
 }

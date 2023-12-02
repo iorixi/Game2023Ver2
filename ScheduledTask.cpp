@@ -30,16 +30,14 @@ bool ScheduledTask::GetFlg() {
 	// 現在の時間を取得
 	auto currentTime = std::chrono::system_clock::now();
 
-	// 指定した時間になるまで待機
-	while (currentTime < m_ScheduledTime) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));  // 小さなウェイト
-		currentTime = std::chrono::system_clock::now();
+	// 指定した時間になったらtrueにする
+	if (currentTime > m_ScheduledTime) {
+		// フラグをfalseにして、次回の実行時間を設定
+		m_ScheduledTime = std::chrono::system_clock::now() + m_Interval;
+		return true;
 	}
 
-	// フラグをfalseにして、次回の実行時間を設定
-	m_ScheduledTime = std::chrono::system_clock::now() + m_Interval;
-
-	return true;
+	return false;
 }
 
 // 経過時間を停止
