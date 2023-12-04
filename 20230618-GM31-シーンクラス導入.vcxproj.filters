@@ -255,6 +255,9 @@
     <ClCompile Include="Imgui\imgui_widgets.cpp">
       <Filter>ソース ファイル\Imgui\gui</Filter>
     </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -437,6 +440,9 @@
     <ClInclude Include="Imgui\imstb_truetype.h">
       <Filter>ソース ファイル\Imgui\gui</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -455,6 +461,9 @@
       <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\vertexLightingOneSkinVS.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\SkyPS.hlsl">
       <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

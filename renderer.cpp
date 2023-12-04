@@ -109,6 +109,7 @@ void Renderer::Init(Application* ap)
 		// ラスタライザステート設定(SOLID)
 		D3D11_RASTERIZER_DESC rasterizerDesc{};
 		rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+		//裏面を描画しない
 		rasterizerDesc.CullMode = D3D11_CULL_BACK;
 		rasterizerDesc.DepthClipEnable = TRUE;
 		rasterizerDesc.MultisampleEnable = FALSE;

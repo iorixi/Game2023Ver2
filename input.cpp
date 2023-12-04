@@ -5,11 +5,15 @@
 BYTE Input::m_OldKeyState[256];
 BYTE Input::m_KeyState[256];
 bool Input::m_IsInputEnabled = true;
+POINT Input::mousePos;
+POINT Input::oldMousePos;
+Timer::ScheduledTask Input::mouseScheduledTask;
 
 void Input::Init()
 {
 	memset(m_OldKeyState, 0, 256);
 	memset(m_KeyState, 0, 256);
+	mouseScheduledTask.SetTimer(0.01f);
 }
 
 void Input::Uninit()
@@ -25,6 +29,15 @@ void Input::Update()
 	memcpy(m_OldKeyState, m_KeyState, 256);
 
 	GetKeyboardState(m_KeyState);
+
+	oldMousePos = mousePos;
+	GetCursorPos(&mousePos);
+
+	//if (mouseScheduledTask.GetFlg())
+	//{
+	//	SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	//	GetCursorPos(&oldMousePos);
+	//}
 }
 
 void Input::UpdateAsync()
@@ -70,4 +83,14 @@ bool Input::GetKeyPress(BYTE KeyCode)
 bool Input::GetKeyTrigger(BYTE KeyCode)
 {
 	return ((m_KeyState[KeyCode] & 0x80) && !(m_OldKeyState[KeyCode] & 0x80));
+}
+
+POINT Input::GetMousePos()
+{
+	return mousePos;
+}
+
+POINT Input::GetOldMousePos()
+{
+	return oldMousePos;
 }

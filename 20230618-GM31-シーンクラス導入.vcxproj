@@ -175,6 +175,7 @@
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerShot.cpp" />
     <ClCompile Include="Polygon2D.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="ScheduledTask.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="PlayerShot.h" />
     <ClInclude Include="Polygon2D.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="scene.h" />
@@ -254,6 +256,12 @@
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="shader\SkyPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="shader\unlitTexturePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

@@ -228,7 +228,25 @@ LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	case WM_DESTROY:
 	{ PostQuitMessage(0); }
 	break;
+	case WM_KEYDOWN:
+		// キーが押された時のリアクションを書く
+		// ESCが押されたのかどうかチェック
+		if (LOWORD(wp) == VK_ESCAPE)
+		{
+			ShowCursor(true);
+			// メッセージボックスで修了確認
+			int result;
+			result = MessageBox(NULL, "終了してよろしいですか？",
+				"終了確認", MB_YESNO | MB_ICONQUESTION);
+			if (result == IDYES) // 「はい」ボタンが押された時
+			{
+				// xボタンが押されたのと同じ効果を発揮する
+				PostMessage(hWnd, WM_CLOSE, wp, lp);
+			}
+			ShowCursor(false);
+		}
 
+		break;
 	default:
 	{ /* DO_NOTHING */ }
 	break;

@@ -21,6 +21,7 @@ void Battery::Init()
 	m_Child = AddChild<GameObject>();
 	m_Child->AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");
 	m_Child->AddComponent<ModelRenderer>()->Load("asset\\model\\battery2.obj");
+	m_Position.y = 5;
 }
 
 void Battery::Update()
