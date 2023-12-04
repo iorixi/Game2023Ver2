@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include "camera.h"
 #include "Player.h"
+#include "battery.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -20,21 +21,57 @@ void Camera::Uninit()
 void Camera::Update()
 {
 	Scene* nowscene = Manager::GetScene();
-	PlayerObject* PlayerObjectobj = nowscene->GetGameObject<PlayerObject>();
+	PlayerObject* playerObject = nowscene->GetGameObject<PlayerObject>();
+	Battery* enemyObject = nowscene->GetGameObject<Battery>();
 
-	Vector3 forward = PlayerObjectobj->GetForward();
-	Vector3 PlayerObjectpos = PlayerObjectobj->GetPosition();
+	Vector3 playerPosition = playerObject->GetPosition();
+	Vector3 playerForward = playerObject->GetForward();
+	Vector3 enemyPosition = enemyObject->GetPosition(); // 敵の位置を取得
 
-	this->m_Position = PlayerObjectpos - forward * 7.0f;
-	this->m_Target = PlayerObjectpos + forward * 3.0f;
-	this->m_Position.y += 2.0f;
+	// カメラの位置を設定（プレイヤーの後ろに配置）
+	this->m_Position = playerPosition - playerForward * m_CameraDistance;
+
+	//カメラの位置を再調整
+	playerPosition.y += m_CameraHeight;
+
+	// カメラの高さを調整
+	float cameraHeight = 0.0f;
+
+	// プレイヤーが上昇中の場合、上昇量を考慮してカメラの高さを調整
+	float playerVelocityY = playerObject->GetVelocity().y;
+	if (playerVelocityY > 0.0f)
+	{
+		cameraHeight += playerVelocityY;
+	}
+
+	float heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
+	cameraHeight -= heightFactor;
+
+	// カメラの高さを調整
+	this->m_Position.y = playerPosition.y + cameraHeight;
+
+	// プレイヤーの方を注視点に設定
+	this->m_Target = playerPosition;
+
+	// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
+	float yaw = atan2f(playerForward.z, playerForward.x);
+	this->m_Rotation.y = yaw;
+
+	// カメラの上昇角度を調整（プレイヤーの前方向と上方向のなす角度）
+	float pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
+	this->m_Rotation.x = pitch;
 }
 
 void Camera::Draw()
 {
 	// ビュー変換後列作成
 	Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
-	m_ViewMatrix = DirectX::XMMatrixLookAtLH(m_Position, m_Target, up);										// 左手系にした　20230511 by suzuki.tomoki
+	Vector3 pos = m_Position;
+	Scene* nowscene = Manager::GetScene();
+	PlayerObject* playerObject = nowscene->GetGameObject<PlayerObject>();
+	Vector3 cameraPosition = m_Position + m_CameraRightOffset * playerObject->GetRight();
+
+	m_ViewMatrix = DirectX::XMMatrixLookAtLH(cameraPosition, m_Target, up);									// 左手系にした　20230511 by suzuki.tomoki
 
 	// DIRECTXTKのメソッドは右手系　20230511 by suzuki.tomoki
 	// 右手系にすると３角形頂点が反時計回りになるので描画されなくなるので注意
