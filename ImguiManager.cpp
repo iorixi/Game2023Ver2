@@ -64,7 +64,6 @@ void ImguiManager::Update()
 	//スライダーを追加
 	AddSliderNum("aaa", &someVariable, 0.0f, 100.0f);
 	// チェックボックスの追加
-	AddCheckbox("Enable Feature", &checkboxValue);
 
 	AddButton("TitleGo", &mapBool["TitleFlg"]);
 	AddButton("ResultGo", &mapBool["ResultFlg"]);

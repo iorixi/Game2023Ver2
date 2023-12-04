@@ -19,6 +19,7 @@
 #include "PlayerFloating.h"
 #include "PlayerEvasive.h"
 #include "PlayerShot.h"
+#include "battery.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -140,7 +141,28 @@ void PlayerObject::Update()
 		m_Frame++;
 	}
 
-	m_Rotation.y -= (Input::GetOldMousePos().x - Input::GetMousePos().x) * 0.002f;
+	Battery* enemyObject = nowscene->GetGameObject<Battery>();
+
+	// 敵オブジェクトの位置を取得
+	Vector3 enemyPosition = enemyObject->GetPosition();
+	Vector3 toEnemy;
+	toEnemy.x = enemyPosition.x - m_Position.x;
+	toEnemy.y = enemyPosition.y - m_Position.y;
+	toEnemy.z = enemyPosition.z - m_Position.z;
+
+	// プレイヤーオブジェクトから敵オブジェクトへの方向ベクトルを計算
+	toEnemy.Normalize();
+
+	// Y軸回りの回転角度を計算
+	float yaw = atan2f(toEnemy.x, toEnemy.z);
+	// X軸回りの回転角度を計算
+	float pitch = atan2f(toEnemy.y, sqrtf(toEnemy.x * toEnemy.x + toEnemy.z * toEnemy.z));
+
+	// Z軸回りの回転角度（このサンプルでは固定で0.0fとしています）
+	float roll = 0.0f;
+
+	// 回転を適用
+	m_Rotation = Vector3(pitch, yaw, roll);
 
 	if (m_BlendRate > 1.0f)
 		m_BlendRate = 1.0f;

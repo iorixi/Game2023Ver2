@@ -19,10 +19,8 @@ void Evasive::Update()
 	PlayerObject* player = scene->GetGameObject<PlayerObject>();
 
 	Vector3 playerVelocity = player->GetVelocity();
-	Vector3 playerRotation = player->GetRotation();
 
 	//playerRotation.z -= 0.01;
 
 	player->SetVelocity(playerVelocity);
-	player->SetRotation(playerRotation);
 }

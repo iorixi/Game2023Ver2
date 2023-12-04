@@ -44,6 +44,31 @@ public:
 		return forward;
 	}
 
+	DirectX::SimpleMath::Vector3 GetRight()
+	{
+		DirectX::SimpleMath::Matrix rot;
+		rot = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(m_Rotation.y, m_Rotation.x, m_Rotation.z);
+
+		DirectX::SimpleMath::Vector3 right;
+		right.x = rot._11;  // マトリクスの11成分が右方向の x 成分
+		right.y = rot._12;  // マトリクスの12成分が右方向の y 成分
+		right.z = rot._13;  // マトリクスの13成分が右方向の z 成分
+
+		return right;
+	}
+
+	DirectX::SimpleMath::Matrix GetWorldMatrix()
+	{
+		// マトリクス設定
+		DirectX::SimpleMath::Matrix world, scale, rot, trans;
+		scale = DirectX::SimpleMath::Matrix::CreateScale(m_Scale.x, m_Scale.y, m_Scale.z);
+		rot = DirectX::SimpleMath::Matrix::CreateFromYawPitchRoll(m_Rotation.y, m_Rotation.x, m_Rotation.z);
+		trans = DirectX::SimpleMath::Matrix::CreateTranslation(m_Position.x, m_Position.y, m_Position.z);
+		world = scale * rot * trans;
+
+		return world;
+	}
+
 	void SetDestroy() { m_Destroy = true; }
 
 	bool Destroy()
