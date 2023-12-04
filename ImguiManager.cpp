@@ -2,6 +2,8 @@
 #include "renderer.h"
 #include "Imgui/imgui_impl_dx11.h"
 #include "Imgui/imgui_impl_win32.h"
+#include <stdexcept>
+#include <iostream>
 
 ImguiManager::ImguiManager()
 {
@@ -35,6 +37,12 @@ void ImguiManager::Init(HWND hwnd)
 	// ImGui Win32およびDX11の初期化
 	ImGui_ImplWin32_Init(hwnd);
 	ImGui_ImplDX11_Init(Renderer::GetDevice(), Renderer::GetDeviceContext());
+
+	//mapBoolの初期化
+	mapBool["TitleFlg"] = false;
+	mapBool["ResultFlg"] = false;
+
+	//mapFloatの初期化
 }
 
 void ImguiManager::Update()
@@ -57,6 +65,9 @@ void ImguiManager::Update()
 	AddSliderNum("aaa", &someVariable, 0.0f, 100.0f);
 	// チェックボックスの追加
 	AddCheckbox("Enable Feature", &checkboxValue);
+
+	AddButton("TitleGo", &mapBool["TitleFlg"]);
+	AddButton("ResultGo", &mapBool["ResultFlg"]);
 
 	// ウィンドウを終了
 	ImGui::End();
@@ -102,4 +113,53 @@ void ImguiManager::AddSliderNum(const char* label, float* value, float min /*= 0
 void ImguiManager::AddCheckbox(const char* label, bool* value)
 {
 	ImGui::Checkbox(label, value);
+}
+
+/// <summary>
+// ImguiManager.cppファイル内のImguiManagerクラスの定義部分
+/// </summary>
+/// <param name="label">チェックボックスの前に表示されるテキストラベル。</param>
+/// <param name="value">操作されるブール型の変数へのポインタ。</param>
+void ImguiManager::AddButton(const char* label, bool* flag)
+{
+	// ボタンを追加
+	if (ImGui::Button(label))
+	{
+		// ボタンが押されたときの処理
+		*flag = true;
+	}
+}
+
+/// <param name="string">取り出したい値の名前</param>
+bool ImguiManager::GetMapBool(const std::string string)
+{
+	//もし値がなければ例外処理（プログラムを止める）
+	try
+	{
+		return mapBool.at(string);
+	}
+	catch (const std::out_of_range& e)
+	{
+		// キーが存在しない場合のエラーハンドリング
+		// 名前が違う可能性があるので直してね
+		std::cerr << " 引数がないです　もう一度引数の名前を確認してください" << e.what() << std::endl;
+		assert(false && "Key not found in GetMapFloat");
+	}
+}
+
+/// <param name="string">取り出したい値の名前</param>
+float ImguiManager::GetMapFloat(const std::string string)
+{
+	//もし値がなければ例外処理（プログラムを止める）
+	try
+	{
+		return mapFloat.at(string);
+	}
+	catch (const std::out_of_range& e)
+	{
+		// キーが存在しない場合のエラーハンドリング
+		// 名前が違う可能性があるので直してね
+		std::cerr << "Error: Key not found in GetMapFloat - " << e.what() << std::endl;
+		throw std::runtime_error("Key not found in GetMapFloat");
+	}
 }

@@ -30,6 +30,7 @@ void Result::Update()
 	if (m_Transition->GetState() == Transition::State::Stop) {
 		if (Input::GetKeyTrigger(VK_RETURN))
 		{
+
 			m_Transition->FadeOut();
 		}
 	}

@@ -19,6 +19,7 @@
 #include "Application.h"
 #include "sprite.h"
 #include "battery.h"
+#include "title.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -62,6 +63,7 @@ void Game::Init()
 // ゲーム終了処理
 void Game::Uninit()
 {
+	Input::EnableInput();
 }
 
 // ゲーム更新処理
@@ -70,18 +72,8 @@ void Game::Update()
 	//開始合図
 	ReadyGo();
 
-	// フェードアウトが終了しているか？
-	if (m_Transition->GetState() == Transition::State::Finish)
-	{
-		Manager::SetScene<Result>();
-	}
-
-	imguiManager->Update();
-	//updateが読み込んだかどうか
-	if (!imguiUpdateFlg)
-	{
-		imguiUpdateFlg = true;
-	}
+	//imguiの処理
+	Imgui();
 }
 
 void Game::Draw()
@@ -130,6 +122,44 @@ void Game::ReadyGo()
 				Go->SetDestroy();
 				m_GoEnd = true;
 			}
+		}
+	}
+}
+
+void Game::Imgui()
+{
+	//imguiの処理
+	imguiManager->Update();
+
+	//updateが読み込んだかどうか
+	if (!imguiUpdateFlg)
+	{
+		imguiUpdateFlg = true;
+	}
+
+	if (m_Transition->GetState() == Transition::State::Stop) {
+		if (imguiManager->GetMapBool("TitleFlg"))
+		{
+			m_Transition->FadeOut();
+		}
+	}
+
+	if (m_Transition->GetState() == Transition::State::Stop) {
+		if (imguiManager->GetMapBool("ResultFlg"))
+		{
+			m_Transition->FadeOut();
+		}
+	}
+	// 画面遷移が終了してるか？
+	if (m_Transition->GetState() == Transition::State::Finish)
+	{
+		if (imguiManager->GetMapBool("TitleFlg"))
+		{
+			Manager::SetScene<Title>();
+		}
+		else if (imguiManager->GetMapBool("ResultFlg"))
+		{
+			Manager::SetScene<Result>();
 		}
 	}
 }
