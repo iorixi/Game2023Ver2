@@ -34,12 +34,15 @@ void Player::Shot::Update()
 	Vector3 forward = ZAxis;
 
 	//’e”­ŽË
-	if (m_ScheduledTask->GetFlg())
+	if (Input::GetKeyPress(VK_LBUTTON))
 	{
-		Bullet* bullet = scene->AddGameObject<Bullet>(2);
-		bullet->SetPosition(player->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));
-		bullet->SetVelocity(forward * 0.5f);
-		addShotFlg = false;
+		if (m_ScheduledTask->GetFlg())
+		{
+			Bullet* bullet = scene->AddGameObject<Bullet>(2);
+			bullet->SetPosition(player->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));
+			bullet->SetVelocity(forward * 0.5f);
+			addShotFlg = false;
+		}
 	}
 }
 

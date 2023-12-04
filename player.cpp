@@ -67,6 +67,7 @@ void PlayerObject::Init()
 	m_PlayerFloating = AddComponent<Player::Floating>();
 	m_PlayerEvasive = AddComponent<Player::Evasive>();
 	m_PlayerShot = AddComponent<Player::Shot>();
+	m_Position.y = 5;
 }
 
 void PlayerObject::Update()
@@ -138,6 +139,8 @@ void PlayerObject::Update()
 		m_BlendRate -= 0.1f;
 		m_Frame++;
 	}
+
+	m_Rotation.y -= (Input::GetOldMousePos().x - Input::GetMousePos().x) * 0.002f;
 
 	if (m_BlendRate > 1.0f)
 		m_BlendRate = 1.0f;

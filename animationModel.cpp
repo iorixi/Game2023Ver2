@@ -103,7 +103,14 @@ void AnimationModel::CreateVertexBufferPerMesh(int m, const aiMesh* mesh) {
 	{
 		vertex[v].Position = Vector3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
 		vertex[v].Normal = Vector3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
-		vertex[v].TexCoord = Vector2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+		if (mesh->mTextureCoords[0] == nullptr)
+		{
+			vertex[v].TexCoord = Vector2(0, 0);
+		}
+		else
+		{
+			vertex[v].TexCoord = Vector2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+		}
 		vertex[v].Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 		vertex[v].BoneIndex[0] = m_DeformVertex[m][v].BoneIdx[0];

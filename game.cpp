@@ -18,6 +18,7 @@
 #include "Enemy.h"
 #include "Application.h"
 #include "sprite.h"
+#include "battery.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -37,7 +38,7 @@ void Game::Init()
 	AddGameObject<Sky>(1);
 	AddGameObject<Field>(1);
 	AddGameObject<PlayerObject>(1);
-	AddGameObject<Enemy>(1);
+	AddGameObject<Battery>(1);
 	AddGameObject<Score>(3);
 
 	Ready = AddGameObject<GameObject>(3);
@@ -106,6 +107,7 @@ void Game::ReadyGo()
 			else
 			{
 				bool result = scheduledTask->GetFlg();
+
 				//GO‚ð•\Ž¦
 				if (result)
 				{
