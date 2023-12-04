@@ -8,6 +8,7 @@ bool Input::m_IsInputEnabled = true;
 POINT Input::mousePos;
 POINT Input::oldMousePos;
 Timer::ScheduledTask Input::mouseScheduledTask;
+bool Input::m_inputControl = false;
 
 void Input::Init()
 {
@@ -33,11 +34,22 @@ void Input::Update()
 	oldMousePos = mousePos;
 	GetCursorPos(&mousePos);
 
-	//if (mouseScheduledTask.GetFlg())
-	//{
-	//	SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	//	GetCursorPos(&oldMousePos);
-	//}
+	if (GetKeyTrigger('P'))
+	{
+		m_inputControl = !m_inputControl;
+		// マウスカーソルを表示非表示にする
+		ShowCursor(!m_inputControl);
+	}
+
+	//inputを無効化
+	if (m_inputControl)
+	{
+		if (mouseScheduledTask.GetFlg())
+		{
+			SetCursorPos(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+			GetCursorPos(&oldMousePos);
+		}
+	}
 }
 
 void Input::UpdateAsync()
@@ -45,12 +57,6 @@ void Input::UpdateAsync()
 	if (!m_IsInputEnabled) {
 		return; // キー入力が無効の場合は何もしない
 	}
-
-	// 同期処理を非同期にする
-	auto future = std::async(std::launch::async, UpdateInternal);
-
-	// 非同期処理の完了を待つ
-	future.get();
 }
 
 void Input::UpdateInternal()

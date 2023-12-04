@@ -1,6 +1,5 @@
 #pragma once
 
-
 class C_Random
 {
 public:
@@ -10,5 +9,4 @@ public:
 	//Žw’è”ÍˆÍ‚ðƒ‰ƒ“ƒ_ƒ€‚·‚é
 	int Get_Random(int min, int max);
 private:
-
 };

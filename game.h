@@ -16,6 +16,7 @@ private:
 	bool StartSetTime = false;
 	bool m_Go = false;
 	bool m_GoEnd = false;
+	bool m_titleFlg = false;
 
 	std::shared_ptr<ImguiManager> imguiManager;
 	std::shared_ptr<Timer::ScheduledTask> scheduledTask;
@@ -30,4 +31,5 @@ public:
 
 private:
 	void ReadyGo();
+	void Imgui();
 };
