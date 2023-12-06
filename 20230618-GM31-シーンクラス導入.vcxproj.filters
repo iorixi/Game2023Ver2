@@ -100,6 +100,9 @@
     <Filter Include="ソース ファイル\Imgui\gui">
       <UniqueIdentifier>{bb2abe5d-41b7-4282-898a-af4a884100c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Character\Enemy\Human">
+      <UniqueIdentifier>{5d8d701b-42f3-44ed-b7a1-87e2a5215726}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -257,6 +260,9 @@
     </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="HumanEnemy.cpp">
+      <Filter>ソース ファイル\Character\Enemy\Human</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="Random.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="HumanEnemy.h">
+      <Filter>ソース ファイル\Character\Enemy\Human</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,11 +19,12 @@
 #include "PlayerFloating.h"
 #include "PlayerEvasive.h"
 #include "PlayerShot.h"
-#include "battery.h"
+#include "HumanEnemy.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Sound;
+using namespace Enemy;
 
 //プレイヤーの移動速度
 const float moveSpeed = 1.3f;
@@ -145,7 +146,7 @@ void PlayerObject::Update()
 		m_Frame++;
 	}
 
-	Battery* enemyObject = nowscene->GetGameObject<Battery>();
+	HumanObject* enemyObject = nowscene->GetGameObject<HumanObject>();
 
 	// 敵オブジェクトの位置を取得
 	Vector3 enemyPosition = enemyObject->GetPosition();
