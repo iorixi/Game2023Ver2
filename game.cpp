@@ -18,12 +18,14 @@
 #include "Enemy.h"
 #include "Application.h"
 #include "sprite.h"
-#include "battery.h"
 #include "title.h"
+#include "HumanEnemy.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Timer;
+using namespace Enemy;
+
 const float READYWIDTH = 256 * 2;
 const float READYHEIGHT = 144 * 2;
 
@@ -39,7 +41,7 @@ void Game::Init()
 	AddGameObject<Sky>(1);
 	AddGameObject<Field>(1);
 	AddGameObject<PlayerObject>(1);
-	AddGameObject<Battery>(1);
+	AddGameObject<HumanObject>(1);
 	AddGameObject<Score>(3);
 
 	Ready = AddGameObject<GameObject>(3);

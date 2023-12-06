@@ -3,10 +3,11 @@
 #include "renderer.h"
 #include "camera.h"
 #include "Player.h"
-#include "battery.h"
+#include "HumanEnemy.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
+using namespace Enemy;
 
 void Camera::Init()
 {
@@ -22,7 +23,7 @@ void Camera::Update()
 {
 	Scene* nowscene = Manager::GetScene();
 	PlayerObject* playerObject = nowscene->GetGameObject<PlayerObject>();
-	Battery* enemyObject = nowscene->GetGameObject<Battery>();
+	HumanObject* enemyObject = nowscene->GetGameObject<HumanObject>();
 
 	Vector3 playerPosition = playerObject->GetPosition();
 	Vector3 playerForward = playerObject->GetForward();

@@ -158,6 +158,7 @@
     <ClCompile Include="field.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="goal.cpp" />
+    <ClCompile Include="HumanEnemy.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
     <ClCompile Include="Imgui\imgui_demo.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gameObject.h" />
     <ClInclude Include="goal.h" />
+    <ClInclude Include="HumanEnemy.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="Imgui\imconfig.h" />
     <ClInclude Include="Imgui\imgui.h" />

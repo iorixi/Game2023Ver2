@@ -8,7 +8,9 @@
 #include "shader.h"
 //#include "shadow.h"
 
-void Enemy::Init()
+using namespace Enemy;
+
+void EnemyObject::Init()
 {
 	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");
 	AddComponent<ModelRenderer>()->Load("asset\\model\\enemy.obj");

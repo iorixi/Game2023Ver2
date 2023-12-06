@@ -4,7 +4,7 @@
 #include "input.h"
 #include "scene.h"
 #include "modelRenderer.h"
-#include "battery.h"
+#include "HumanEnemy.h"
 #include "shader.h"
 //#include "shadow.h"
 #include "bullet.h"
@@ -13,8 +13,9 @@
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
+using namespace Enemy;
 
-void Battery::Init()
+void HumanObject::Init()
 {
 	//AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");
 	//AddComponent<ModelRenderer>()->Load("asset\\model\\battery1.obj");
@@ -39,7 +40,7 @@ void Battery::Init()
 	m_Position.y = 10;
 }
 
-void Battery::Update()
+void HumanObject::Update()
 {
 	Scene* nowscene = Manager::GetScene();
 
@@ -101,7 +102,7 @@ void Battery::Update()
 	m_Rotation = Vector3(pitch, yaw, roll);
 }
 
-void Battery::PreDraw()
+void HumanObject::PreDraw()
 {
 	m_Model->Update("Idle", m_Frame, "Run", m_Frame, m_BlendRate);
 }

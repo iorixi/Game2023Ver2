@@ -11,6 +11,7 @@
 #include "score.h"
 
 using namespace DirectX::SimpleMath;
+using namespace Enemy;
 
 void Bullet::Load()
 {
@@ -37,9 +38,9 @@ void Bullet::Update()
 		SetDestroy();
 
 	Scene* scene = Manager::GetScene();
-	std::vector<Enemy*> enemyList = scene->GetGameObjects<Enemy>();
+	std::vector<EnemyObject*> enemyList = scene->GetGameObjects<EnemyObject>();
 
-	for (Enemy* enemy : enemyList)
+	for (EnemyObject* enemy : enemyList)
 	{
 		Vector3 enemyPosition = enemy->GetPosition();
 

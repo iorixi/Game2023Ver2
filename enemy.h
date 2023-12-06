@@ -2,10 +2,13 @@
 
 #include "gameObject.h"
 
-class Enemy : public GameObject
+namespace Enemy
 {
-private:
+	class EnemyObject : public GameObject
+	{
+	private:
 
-public:
-	void Init() override;
-};
+	public:
+		void Init() override;
+	};
+}
