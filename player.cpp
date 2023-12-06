@@ -25,6 +25,9 @@ using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Sound;
 
+//プレイヤーの移動速度
+const float moveSpeed = 1.3f;
+
 void PlayerObject::Init()
 {
 	//	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");  20230909-02
@@ -68,7 +71,8 @@ void PlayerObject::Init()
 	m_PlayerFloating = AddComponent<Player::Floating>();
 	m_PlayerEvasive = AddComponent<Player::Evasive>();
 	m_PlayerShot = AddComponent<Player::Shot>();
-	m_Position.y = 5;
+	m_Position.y += 10;
+	m_Position.x += 40;
 }
 
 void PlayerObject::Update()
@@ -92,7 +96,7 @@ void PlayerObject::Update()
 	m_Velocity.y -= m_Velocity.y * 0.01f;
 
 	//移動
-	m_Position += m_Velocity;
+	m_Position += m_Velocity * moveSpeed;
 
 	// フィールドオブジェクト取得
 	Field* fieldobj = nowscene->GetGameObject<Field>();
