@@ -1,9 +1,9 @@
 #include "ImguiManager.h"
-#include "renderer.h"
 #include "Imgui/imgui_impl_dx11.h"
 #include "Imgui/imgui_impl_win32.h"
 #include <stdexcept>
 #include <iostream>
+#include "renderer.h"
 
 ImguiManager::ImguiManager()
 {
@@ -45,12 +45,22 @@ void ImguiManager::Init(HWND hwnd)
 	//mapFloatの初期化
 }
 
+void ImguiManager::Init()
+{
+}
+
 void ImguiManager::Update()
 {
 	// ImGuiのフレームを開始
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	//updateが読み込んだかどうか
+	if (!imguiUpdateFlg)
+	{
+		imguiUpdateFlg = true;
+	}
 
 	// ウィンドウサイズを設定
 	ImGui::SetNextWindowSize(ImVec2(320, 200), ImGuiCond_Once);
@@ -86,9 +96,12 @@ void ImguiManager::Update()
 
 void ImguiManager::Draw()
 {
+	if (imguiUpdateFlg)
+	{
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	}
 	// ImGuiの描画処理
 	// ImGui::Render();
-	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
 /// <summary>
