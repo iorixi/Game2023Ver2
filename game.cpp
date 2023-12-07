@@ -20,6 +20,7 @@
 #include "sprite.h"
 #include "title.h"
 #include "HumanEnemy.h"
+#include "ImguiManager.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -43,6 +44,7 @@ void Game::Init()
 	AddGameObject<PlayerObject>(1);
 	AddGameObject<HumanObject>(1);
 	AddGameObject<Score>(3);
+	AddGameObject<ImguiManager>(1);
 
 	Ready = AddGameObject<GameObject>(3);
 	Go = AddGameObject<GameObject>(3);
@@ -54,11 +56,11 @@ void Game::Init()
 	m_Transition = AddGameObject<Transition>(3);
 	m_Transition->FadeIn();
 
-	imguiManager = std::make_shared<ImguiManager>();
-
 	//3.0後にタスクを実行するScheduledTaskを作成
 	scheduledTask = std::make_shared<ScheduledTask>(3.0f);
 
+	Scene* nowscene = Manager::GetScene();
+	ImguiManager* imguiManager = nowscene->GetGameObject<ImguiManager>();
 	imguiManager->Init(Application::GetHwnd());
 }
 
@@ -80,10 +82,6 @@ void Game::Update()
 
 void Game::Draw()
 {
-	if (imguiUpdateFlg)
-	{
-		imguiManager->Draw();
-	}
 }
 
 void Game::ReadyGo()
@@ -130,14 +128,8 @@ void Game::ReadyGo()
 
 void Game::Imgui()
 {
-	//imguiの処理
-	imguiManager->Update();
-
-	//updateが読み込んだかどうか
-	if (!imguiUpdateFlg)
-	{
-		imguiUpdateFlg = true;
-	}
+	Scene* nowscene = Manager::GetScene();
+	ImguiManager* imguiManager = nowscene->GetGameObject<ImguiManager>();
 
 	if (m_Transition->GetState() == Transition::State::Stop) {
 		if (imguiManager->GetMapBool("TitleFlg"))

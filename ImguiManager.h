@@ -4,22 +4,25 @@
 #include <vector>
 #include <map>
 #include <string>
+#include "gameObject.h"
 
-class ImguiManager
+class ImguiManager : public GameObject
 {
 	float someVariable = 100;
 	bool checkboxValue = false;
 	bool titleFlg = false;
 	std::map<std::string, bool> mapBool;
 	std::map<std::string, float> mapFloat;
+	bool imguiUpdateFlg = false;
 
 public:
 	ImguiManager();
 	~ImguiManager();
 
 	void Init(HWND hwnd);
-	void Update();
-	void Draw();
+	void Init()override;
+	void Update() override;
+	void Draw() override;
 
 	// スライダー付きの数値調整UIを追加
 	void AddSliderNum(const char* label, float* value, float min, float max);
