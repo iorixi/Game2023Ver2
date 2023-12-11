@@ -10,6 +10,7 @@
 #include "bullet.h"
 #include "animationModel.h"
 #include "player.h"
+#include "BoundingSphere.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -22,9 +23,9 @@ void HumanObject::Init()
 	//
 	////	AddComponent<Shadow>()->SetSize(3.0f);
 	//
-	//m_Child = AddChild<GameObject>();
-	//m_Child->AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");
-	//m_Child->AddComponent<ModelRenderer>()->Load("asset\\model\\battery2.obj");
+	//enemyHitSphere = AddChild<GameObject>();
+	//enemyHitSphere->AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");
+	//enemyHitSphere->AddComponent<ModelRenderer>()->Load("asset\\model\\battery2.obj");
 
 	//	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");  20230909-02
 	AddComponent<Shader>()->Load("shader\\vertexLightingOneSkinVS.cso", "shader\\vertexLightingPS.cso"); //20230909-02
@@ -35,9 +36,13 @@ void HumanObject::Init()
 	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Idle");
 	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
 
-	m_Scale = Vector3(0.01f, 0.01f, 0.01f);
-
 	m_Position.y = 10;
+
+	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
+	//子オブジェクトに当たり判定を追加
+	BoundingSphere* boundingSphere = new BoundingSphere(5, m_Position);
+	enemyHitSphere = AddChild<BoundingSphere>();
+	enemyHitSphere = boundingSphere;
 }
 
 void HumanObject::Update()
@@ -46,7 +51,7 @@ void HumanObject::Update()
 
 	m_MoveTime += 1.0f / 60.0f;
 
-	m_Position.z += cosf(m_MoveTime * 1.0f) * 0.1f;
+	//m_Position.z += cosf(m_MoveTime * 1.0f) * 0.1f;
 	if (cosf(m_MoveTime * 1.0f) * 0.1f > 0)
 	{
 		m_BlendRate += 0.1f;
@@ -100,6 +105,10 @@ void HumanObject::Update()
 
 	// 回転を適用
 	m_Rotation = Vector3(pitch, yaw, roll);
+
+	//当たり判定
+	BoundingSphere* boundingSphere = GetEnemyHitSphere();
+	enemyHitSphere->SetCenter(m_Position);
 }
 
 void HumanObject::PreDraw()

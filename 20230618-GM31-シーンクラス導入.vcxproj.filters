@@ -103,6 +103,18 @@
     <Filter Include="ソース ファイル\Character\Enemy\Human">
       <UniqueIdentifier>{5d8d701b-42f3-44ed-b7a1-87e2a5215726}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object\BoundingSphere">
+      <UniqueIdentifier>{6d32d80b-94af-4ff1-b786-ac0dfaccae5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\CollisionUtils">
+      <UniqueIdentifier>{7620e19b-06b4-44c7-b9bb-251ce3a49123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Object\Bullet\HomingBullet">
+      <UniqueIdentifier>{1ca35892-0fc4-4744-a0a4-266d611e1b80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Object\Bullet\NormalBullet">
+      <UniqueIdentifier>{0763ba5d-e2ee-4768-becc-3736564b2f18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -263,6 +275,18 @@
     </ClCompile>
     <ClCompile Include="HumanEnemy.cpp">
       <Filter>ソース ファイル\Character\Enemy\Human</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingSphere.cpp">
+      <Filter>ソース ファイル\Object\BoundingSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionUtils.cpp">
+      <Filter>ソース ファイル\CollisionUtils</Filter>
+    </ClCompile>
+    <ClCompile Include="HomingBullet.cpp">
+      <Filter>ソース ファイル\Object\Bullet\HomingBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalBallet.cpp">
+      <Filter>ソース ファイル\Object\Bullet\NormalBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -449,8 +473,20 @@
     <ClInclude Include="Random.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="BoundingSphere.h">
+      <Filter>ソース ファイル\Object\BoundingSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionUtils.h">
+      <Filter>ソース ファイル\CollisionUtils</Filter>
+    </ClInclude>
     <ClInclude Include="HumanEnemy.h">
       <Filter>ソース ファイル\Character\Enemy\Human</Filter>
+    </ClInclude>
+    <ClInclude Include="HomingBullet.h">
+      <Filter>ソース ファイル\Object\Bullet\HomingBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalBallet.h">
+      <Filter>ソース ファイル\Object\Bullet\NormalBullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

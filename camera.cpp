@@ -4,7 +4,7 @@
 #include "camera.h"
 #include "Player.h"
 #include "HumanEnemy.h"
-
+#include "input.h"
 using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Enemy;
