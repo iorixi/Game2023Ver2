@@ -61,7 +61,7 @@ void PlayerObject::Init()
 	m_SE = AddComponent<Audio>();
 	m_SE->Load("asset\\audio\\wan.wav");
 
-	m_Scale = Vector3(0.01f, 0.01f, 0.01f);
+	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
 
 	m_Delay = AddComponent<Timer::DelayCompnent>();
 	m_Delay->SetLoop(true);

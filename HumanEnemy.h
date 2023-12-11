@@ -3,6 +3,7 @@
 
 // AnimationModel ƒNƒ‰ƒX‚Ì‘O•ûéŒ¾
 class AnimationModel;
+class BoundingSphere;
 
 namespace Enemy
 {
@@ -10,7 +11,7 @@ namespace Enemy
 	{
 	private:
 
-		GameObject* m_Child{};
+		BoundingSphere* enemyHitSphere{};
 		class AnimationModel* m_Model;
 
 		float m_MoveTime{};
@@ -23,5 +24,7 @@ namespace Enemy
 		void Init() override;
 		void Update() override;
 		void PreDraw() override;
+
+		BoundingSphere* GetEnemyHitSphere() { return enemyHitSphere; };
 	};
 }

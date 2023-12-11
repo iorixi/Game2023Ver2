@@ -5,11 +5,15 @@
 #include "manager.h"
 #include "camera.h"
 #include "bullet.h"
-#include "ScheduledTask.h"
+#include "CollisionUtils.h"
+#include "HumanEnemy.h"
+#include "enemy.h"
+#include "score.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Timer;
+using namespace Enemy;
 
 void Player::Shot::Init()
 {
@@ -23,7 +27,6 @@ void Player::Shot::Update()
 	Scene* scene = Manager::GetScene();
 	//現在のシーンのプレイヤーのオブジェクトを取得
 	PlayerObject* player = scene->GetGameObject<PlayerObject>();
-
 	//現在のシーンのカメラを取得
 	Camera* cameraobj = scene->GetGameObject<Camera>();
 
@@ -42,6 +45,32 @@ void Player::Shot::Update()
 			bullet->SetPosition(player->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));
 			bullet->SetVelocity(forward * 0.5f);
 			addShotFlg = false;
+		}
+	}
+
+	HumanObject* enemy = scene->GetGameObject<HumanObject>();
+
+	std::vector<HumanObject*> enemyList = scene->GetGameObjects<HumanObject>();
+	std::vector<Bullet*> bulletList = scene->GetGameObjects<Bullet>();
+
+	//敵への当たり判定
+	for (HumanObject* enemy : enemyList)
+	{
+		//球への当たり判定
+		for (Bullet* bullet : bulletList)
+		{
+			Vector3 enemyPosition = enemy->GetPosition();
+			BoundingSphere* enemyHitSphere = enemy->GetEnemyHitSphere();
+			BoundingSphere* bulletHitSphere = bullet->GetBulletHitSphere();
+
+			//球の当たり判定
+			if (IsCollision(*enemyHitSphere, *bulletHitSphere))
+			{
+				Score* score = scene->GetGameObject<Score>();
+				score->AddCount(1);
+
+				bullet->SetDestroy();
+			}
 		}
 	}
 }
