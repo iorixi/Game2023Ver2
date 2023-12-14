@@ -14,6 +14,8 @@ class ImguiManager : public GameObject
 	std::map<std::string, bool> mapBool;
 	std::map<std::string, float> mapFloat;
 	bool imguiUpdateFlg = false;
+	float m_distance = 0;
+	float roundDistance = 0;
 
 public:
 	ImguiManager();
@@ -23,6 +25,7 @@ public:
 	void Init()override;
 	void Update() override;
 	void Draw() override;
+	void End();
 
 	// スライダー付きの数値調整UIを追加
 	void AddSliderNum(const char* label, float* value, float min, float max);
@@ -34,6 +37,8 @@ public:
 
 	bool  GetMapBool(const std::string string);
 	float GetMapFloat(const std::string string);
+	void  SetImguiUpdateFlg(bool flg);
+	void  SetDistance(float distance);
 
 private:
 };

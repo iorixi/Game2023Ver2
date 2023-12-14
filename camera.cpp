@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "HumanEnemy.h"
 #include "input.h"
+#include <cmath> // 追加する行
+
 using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Enemy;
@@ -13,10 +15,17 @@ void Camera::Init()
 {
 	m_Position = Vector3(0.0f, 10.0f, -50.0f);
 	m_Target = Vector3(0.0f, 0.0f, 0.0f);
+	m_FocusMidpoint = false;
 }
 
 void Camera::Uninit()
 {
+}
+
+// 中間点に焦点を当てるためのフラグを設定する関数を追加します：
+void Camera::SetFocusMidpoint(bool focusMidpoint)
+{
+	m_FocusMidpoint = focusMidpoint;
 }
 
 void Camera::Update()
@@ -29,26 +38,62 @@ void Camera::Update()
 	Vector3 playerForward = playerObject->GetForward();
 	Vector3 enemyPosition = enemyObject->GetPosition(); // 敵の位置を取得
 
-	// カメラの位置を設定（プレイヤーの後ろに配置）
-	this->m_Position = playerPosition - playerForward * m_CameraDistance;
+	// プレイヤーと敵の間の距離を計算します
+	float distance = Vector3::Distance(playerPosition, enemyPosition);
 
-	//カメラの位置を再調整
+	// 距離が一定の距離未満の場合、中間点に焦点を当てるためのフラグを設定します
+	if (round(distance) <= 10.0f) // 必要に応じて閾値を調整してください
+	{
+		// 中間点に焦点を当てるフラグを設定します
+		m_FocusMidpoint = true;
+	}
+	else
+	{
+		// フラグをリセットします
+		m_FocusMidpoint = false;
+	}
+
+	// フラグに基づいてカメラの位置を更新します
+	if (m_FocusMidpoint)
+	{
+		// プレイヤーと敵の中間点を計算します
+		Vector3 midpoint = (playerPosition + enemyPosition) * 0.5f;
+		this->m_Target = midpoint;
+
+		// 以下のコードを削除またはコメントアウトしてカメラの位置が変わらないようにします
+		// カメラの位置を再調整
+		// playerPosition.y += m_CameraHeight;
+		// float cameraHeight = 0.0f;
+		// float playerVelocityY = playerObject->GetVelocity().y;
+		// if (playerVelocityY > 0.0f)
+		// {
+		//     cameraHeight += playerVelocityY;
+		// }
+		// float heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
+		// cameraHeight -= heightFactor;
+		// this->m_Position.y = playerPosition.y + cameraHeight;
+		// this->m_Target = playerPosition;
+		// float yaw = atan2f(playerForward.z, playerForward.x);
+		// this->m_Rotation.y = yaw;
+		// float pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
+		// this->m_Rotation.x = pitch;
+	}
+	else
+	{
+		// 通常の場合のカメラの位置計算
+		this->m_Position = playerPosition - playerForward * m_CameraDistance;
+	}
+
+	// カメラの位置を再調整
 	playerPosition.y += m_CameraHeight;
-
-	// カメラの高さを調整
 	float cameraHeight = 0.0f;
-
-	// プレイヤーが上昇中の場合、上昇量を考慮してカメラの高さを調整
 	float playerVelocityY = playerObject->GetVelocity().y;
 	if (playerVelocityY > 0.0f)
 	{
 		cameraHeight += playerVelocityY;
 	}
-
 	float heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
 	cameraHeight -= heightFactor;
-
-	// カメラの高さを調整
 	this->m_Position.y = playerPosition.y + cameraHeight;
 
 	// プレイヤーの方を注視点に設定

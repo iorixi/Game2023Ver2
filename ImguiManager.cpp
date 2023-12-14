@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <iostream>
 #include "renderer.h"
+#include <cmath>
+#include <string>
 
 ImguiManager::ImguiManager()
 {
@@ -13,10 +15,6 @@ ImguiManager::ImguiManager()
 
 ImguiManager::~ImguiManager()
 {
-	// ImGuiの終了処理
-	ImGui_ImplDX11_Shutdown();
-	ImGui_ImplWin32_Shutdown();
-	ImGui::DestroyContext();
 }
 
 void ImguiManager::Init(HWND hwnd)
@@ -77,6 +75,15 @@ void ImguiManager::Update()
 
 	AddButton("TitleGo", &mapBool["TitleFlg"]);
 	AddButton("ResultGo", &mapBool["ResultFlg"]);
+	AddCheckbox("imguiUpdateFlg", &imguiUpdateFlg);
+
+	// 変数の値をテキストで表示
+	roundDistance = std::round(m_distance);
+	// 数値を文字列に変換
+	std::string distanceStr = "Distance: " + std::to_string(static_cast<int>(roundDistance));
+
+	// ImGui で表示
+	ImGui::Text(distanceStr.c_str());
 
 	// ウィンドウを終了
 	ImGui::End();
@@ -102,6 +109,14 @@ void ImguiManager::Draw()
 	}
 	// ImGuiの描画処理
 	// ImGui::Render();
+}
+
+void ImguiManager::End()
+{
+	// ImGuiの終了処理
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 }
 
 /// <summary>
@@ -174,4 +189,14 @@ float ImguiManager::GetMapFloat(const std::string string)
 		std::cerr << "Error: Key not found in GetMapFloat - " << e.what() << std::endl;
 		throw std::runtime_error("Key not found in GetMapFloat");
 	}
+}
+
+void ImguiManager::SetImguiUpdateFlg(bool flg)
+{
+	imguiUpdateFlg = flg;
+}
+
+void ImguiManager::SetDistance(float distance)
+{
+	m_distance = distance;
 }

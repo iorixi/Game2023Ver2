@@ -67,6 +67,9 @@ void Game::Init()
 // ƒQ[ƒ€I—¹ˆ—
 void Game::Uninit()
 {
+	Scene* nowscene = Manager::GetScene();
+	ImguiManager* imguiManager = nowscene->GetGameObject<ImguiManager>();
+	imguiManager->End();
 	Input::EnableInput();
 }
 

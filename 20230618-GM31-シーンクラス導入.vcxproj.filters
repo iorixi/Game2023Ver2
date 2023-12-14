@@ -288,6 +288,9 @@
     <ClCompile Include="NormalBallet.cpp">
       <Filter>ソース ファイル\Object\Bullet\NormalBullet</Filter>
     </ClCompile>
+    <ClCompile Include="Imgui\ImCurveEdit.cpp">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -487,6 +490,9 @@
     </ClInclude>
     <ClInclude Include="NormalBallet.h">
       <Filter>ソース ファイル\Object\Bullet\NormalBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Imgui\ImCurveEdit.h">
+      <Filter>ソース ファイル\Imgui\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

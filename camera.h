@@ -14,13 +14,20 @@ private:
 	float m_CameraHeight = 1.8f;
 	float m_CameraRightOffset = 0.8f;
 
+	bool m_FocusMidpoint;
+
 public:
 	void Init();
 	void Uninit();
 	void Update();
 	void Draw();
+
+	void SetFocusMidpoint(bool focusMidpoint);
+
 	DirectX::SimpleMath::Matrix GetViewMatrix()
 	{
 		return m_ViewMatrix;
 	}
+
+private:
 };
