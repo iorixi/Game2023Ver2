@@ -163,7 +163,7 @@
     <ClCompile Include="HomingBullet.cpp" />
     <ClCompile Include="HumanEnemy.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
-    <ClCompile Include="Imgui\ImCurveEdit.cpp" />
+    <ClCompile Include="ImguiOperator.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
     <ClCompile Include="Imgui\imgui_demo.cpp" />
     <ClCompile Include="Imgui\imgui_draw.cpp" />
@@ -229,8 +229,9 @@
     <ClInclude Include="HomingBullet.h" />
     <ClInclude Include="HumanEnemy.h" />
     <ClInclude Include="ImguiManager.h" />
+    <ClInclude Include="ImguiOperator.h" />
+    <ClInclude Include="Imgui\curve.hpp" />
     <ClInclude Include="Imgui\imconfig.h" />
-    <ClInclude Include="Imgui\ImCurveEdit.h" />
     <ClInclude Include="Imgui\imgui.h" />
     <ClInclude Include="Imgui\imgui_impl_dx11.h" />
     <ClInclude Include="Imgui\imgui_impl_win32.h" />
