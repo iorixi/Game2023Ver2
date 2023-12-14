@@ -1,6 +1,8 @@
 #include "ImguiManager.h"
 #include "Imgui/imgui_impl_dx11.h"
 #include "Imgui/imgui_impl_win32.h"
+#include "Imgui/curve.hpp"
+
 #include <stdexcept>
 #include <iostream>
 #include "renderer.h"
@@ -81,6 +83,15 @@ void ImguiManager::Update()
 	roundDistance = std::round(m_distance);
 	// ”’l‚ğ•¶š—ñ‚É•ÏŠ·
 	std::string distanceStr = "Distance: " + std::to_string(static_cast<int>(roundDistance));
+
+	static ImVec2 foo[10];
+
+	if (ImGui::Curve("Das editor", ImVec2(300, 100), 10, foo))
+	{
+		// curve changed
+	}
+
+	float value_you_care_about = ImGui::CurveValue(0.7f, 10, foo); // calculate value at position 0.7
 
 	// ImGui ‚Å•\¦
 	ImGui::Text(distanceStr.c_str());
