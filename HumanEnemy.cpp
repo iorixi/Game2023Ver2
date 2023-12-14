@@ -104,7 +104,7 @@ void HumanObject::Update()
 	float roll = 0.0f;
 
 	// ‰ñ“]‚ð“K—p
-	m_Rotation = Vector3(pitch, yaw, roll);
+	//m_Rotation = Vector3(pitch, yaw, roll);
 
 	//“–‚½‚è”»’è
 	BoundingSphere* boundingSphere = GetEnemyHitSphere();
