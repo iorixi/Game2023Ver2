@@ -5,6 +5,7 @@
 #include    <string>
 #include    <locale.h>
 #include    <d3dcompiler.h>
+#include <vector>
 
 // 指定時間後にスレッドを起動
 void Invoke(std::function<void()> Function, int Time);

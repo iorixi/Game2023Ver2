@@ -36,7 +36,7 @@ void PlayerObject::Init()
 
 	m_Model = AddComponent<AnimationModel>();
 
-	m_Model->Load("asset\\model\\Akai.fbx");									// animation ok
+	m_Model->Load("asset\\model\\KachujinGRosales.fbx");									// animation ok
 	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Idle");
 	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
 
@@ -157,11 +157,10 @@ void PlayerObject::Update()
 
 	// プレイヤーオブジェクトから敵オブジェクトへの方向ベクトルを計算
 	toEnemy.Normalize();
-
 	// Y軸回りの回転角度を計算
 	float yaw = atan2f(toEnemy.x, toEnemy.z);
 	// X軸回りの回転角度を計算
-	float pitch = atan2f(toEnemy.y, sqrtf(toEnemy.x * toEnemy.x + toEnemy.z * toEnemy.z));
+	float pitch = -atan2f(toEnemy.y, sqrtf(toEnemy.x * toEnemy.x + toEnemy.z * toEnemy.z));
 
 	// Z軸回りの回転角度（このサンプルでは固定で0.0fとしています）
 	float roll = 0.0f;

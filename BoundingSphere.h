@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gameObject.h"
+#include <vector>
 
 class BoundingSphere : public GameObject
 {

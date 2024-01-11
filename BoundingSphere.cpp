@@ -1,5 +1,6 @@
 #include "BoundingSphere.h"
 #include <algorithm>
+#include <vector>
 
 using namespace DirectX::SimpleMath;
 
