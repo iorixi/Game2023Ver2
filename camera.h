@@ -3,6 +3,13 @@
 #include	<SimpleMath.h>
 #include	"gameObject.h"
 
+enum class CameraMode
+{
+	Normal,
+	CloseRange,
+	Transition
+};
+
 class Camera : public GameObject {
 private:
 
@@ -15,6 +22,8 @@ private:
 	float m_CameraRightOffset = 0.8f;
 
 	bool m_FocusMidpoint;
+
+	CameraMode m_CameraMode;
 
 public:
 	void Init();

@@ -16,6 +16,7 @@ void Camera::Init()
 	m_Position = Vector3(0.0f, 10.0f, -50.0f);
 	m_Target = Vector3(0.0f, 0.0f, 0.0f);
 	m_FocusMidpoint = false;
+	m_CameraMode = CameraMode::Normal;
 }
 
 void Camera::Uninit()
@@ -45,67 +46,127 @@ void Camera::Update()
 	if (round(distance) <= 10.0f) // 必要に応じて閾値を調整してください
 	{
 		// 中間点に焦点を当てるフラグを設定します
-		m_FocusMidpoint = true;
+		m_CameraMode = CameraMode::CloseRange;
 	}
 	else
 	{
-		// フラグをリセットします
-		m_FocusMidpoint = false;
+		if (m_CameraMode == CameraMode::Transition)
+		{
+			m_CameraMode = CameraMode::Transition;
+		}
+		else
+		{
+			if (m_CameraMode == CameraMode::CloseRange)
+			{
+				m_CameraMode = CameraMode::Transition;
+			}
+			else
+			{
+				m_CameraMode = CameraMode::Normal;
+			}
+		}
 	}
 
-	// フラグに基づいてカメラの位置を更新します
-	if (m_FocusMidpoint)
-	{
-		// プレイヤーと敵の中間点を計算します
-		Vector3 midpoint = (playerPosition + enemyPosition) * 0.5f;
-		this->m_Target = midpoint;
+	Vector3 midpoint = (playerPosition + enemyPosition) * 0.5f;
+	float lerpFactor = 0.05f; // 調整可能な係数
+	float cameraHeight;
+	float playerVelocityY;
+	float heightFactor;
+	float pitch;
+	float yaw;
 
-		// 以下のコードを削除またはコメントアウトしてカメラの位置が変わらないようにします
-		// カメラの位置を再調整
-		// playerPosition.y += m_CameraHeight;
-		// float cameraHeight = 0.0f;
-		// float playerVelocityY = playerObject->GetVelocity().y;
-		// if (playerVelocityY > 0.0f)
-		// {
-		//     cameraHeight += playerVelocityY;
-		// }
-		// float heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
-		// cameraHeight -= heightFactor;
-		// this->m_Position.y = playerPosition.y + cameraHeight;
-		// this->m_Target = playerPosition;
-		// float yaw = atan2f(playerForward.z, playerForward.x);
-		// this->m_Rotation.y = yaw;
-		// float pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
-		// this->m_Rotation.x = pitch;
-	}
-	else
+	// 現在のモードに基づいてカメラを更新
+	switch (m_CameraMode)
 	{
+	case CameraMode::Normal:
+
 		// 通常の場合のカメラの位置計算
 		this->m_Position = playerPosition - playerForward * m_CameraDistance;
+		// カメラの位置を再調整
+		playerPosition.y += m_CameraHeight;
+		cameraHeight = 0.0f;
+		playerVelocityY = playerObject->GetVelocity().y;
+
+		if (playerVelocityY > 0.0f)
+		{
+			cameraHeight += playerVelocityY;
+		}
+		heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
+		cameraHeight -= heightFactor;
+		this->m_Position.y = playerPosition.y + cameraHeight;
+
+		// プレイヤーの方を注視点に設定
+		this->m_Target = playerPosition;
+
+		// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
+		yaw = atan2f(playerForward.z, playerForward.x);
+		this->m_Rotation.y = yaw;
+
+		// カメラの上昇角度を調整（プレイヤーの前方向と上方向のなす角度）
+		pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
+		this->m_Rotation.x = pitch;
+
+		break;
+
+	case CameraMode::CloseRange:
+		// プレイヤーと敵の中間点を計算します
+
+		midpoint.y += m_CameraHeight;
+		// 徐々に中間点に向ける処理
+		m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);
+
+		// カメラの位置を再調整
+		playerPosition.y += m_CameraHeight;
+		cameraHeight = 0.0f;
+		playerVelocityY = playerObject->GetVelocity().y;
+		if (playerVelocityY > 0.0f)
+		{
+			cameraHeight += playerVelocityY;
+		}
+		heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
+		cameraHeight -= heightFactor;
+		this->m_Position.y = playerPosition.y + cameraHeight;
+
+		// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
+		yaw = atan2f(playerForward.z, playerForward.x);
+		this->m_Rotation.y = yaw;
+
+		// カメラの上昇角度を調整（プレイヤーの前方向と上方向のなす角度）
+		pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
+		this->m_Rotation.x = pitch;
+		break;
+
+		// トランジションモードの処理
+	case CameraMode::Transition:
+
+		// 通常の場合のカメラの位置計算
+		this->m_Position = playerPosition - playerForward * m_CameraDistance;
+		// カメラの位置を再調整
+		playerPosition.y += m_CameraHeight;
+		cameraHeight = 0.0f;
+		playerVelocityY = playerObject->GetVelocity().y;
+
+		if (playerVelocityY > 0.0f)
+		{
+			cameraHeight += playerVelocityY;
+		}
+		heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
+		cameraHeight -= heightFactor;
+		this->m_Position.y = playerPosition.y + cameraHeight;
+
+		// プレイヤーの方を注視点に設定
+		this->m_Target = playerPosition;
+
+		// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
+		yaw = atan2f(playerForward.z, playerForward.x);
+		this->m_Rotation.y = yaw;
+
+		// カメラの上昇角度を調整（プレイヤーの前方向と上方向のなす角度）
+		pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
+		this->m_Rotation.x = pitch;
+
+		break;
 	}
-
-	// カメラの位置を再調整
-	playerPosition.y += m_CameraHeight;
-	float cameraHeight = 0.0f;
-	float playerVelocityY = playerObject->GetVelocity().y;
-	if (playerVelocityY > 0.0f)
-	{
-		cameraHeight += playerVelocityY;
-	}
-	float heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
-	cameraHeight -= heightFactor;
-	this->m_Position.y = playerPosition.y + cameraHeight;
-
-	// プレイヤーの方を注視点に設定
-	this->m_Target = playerPosition;
-
-	// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
-	float yaw = atan2f(playerForward.z, playerForward.x);
-	this->m_Rotation.y = yaw;
-
-	// カメラの上昇角度を調整（プレイヤーの前方向と上方向のなす角度）
-	float pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
-	this->m_Rotation.x = pitch;
 }
 
 void Camera::Draw()

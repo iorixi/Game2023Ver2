@@ -67,8 +67,6 @@ void Move::Update()
 
 	if (distanceToEnemy > maxDistance)
 	{
-		// 遠い場合は接線を使って横移動
-
 		// プレイヤーと敵の間のベクトル
 		Vector3 playerToEnemy = enemy->GetPosition() - playerPosition;
 		playerToEnemy.y = 0.0f; // 高さ方向の影響を無視
