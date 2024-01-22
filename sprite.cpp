@@ -115,3 +115,13 @@ void Sprite::SetSpriteData(SpriteData _spriteData)
 {
 	spriteDate = _spriteData;
 }
+
+float Sprite::GetPosX()
+{
+	return spriteDate.x;
+}
+
+float Sprite::GetPosY()
+{
+	return spriteDate.y;
+}

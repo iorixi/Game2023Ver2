@@ -42,38 +42,90 @@ void Camera::Update()
 	// プレイヤーと敵の間の距離を計算します
 	float distance = Vector3::Distance(playerPosition, enemyPosition);
 
-	// 距離が一定の距離未満の場合、中間点に焦点を当てるためのフラグを設定します
-	if (round(distance) <= 10.0f) // 必要に応じて閾値を調整してください
+	// ステップモードが有効かどうか
+	bool isStepMode = true;
+
+	// 距離が一定の距離未満の場合、カメラの処理を変更
+	if (round(distance) <= 10.0f)
 	{
-		// 中間点に焦点を当てるフラグを設定します
+		// 近づいた時の処理
 		m_CameraMode = CameraMode::CloseRange;
 	}
 	else
 	{
-		if (m_CameraMode == CameraMode::Transition)
+		//距離が一定の距離以上の場合、カメラの処理を変更
+		if (round(distance) >= 15.0f && m_CameraMode == CameraMode::CloseRange)
 		{
-			m_CameraMode = CameraMode::Transition;
+			m_CameraMode = CameraMode::Normal;
+		}
+		else if (m_CameraMode == CameraMode::CloseRange)
+		{
+			m_CameraMode = CameraMode::CloseRange;
 		}
 		else
 		{
-			if (m_CameraMode == CameraMode::CloseRange)
-			{
-				m_CameraMode = CameraMode::Transition;
-			}
-			else
-			{
-				m_CameraMode = CameraMode::Normal;
-			}
+			m_CameraMode = CameraMode::Normal;
 		}
 	}
 
-	Vector3 midpoint = (playerPosition + enemyPosition) * 0.5f;
-	float lerpFactor = 0.05f; // 調整可能な係数
+	// Lerp 係数。カメラの位置や注視点の変更時に徐々に移動するために使用されます。
+	float lerpFactor = 0.05f;
+
+	// Transition モードから通常モードに戻る際の Lerp 係数。通常モードに戻る際にも徐々に移動するために使用されます。
+	float returnLerpFactor = 0.05f;
+
+	// カメラの高さや速度、角度などの変数の宣言
 	float cameraHeight;
 	float playerVelocityY;
 	float heightFactor;
 	float pitch;
 	float yaw;
+
+	// プレイヤーと敵の中間点を計算します
+	Vector3 midpoint = (playerPosition + enemyPosition) * 0.5f;
+
+	// カメラの目標位置を表すベクトル
+	Vector3 targetPosition;
+
+	//CloseRange変数
+
+	//（敵とプレイヤーの直線距離）ー（敵とプレイヤーの直線距離）をそれぞれ引いた時の絶対値
+	float epecDistance = 10.0f;
+
+	//（敵とプレイヤーの直線距離）ー（敵とプレイヤーの直線距離)を
+	//それぞれ引いた時の絶対値との誤差の許容範囲
+	float epecDistanceDifference = 0.05f;
+
+	//敵とプレイヤーの直線距離　- 敵とカメラの直線距離
+	float currentEpecDistance;
+	//角度
+	float angle;
+	// カメラの高さ（プレイヤーカメラの高さの倍数）
+	float CameraHeight = m_CameraHeight * 2;
+
+	// プレイヤーの後ろにカメラを移動させる目標位置
+	Vector3 targetBehindPlayer;
+
+	// プレイヤーから敵への方向ベクトル
+	Vector3 directionToMove;
+
+	// プレイヤーから敵への方向ベクトルを正規化したもの
+	Vector3 directionToMoveNormalize;
+
+	// カメラを移動させる新しい位置
+	Vector3 newCameraPosition;
+
+	// 敵からプレイヤーへの方向ベクトル
+	Vector3 toPlayer;
+
+	// 敵からカメラへの方向ベクトル
+	Vector3 toCamera;
+
+	// カメラを移動させたい目標位置
+	Vector3 desiredCameraPosition;
+
+	// プレイヤーカメラの位置
+	Vector3 playerCamera;
 
 	// 現在のモードに基づいてカメラを更新
 	switch (m_CameraMode)
@@ -81,22 +133,12 @@ void Camera::Update()
 	case CameraMode::Normal:
 
 		// 通常の場合のカメラの位置計算
-		this->m_Position = playerPosition - playerForward * m_CameraDistance;
-		// カメラの位置を再調整
 		playerPosition.y += m_CameraHeight;
-		cameraHeight = 0.0f;
-		playerVelocityY = playerObject->GetVelocity().y;
+		targetPosition = playerPosition - playerForward * m_CameraDistance;
 
-		if (playerVelocityY > 0.0f)
-		{
-			cameraHeight += playerVelocityY;
-		}
-		heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
-		cameraHeight -= heightFactor;
-		this->m_Position.y = playerPosition.y + cameraHeight;
-
-		// プレイヤーの方を注視点に設定
-		this->m_Target = playerPosition;
+		// Lerpを使って徐々に位置と注視点を変更
+		this->m_Position = Vector3::Lerp(this->m_Position, targetPosition, lerpFactor);
+		this->m_Target = Vector3::Lerp(this->m_Target, playerPosition, lerpFactor);
 
 		// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
 		yaw = atan2f(playerForward.z, playerForward.x);
@@ -109,23 +151,66 @@ void Camera::Update()
 		break;
 
 	case CameraMode::CloseRange:
-		// プレイヤーと敵の中間点を計算します
 
-		midpoint.y += m_CameraHeight;
+		// プレイヤーの後ろにカメラを設置（カメラとプレイヤーの距離はepecの距離）に向けてLerp
+		targetBehindPlayer = playerPosition - playerForward * epecDistance;
+		targetBehindPlayer.y += CameraHeight;
+		// カメラ位置を徐々に変更
+		this->m_Position = Vector3::Lerp(this->m_Position, targetBehindPlayer, lerpFactor);
+
 		// 徐々に中間点に向ける処理
+		midpoint.y += m_CameraHeight;
 		m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);
 
-		// カメラの位置を再調整
-		playerPosition.y += m_CameraHeight;
-		cameraHeight = 0.0f;
-		playerVelocityY = playerObject->GetVelocity().y;
-		if (playerVelocityY > 0.0f)
+		currentEpecDistance = Vector3::Distance(playerPosition, enemyPosition) - Vector3::Distance(enemyPosition, m_Position);
+
+		// カメラを動かす条件を満たす場合
+		// epecDistanceの距離がepecDistanceDifferenceの誤差の範囲を超えたかどうか
+		if (abs(currentEpecDistance - epecDistance) > epecDistanceDifference)
 		{
-			cameraHeight += playerVelocityY;
+			// カメラを動かす条件を満たす場合
+			// epecの距離がepecDistanceの誤差がepecDistanceDifferenceまでになるように常にカメラを動かす
+			directionToMove = playerPosition - enemyPosition;
+			directionToMove.Normalize();// ベクトルを正規化
+
+			//新しいカメラposを定義
+			newCameraPosition = playerPosition + directionToMove * (currentEpecDistance + epecDistance);
+
+			this->m_Position = Vector3::Lerp(this->m_Position, newCameraPosition, lerpFactor);
+			m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);  // 再度中間点に向ける処理を行う
 		}
-		heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
-		cameraHeight -= heightFactor;
-		this->m_Position.y = playerPosition.y + cameraHeight;
+		else
+		{
+			// カメラを動かす条件を満たさない場合は中間点に向ける処理のみ行う
+			m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);
+		}
+
+		// 敵からプレイヤーと敵からカメラのなす角が70度以上になるように動かす
+		// 敵からプレイヤーへの方向ベクトル
+		toPlayer = playerPosition - enemyPosition;
+		// 敵からカメラへの方向ベクトル
+		toCamera = m_Position - enemyPosition;
+
+		//toPlayer と toCamera ベクトルの内積を外積の積で割ることにより、ベクトル間の角度を計算しています。
+		//acos 関数はアークコサインを計算し、その結果が角度となります。
+		angle = acos(toPlayer.Dot(toCamera) / (toPlayer.Length() * toCamera.Length()));
+
+		if (angle > DirectX::XMConvertToRadians(70.0f))
+		{
+			// カメラを動かす条件を満たす場合
+
+			// カメラをプレイヤーの後ろに移動するために、プレイヤーから敵への方向ベクトル(toPlayer)を
+			// 指定された角度だけ回転させ、その結果を目標位置として設定します。
+			desiredCameraPosition = enemyPosition + DirectX::SimpleMath::Vector3::Transform(toPlayer,
+				DirectX::SimpleMath::Matrix::CreateRotationY(DirectX::XMConvertToRadians(70.0f)));
+
+			// カメラの現在の位置から目標位置にLerpを使用して徐々に移動させます。
+			this->m_Position = Vector3::Lerp(this->m_Position, desiredCameraPosition, lerpFactor);
+
+			// カメラの注視点も中間点にLerpを使用して徐々に向けます。
+			m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);
+			// 再度中間点に向ける処理を行う
+		}
 
 		// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
 		yaw = atan2f(playerForward.z, playerForward.x);
@@ -134,39 +219,9 @@ void Camera::Update()
 		// カメラの上昇角度を調整（プレイヤーの前方向と上方向のなす角度）
 		pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
 		this->m_Rotation.x = pitch;
-		break;
-
-		// トランジションモードの処理
-	case CameraMode::Transition:
-
-		// 通常の場合のカメラの位置計算
-		this->m_Position = playerPosition - playerForward * m_CameraDistance;
-		// カメラの位置を再調整
-		playerPosition.y += m_CameraHeight;
-		cameraHeight = 0.0f;
-		playerVelocityY = playerObject->GetVelocity().y;
-
-		if (playerVelocityY > 0.0f)
-		{
-			cameraHeight += playerVelocityY;
-		}
-		heightFactor = 1.0f - (playerPosition.y - enemyPosition.y) / m_CameraDistance;
-		cameraHeight -= heightFactor;
-		this->m_Position.y = playerPosition.y + cameraHeight;
-
-		// プレイヤーの方を注視点に設定
-		this->m_Target = playerPosition;
-
-		// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
-		yaw = atan2f(playerForward.z, playerForward.x);
-		this->m_Rotation.y = yaw;
-
-		// カメラの上昇角度を調整（プレイヤーの前方向と上方向のなす角度）
-		pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
-		this->m_Rotation.x = pitch;
 
 		break;
-	}
+	}//switch
 }
 
 void Camera::Draw()
@@ -177,7 +232,6 @@ void Camera::Draw()
 	Scene* nowscene = Manager::GetScene();
 	PlayerObject* playerObject = nowscene->GetGameObject<PlayerObject>();
 	Vector3 cameraPosition = m_Position + m_CameraRightOffset * playerObject->GetRight();
-
 	m_ViewMatrix = DirectX::XMMatrixLookAtLH(cameraPosition, m_Target, up);									// 左手系にした　20230511 by suzuki.tomoki
 
 	// DIRECTXTKのメソッドは右手系　20230511 by suzuki.tomoki
