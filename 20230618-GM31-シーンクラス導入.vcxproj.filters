@@ -115,6 +115,9 @@
     <Filter Include="ソース ファイル\Object\Bullet\NormalBullet">
       <UniqueIdentifier>{0763ba5d-e2ee-4768-becc-3736564b2f18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object\Cursol">
+      <UniqueIdentifier>{60cd9369-93bd-42e0-ab59-72b7ca1b93e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -290,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="ImguiOperator.cpp">
       <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectCursol.cpp">
+      <Filter>ソース ファイル\Object\Cursol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -496,6 +502,9 @@
     </ClInclude>
     <ClInclude Include="ImguiOperator.h">
       <Filter>ソース ファイル\Imgui\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectCursol.h">
+      <Filter>ソース ファイル\Object\Cursol</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

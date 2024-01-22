@@ -16,9 +16,9 @@ private:
 	DirectX::SimpleMath::Vector3	m_Target{};
 	DirectX::SimpleMath::Matrix		m_ViewMatrix{};
 
-	float m_CameraDistance = 5.0f;
+	float m_CameraDistance = 8.0f;
 	float m_PlayerTopThreshold = 2.0f;
-	float m_CameraHeight = 1.8f;
+	float m_CameraHeight = 2.3f;
 	float m_CameraRightOffset = 0.8f;
 
 	bool m_FocusMidpoint;

@@ -35,6 +35,8 @@ public:
 	void Draw() override;
 	void SetPos(float x, float y);
 	void SetSpriteData(SpriteData spriteData);
+	float GetPosX();
+	float GetPosY();
 
 	void SetMaterial(MATERIAL Material) { m_Material = Material; }
 };

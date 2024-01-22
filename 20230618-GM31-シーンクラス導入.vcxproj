@@ -193,6 +193,7 @@
     <ClCompile Include="result.cpp" />
     <ClCompile Include="ScheduledTask.cpp" />
     <ClCompile Include="score.cpp" />
+    <ClCompile Include="SelectCursol.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shadow.cpp" />
     <ClCompile Include="sky.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="scene.h" />
     <ClInclude Include="ScheduledTask.h" />
     <ClInclude Include="score.h" />
+    <ClInclude Include="SelectCursol.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shadow.h" />
     <ClInclude Include="sky.h" />

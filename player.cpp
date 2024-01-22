@@ -162,11 +162,8 @@ void PlayerObject::Update()
 	// XŽ²‰ñ‚è‚Ì‰ñ“]Šp“x‚ðŒvŽZ
 	float pitch = -atan2f(toEnemy.y, sqrtf(toEnemy.x * toEnemy.x + toEnemy.z * toEnemy.z));
 
-	// ZŽ²‰ñ‚è‚Ì‰ñ“]Šp“xi‚±‚ÌƒTƒ“ƒvƒ‹‚Å‚ÍŒÅ’è‚Å0.0f‚Æ‚µ‚Ä‚¢‚Ü‚·j
-	float roll = 0.0f;
-
 	// ‰ñ“]‚ð“K—p
-	m_Rotation = Vector3(pitch, yaw, roll);
+	m_Rotation = Vector3(pitch, yaw, m_Rotation.z);
 
 	if (m_BlendRate > 1.0f)
 		m_BlendRate = 1.0f;
