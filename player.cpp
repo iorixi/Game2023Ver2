@@ -161,7 +161,6 @@ void PlayerObject::Update()
 	float yaw = atan2f(toEnemy.x, toEnemy.z);
 	// XŽ²‰ñ‚è‚Ì‰ñ“]Šp“x‚ðŒvŽZ
 	float pitch = -atan2f(toEnemy.y, sqrtf(toEnemy.x * toEnemy.x + toEnemy.z * toEnemy.z));
-
 	// ‰ñ“]‚ð“K—p
 	m_Rotation = Vector3(pitch, yaw, m_Rotation.z);
 

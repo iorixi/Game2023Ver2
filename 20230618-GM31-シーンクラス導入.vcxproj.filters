@@ -76,9 +76,6 @@
     <Filter Include="ソース ファイル\Object\Field">
       <UniqueIdentifier>{cb511644-fa46-4bd2-90da-5112f0becc87}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Character\Enemy\Enemy">
-      <UniqueIdentifier>{83499947-3843-4173-b149-83e2f84f4266}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Character\Enemy\Battery">
       <UniqueIdentifier>{42c1204a-1fa9-48d2-af03-0c0f813bdd91}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,9 @@
     </Filter>
     <Filter Include="ソース ファイル\Object\Cursol">
       <UniqueIdentifier>{60cd9369-93bd-42e0-ab59-72b7ca1b93e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Character\Enemy\Enemy">
+      <UniqueIdentifier>{83499947-3843-4173-b149-83e2f84f4266}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -323,9 +323,6 @@
     <ClInclude Include="bullet.h">
       <Filter>ソース ファイル\Object\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>ソース ファイル\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="CMesh.h">
       <Filter>ソース ファイル\Mesh</Filter>
     </ClInclude>
@@ -505,6 +502,9 @@
     </ClInclude>
     <ClInclude Include="SelectCursol.h">
       <Filter>ソース ファイル\Object\Cursol</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>ソース ファイル\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

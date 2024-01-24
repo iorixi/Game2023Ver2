@@ -100,8 +100,6 @@ void Camera::Update()
 	float currentEpecDistance;
 	//角度
 	float angle;
-	// カメラの高さ（プレイヤーカメラの高さの倍数）
-	float CameraHeight = m_CameraHeight * 2;
 
 	// プレイヤーの後ろにカメラを移動させる目標位置
 	Vector3 targetBehindPlayer;
@@ -126,6 +124,7 @@ void Camera::Update()
 
 	// プレイヤーカメラの位置
 	Vector3 playerCamera;
+	Vector3 enemyCameraTargetPos;
 
 	// 現在のモードに基づいてカメラを更新
 	switch (m_CameraMode)
@@ -134,11 +133,14 @@ void Camera::Update()
 
 		// 通常の場合のカメラの位置計算
 		playerPosition.y += m_CameraHeight;
-		targetPosition = playerPosition - playerForward * m_CameraDistance;
+		targetPosition = playerPosition - playerForward * (m_CameraDistance + (distance / m_CameraPosDistanceCorrection));
 
 		// Lerpを使って徐々に位置と注視点を変更
 		this->m_Position = Vector3::Lerp(this->m_Position, targetPosition, lerpFactor);
-		this->m_Target = Vector3::Lerp(this->m_Target, playerPosition, lerpFactor);
+		enemyCameraTargetPos = enemyPosition;
+		enemyCameraTargetPos.y += m_CameraTargetHeight * (distance / m_CameraTargetDistanceCorrection);
+
+		this->m_Target = Vector3::Lerp(this->m_Target, enemyCameraTargetPos, lerpFactor);
 
 		// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
 		yaw = atan2f(playerForward.z, playerForward.x);
@@ -154,12 +156,12 @@ void Camera::Update()
 
 		// プレイヤーの後ろにカメラを設置（カメラとプレイヤーの距離はepecの距離）に向けてLerp
 		targetBehindPlayer = playerPosition - playerForward * epecDistance;
-		targetBehindPlayer.y += CameraHeight;
+		targetBehindPlayer.y += m_CameraHeightCloseRange;
 		// カメラ位置を徐々に変更
 		this->m_Position = Vector3::Lerp(this->m_Position, targetBehindPlayer, lerpFactor);
 
 		// 徐々に中間点に向ける処理
-		midpoint.y += m_CameraHeight;
+		midpoint.y += m_CameraHeightCloseRange;
 		m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);
 
 		currentEpecDistance = Vector3::Distance(playerPosition, enemyPosition) - Vector3::Distance(enemyPosition, m_Position);
