@@ -13,6 +13,7 @@ using namespace Enemy;
 
 void Move::Init()
 {
+	moveModo = MoveModo::NONE;
 }
 
 void Move::Update()
@@ -28,17 +29,14 @@ void Move::Update()
 	// 現在のシーンのカメラオブジェクトを取得
 	Camera* cameraObj = currentScene->GetGameObject<Camera>();
 
-	Matrix viewMatrix = cameraObj->GetViewMatrix();
-	Vector3 cameraForward = Vector3(viewMatrix._13, 0.0f, viewMatrix._33);
+	viewMatrix = cameraObj->GetViewMatrix();
+	cameraForward = Vector3(viewMatrix._13, 0.0f, viewMatrix._33);
 
-	Vector3 playerPosition = player->GetPosition();
-	Vector3 playerRotation = player->GetRotation();
+	playerPosition = player->GetPosition();
+	playerRotation = player->GetRotation();
 
 	// 前方ベクトルを取得
-	Vector3 playerForward = cameraForward;
-
-	// 加速度
-	float acceleration = 0.01f;
+	playerForward = cameraForward;
 
 	// 前進および後退
 	if (Input::GetKeyPress('W'))
@@ -65,83 +63,46 @@ void Move::Update()
 	// 接触する距離
 	float collisionDistance = 20.0f;
 
+	// プレイヤーと敵の間のベクトル
+	playerToEnemy = enemy->GetPosition() - playerPosition;
+	playerToEnemy.y = 0.0f; // 高さ方向の影響を無視
+	playerToEnemy.Normalize(); // ベクトルの長さを1に正規化
+
+	// プレイヤーの横向きベクトル（右向き）
+	upVector = Vector3::Up;
+
+	// 接線ベクトル（右向き）
+	tangent = upVector.Cross(playerToEnemy);
+	tangent.Normalize();
+
+	// 左右方向の移動量
+	horizontalVec = tangent * m_AroundMoveSpeed;
+
+	direction = 1;
+
 	if (distanceToEnemy > maxDistance)
 	{
-		// プレイヤーと敵の間のベクトル
-		Vector3 playerToEnemy = enemy->GetPosition() - playerPosition;
-		playerToEnemy.y = 0.0f; // 高さ方向の影響を無視
-		playerToEnemy.Normalize(); // ベクトルの長さを1に正規化
-
-		// プレイヤーの横向きベクトル（右向き）
-		Vector3 upVector = Vector3::Up;
-
-		// 接線ベクトル（右向き）
-		Vector3 tangent = upVector.Cross(playerToEnemy);
-		tangent.Normalize();
-
-		// 上下方向の移動量
-		Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
-
-		// 左右方向の移動量
-		Vector3 horizontalVec = tangent * m_AroundMoveSpeed;
-
-		float direction = 1;
-
-		// 左右移動
-		if (Input::GetKeyPress('A') || Input::GetKeyPress('D'))
-		{
-			if (Input::GetKeyPress('D'))
-			{
-				direction *= -1;
-			}
-			playerPosition -= horizontalVec * direction;
-
-			// A キーまたは D キーが単独で押されている場合
-			if (!Input::GetKeyPress('S') && !Input::GetKeyPress('W'))
-			{
-				playerPosition -= verticalVec;
-			}
-		}
+		moveModo = MoveModo::FARDISTANCE;
 	}
 	else
 	{
-		// 遠い場合は接線を使って横移動
+		moveModo = MoveModo::CLOSEDISTANCE;
+	}
 
-		// プレイヤーと敵の間のベクトル
-		Vector3 playerToEnemy = enemy->GetPosition() - playerPosition;
-		playerToEnemy.y = 0.0f; // 高さ方向の影響を無視
-		playerToEnemy.Normalize(); // ベクトルの長さを1に正規化
-
-		// プレイヤーの横向きベクトル（右向き）
-		Vector3 upVector = Vector3::Up;
-
-		// 接線ベクトル（右向き）
-		Vector3 tangent = upVector.Cross(playerToEnemy);
-		tangent.Normalize();
-
-		// 上下方向の移動量
-		Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
-
-		// 左右方向の移動量
-		Vector3 horizontalVec = tangent * m_AroundMoveSpeed;
-
-		float direction = 1;
-
-		// 左右移動
-		if (Input::GetKeyPress('A') || Input::GetKeyPress('D'))
-		{
-			if (Input::GetKeyPress('D'))
-			{
-				direction *= -1;
-			}
-			playerPosition -= horizontalVec * direction;
-
-			// A キーまたは D キーが単独で押されている場合
-			if (!Input::GetKeyPress('S') && !Input::GetKeyPress('W'))
-			{
-				playerPosition -= verticalVec;
-			}
-		}
+	switch (moveModo)
+	{
+	case MoveModo::FARDISTANCE:
+		FarDistance();
+		break;
+	case MoveModo::CLOSEDISTANCE:
+		CloseDistance();
+		break;
+	case MoveModo::SPECIAL:
+		break;
+	case MoveModo::NONE:
+		break;
+	default:
+		break;
 	}
 
 	// 左矢印キー
@@ -165,4 +126,55 @@ void Move::Update()
 	// プレイヤーの座標を更新
 	player->SetPosition(playerPosition);
 	player->SetRotation(playerRotation);
+}
+
+void Player::Move::FarDistance()
+{
+	// 左右移動
+	if (Input::GetKeyPress('A') || Input::GetKeyPress('D'))
+	{
+		// 上下方向と奥と手前方向の移動量
+		Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
+
+		if (Input::GetKeyPress('D'))
+		{
+			direction *= -1;
+		}
+
+		playerPosition -= horizontalVec * direction;
+
+		// A キーまたは D キーが単独で押されている場合
+		if (!Input::GetKeyPress('S') && !Input::GetKeyPress('W'))
+		{
+			// 上下方向と奥と手前方向の移動量
+			Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
+			playerPosition -= verticalVec;
+		}
+	}
+}
+
+void Player::Move::CloseDistance()
+{
+	// 左右移動
+	if (Input::GetKeyPress('A') || Input::GetKeyPress('D'))
+	{
+		if (Input::GetKeyPress('D'))
+		{
+			direction *= -1;
+		}
+		playerPosition -= horizontalVec * direction;
+
+		// A キーまたは D キーが単独で押されている場合
+		if (!Input::GetKeyPress('S') && !Input::GetKeyPress('W'))
+		{
+			// 上下方向と奥と手前方向の移動量
+			Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
+			playerPosition -= verticalVec;
+		}
+	}
+}
+
+MoveModo Player::Move::GetPlayerMoveModo()
+{
+	return moveModo;
 }

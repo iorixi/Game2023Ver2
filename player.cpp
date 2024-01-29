@@ -90,45 +90,12 @@ void PlayerObject::Update()
 	//前向きベクトルを取得
 	Vector3 forward = ZAxis;
 
-	//重力
-	//m_Velocity.y -= 0.015f;
-
-	//抵抗
-	m_Velocity.y -= m_Velocity.y * 0.01f;
-
-	//移動
-	m_Position += m_Velocity * moveSpeed;
-
 	// フィールドオブジェクト取得
 	Field* fieldobj = nowscene->GetGameObject<Field>();
 
 	//　範囲チェック
 	Vector3 max = fieldobj->GetMax();
 	Vector3 min = fieldobj->GetMin();
-
-	if (m_Position.x <= min.x) {
-		m_Position.x = min.x;
-	}
-	if (m_Position.x >= max.x) {
-		m_Position.x = max.x;
-	}
-
-	if (m_Position.z <= min.z) {
-		m_Position.z = min.z;
-	}
-	if (m_Position.z >= max.z) {
-		m_Position.z = max.z;
-	}
-
-	//接地
-	float groundHeight = fieldobj->GetFieldHeightBySqno(m_Position);
-
-	// 位置が０以下なら地面位置にセットする
-	if (m_Position.y < groundHeight && m_Velocity.y < 0.0f)
-	{
-		m_Position.y = groundHeight;
-		m_Velocity.y = 0.0f;
-	}
 
 	if (Input::GetKeyPress('W'))
 	{
@@ -163,6 +130,39 @@ void PlayerObject::Update()
 	float pitch = -atan2f(toEnemy.y, sqrtf(toEnemy.x * toEnemy.x + toEnemy.z * toEnemy.z));
 	// 回転を適用
 	m_Rotation = Vector3(pitch, yaw, m_Rotation.z);
+
+	//重力
+	//m_Velocity.y -= 0.015f;
+
+	//抵抗
+	m_Velocity.y -= m_Velocity.y * 0.01f;
+
+	//移動
+	m_Position += m_Velocity * moveSpeed;
+
+	if (m_Position.x <= min.x) {
+		m_Position.x = min.x;
+	}
+	if (m_Position.x >= max.x) {
+		m_Position.x = max.x;
+	}
+
+	if (m_Position.z <= min.z) {
+		m_Position.z = min.z;
+	}
+	if (m_Position.z >= max.z) {
+		m_Position.z = max.z;
+	}
+
+	//接地
+	float groundHeight = fieldobj->GetFieldHeightBySqno(m_Position);
+
+	// 位置が０以下なら地面位置にセットする
+	if (m_Position.y < groundHeight && m_Velocity.y < 0.0f)
+	{
+		m_Position.y = groundHeight;
+		m_Velocity.y = 0.0f;
+	}
 
 	if (m_BlendRate > 1.0f)
 		m_BlendRate = 1.0f;

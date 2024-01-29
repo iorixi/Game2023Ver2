@@ -506,6 +506,9 @@
     <ClInclude Include="camera.h">
       <Filter>ソース ファイル\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="MoveModo.h">
+      <Filter>ソース ファイル\Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

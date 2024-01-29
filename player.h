@@ -29,6 +29,8 @@ namespace Player
 		class Evasive* m_PlayerEvasive{};		//‰ñ”ð
 		class Shot* m_PlayerShot{};//ŽËŒ‚
 
+		DirectX::SimpleMath::Vector3 m_HeightToCenter;
+
 	public:
 		void Init() override;
 		void Update() override;
