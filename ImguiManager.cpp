@@ -96,9 +96,6 @@ void ImguiManager::Update()
 	// ImGui で表示
 	ImGui::Text(distanceStr.c_str());
 
-	// ウィンドウを終了
-	ImGui::End();
-
 	// ImGuiの描画処理
 	ImGui::Render();
 

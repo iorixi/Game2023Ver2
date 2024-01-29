@@ -256,6 +256,7 @@
     <ClInclude Include="PlayerEvasive.h" />
     <ClInclude Include="PlayerFloating.h" />
     <ClInclude Include="PlayerMove.h" />
+    <ClInclude Include="MoveModo.h" />
     <ClInclude Include="PlayerShot.h" />
     <ClInclude Include="Polygon2D.h" />
     <ClInclude Include="Random.h" />
