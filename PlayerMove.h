@@ -40,8 +40,10 @@ namespace Player
 
 		virtual void Init() override;
 		virtual void Update() override;
+		MoveModo GetPlayerMoveModo();
+
+	private:
 		void FarDistance();
 		void CloseDistance();
-		MoveModo GetPlayerMoveModo();
 	};
 }

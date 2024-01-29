@@ -15,7 +15,7 @@ namespace Timer
 		std::chrono::system_clock::time_point m_ScheduledTime;
 
 		// タスクの実行を停止しているかどうかのフラグ
-		bool m_Stopped;
+		bool m_Stopped = false;
 
 		// タスクが停止していた期間
 		std::chrono::system_clock::duration m_PausedDuration;
