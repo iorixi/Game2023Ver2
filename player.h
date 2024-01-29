@@ -14,7 +14,7 @@ namespace Player
 	{
 	private:
 
-		DirectX::SimpleMath::Vector3		m_Velocity{};
+		DirectX::SimpleMath::Vector3 m_Velocity{};
 
 		class AnimationModel* m_Model;
 		int	m_Frame;

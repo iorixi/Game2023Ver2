@@ -4,7 +4,8 @@
 #include "scene.h"
 #include "manager.h"
 #include "camera.h"
-#include "bullet.h"
+#include "HomingBullet.h"
+
 #include "CollisionUtils.h"
 #include "HumanEnemy.h"
 #include "enemy.h"
@@ -41,7 +42,7 @@ void Player::Shot::Update()
 	{
 		if (m_ScheduledTask->GetFlg())
 		{
-			Bullet* bullet = scene->AddGameObject<Bullet>(2);
+			HomingBullet* bullet = scene->AddGameObject<HomingBullet>(2);
 			bullet->SetPosition(player->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));
 			bullet->SetVelocity(forward * 0.5f);
 			addShotFlg = false;
@@ -51,13 +52,13 @@ void Player::Shot::Update()
 	HumanObject* enemy = scene->GetGameObject<HumanObject>();
 
 	std::vector<HumanObject*> enemyList = scene->GetGameObjects<HumanObject>();
-	std::vector<Bullet*> bulletList = scene->GetGameObjects<Bullet>();
+	std::vector<HomingBullet*> bulletList = scene->GetGameObjects<HomingBullet>();
 
 	//“G‚Ö‚Ì“–‚½‚è”»’è
 	for (HumanObject* enemy : enemyList)
 	{
 		//‹…‚Ö‚Ì“–‚½‚è”»’è
-		for (Bullet* bullet : bulletList)
+		for (HomingBullet* bullet : bulletList)
 		{
 			Vector3 enemyPosition = enemy->GetPosition();
 			BoundingSphere* enemyHitSphere = enemy->GetEnemyHitSphere();

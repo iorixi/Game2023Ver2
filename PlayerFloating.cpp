@@ -22,7 +22,7 @@ void Floating::Update()
 	Vector3 playerVelocity = player->GetVelocity();
 
 	//è„è∏orâ∫ç~ÉLÅ[Ç™âüÇ≥ÇÍÇΩÇ©
-	if (Input::GetKeyPress(VK_SPACE) || Input::GetKeyPress(VK_SHIFT))
+	if (Input::GetKeyPress(VK_SPACE) || Input::GetKeyPress(VK_CONTROL))
 	{
 		//è„è∏
 		if (Input::GetKeyPress(VK_SPACE))
@@ -31,7 +31,7 @@ void Floating::Update()
 		}
 
 		//â∫ç~
-		if (Input::GetKeyPress(VK_SHIFT))
+		if (Input::GetKeyPress(VK_CONTROL))
 		{
 			playerVelocity.y = -0.16f;
 		}

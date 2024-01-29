@@ -431,9 +431,6 @@
     <ClInclude Include="utility.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerEvasive.h">
-      <Filter>ソース ファイル\Character\Player</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerFloating.h">
       <Filter>ソース ファイル\Character\Player</Filter>
     </ClInclude>
@@ -508,6 +505,12 @@
     </ClInclude>
     <ClInclude Include="MoveModo.h">
       <Filter>ソース ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="EvasiveModo.h">
+      <Filter>ソース ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEvasive.h">
+      <Filter>ソース ファイル\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

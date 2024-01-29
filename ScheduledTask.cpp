@@ -5,7 +5,8 @@
 using namespace Timer;
 
 // デフォルトコンストラクタ
-ScheduledTask::ScheduledTask() {
+ScheduledTask::ScheduledTask()
+{
 }
 
 // コンストラクタの実装
