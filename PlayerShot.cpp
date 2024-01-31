@@ -28,6 +28,9 @@ void Player::Shot::Update()
 	Scene* scene = Manager::GetScene();
 	//現在のシーンのプレイヤーのオブジェクトを取得
 	PlayerObject* player = scene->GetGameObject<PlayerObject>();
+	//現在のシーンの敵のオブジェクトを取得
+	HumanObject* enemy = scene->GetGameObject<HumanObject>();
+
 	//現在のシーンのカメラを取得
 	Camera* cameraobj = scene->GetGameObject<Camera>();
 
@@ -42,14 +45,20 @@ void Player::Shot::Update()
 	{
 		if (m_ScheduledTask->GetFlg())
 		{
+			// プレイヤーの現在位置にプレイヤーの前方ベクトルを加えて、ちょっと前にオフセットした位置を計算
+			Vector3 playerSpawnShot = player->GetPosition() + forward * AddForwardPlayerShotSpawnPos;
+
+			// プレイヤーの前方に向かってエネミーの位置を取得
+			Vector3 directionToEnemy = enemy->GetPosition() - playerSpawnShot;
+			directionToEnemy.Normalize();
+
+			// 弾を作成し、エネミーの方向に速度を設定
 			HomingBullet* bullet = scene->AddGameObject<HomingBullet>(2);
-			bullet->SetPosition(player->GetPosition() + Vector3(0.0f, 1.0f, 0.0f));
-			bullet->SetVelocity(forward * 0.5f);
+			bullet->SetPosition(playerSpawnShot);
+			bullet->SetVelocity(directionToEnemy * 0.5f);
 			addShotFlg = false;
 		}
 	}
-
-	HumanObject* enemy = scene->GetGameObject<HumanObject>();
 
 	std::vector<HumanObject*> enemyList = scene->GetGameObjects<HumanObject>();
 	std::vector<HomingBullet*> bulletList = scene->GetGameObjects<HomingBullet>();

@@ -512,6 +512,12 @@
     <ClInclude Include="PlayerEvasive.h">
       <Filter>ソース ファイル\Character\Player</Filter>
     </ClInclude>
+    <ClInclude Include="CharaEnum.h">
+      <Filter>ソース ファイル\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="ToRadians.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
