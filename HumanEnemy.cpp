@@ -40,7 +40,7 @@ void HumanObject::Init()
 
 	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
 	//子オブジェクトに当たり判定を追加
-	BoundingSphere* boundingSphere = new BoundingSphere(5, m_Position);
+	BoundingSphere* boundingSphere = new BoundingSphere(0.1, m_Position);
 	enemyHitSphere = AddChild<BoundingSphere>();
 	enemyHitSphere = boundingSphere;
 }

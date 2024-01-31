@@ -15,6 +15,9 @@ namespace Player
 		float	m_BlendRate;
 		std::shared_ptr <Timer::ScheduledTask> m_ScheduledTask;
 
+		//‹…‚ÌƒXƒ|[ƒ“êŠ‚É‚Ç‚ê‚®‚ç‚¢
+		float AddForwardPlayerShotSpawnPos = 4.5f;
+
 	public:
 		using Component::Component;
 

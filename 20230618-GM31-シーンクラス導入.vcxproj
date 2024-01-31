@@ -213,6 +213,7 @@
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="BoundingSphere.h" />
+    <ClInclude Include="CharaEnum.h" />
     <ClInclude Include="CIndexBuffer.h" />
     <ClInclude Include="CMesh.h" />
     <ClInclude Include="CMeshRenderer.h" />
@@ -273,6 +274,7 @@
     <ClInclude Include="sprite.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="ToRadians.h" />
     <ClInclude Include="transition.h" />
     <ClInclude Include="utftosjisconv.h" />
     <ClInclude Include="utility.h" />

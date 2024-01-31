@@ -1,8 +1,35 @@
 #pragma once
 #include "bullet.h"
+#include "renderer.h"
+#include <memory>
+
+namespace Timer { class ScheduledTask; }
 
 class HomingBullet : public Bullet
 {
+	DirectX::SimpleMath::Vector3 playerPosition;//プレイヤーの位置
+
+	//追尾弾の速度
+	// 移動速度を設定（例えば、この場合はプレイヤーに向かって一定の速度で移動する）
+	float speed = 0.5f;
+	//球の飛ぶ方向
+	DirectX::SimpleMath::Vector3 directionToEnemy;
+	//球の更新前の方向
+	DirectX::SimpleMath::Vector3 oldDirection;
+
+	//追尾弾の追尾位置の更新時間
+	float homingPointUpdateTime = 3.0f;
+	//追尾弾の追尾位置の時間
+	std::shared_ptr <Timer::ScheduledTask> m_HomingPointUpdateTime;
+
+	//追尾してるか
+	bool isActive = true;
+
+	//球と敵との追従を切る距離
+	float closeDistance = 2.0f;
+	//一定以上の角度
+	float overAngle = 45.0f;
+
 public:
 	HomingBullet();
 	~HomingBullet();

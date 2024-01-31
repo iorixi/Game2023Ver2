@@ -118,10 +118,12 @@ void Move::Update()
 	}
 
 	// 現在のシーンのプレイヤーのオブジェクトを取得
-	ImguiManager* imguiManager = currentScene->GetGameObject<ImguiManager>();
-
-	// Calculate and set the distance between player and enemy
-	imguiManager->SetDistance(distanceToEnemy);
+	if (currentScene->GetGameObject<ImguiManager>() != NULL)
+	{
+		ImguiManager* imguiManager = currentScene->GetGameObject<ImguiManager>();
+		// Calculate and set the distance between player and enemy
+		imguiManager->SetDistance(distanceToEnemy);
+	}
 
 	// プレイヤーの座標を更新
 	player->SetPosition(playerPosition);
