@@ -8,6 +8,8 @@ namespace Timer { class DelayCompnent; }
 //class Sound::Audio;
 namespace Sound { class Audio; }
 
+class BoundingSphereObj;
+
 namespace Player
 {
 	class PlayerObject : public GameObject
@@ -16,12 +18,17 @@ namespace Player
 
 		DirectX::SimpleMath::Vector3 m_Velocity{};
 
+		class BoundingSphereObj* playerHitSphere{};
+
 		class AnimationModel* m_Model;
 		int	m_Frame;
 		float	m_BlendRate;
 
 		Timer::DelayCompnent* m_Delay{};
 		Sound::Audio* m_SE{};
+
+		//アクティブ状態か
+		bool isActive = false;
 
 		//プレイヤー
 		class Move* m_PlayerMove{};				//移動
@@ -36,7 +43,12 @@ namespace Player
 		void Update() override;
 		void PreDraw() override;
 
+		void SetIsActive(bool _isActive);
+		bool GetIsActive();
+
 		void SetVelocity(DirectX::SimpleMath::Vector3 Velocity) { m_Velocity = Velocity; }
 		DirectX::SimpleMath::Vector3 GetVelocity() { return m_Velocity; }
+
+		class BoundingSphereObj* GetPlayerHitSphere() { return playerHitSphere; };
 	};
 }

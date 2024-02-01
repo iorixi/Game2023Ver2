@@ -1,7 +1,7 @@
 #include "CollisionUtils.h"
 #include "BoundingSphere.h"
 
-bool IsCollision(BoundingSphere& sphere1, BoundingSphere& sphere2) {
+bool IsCollision(BoundingSphereObj& sphere1, BoundingSphereObj& sphere2) {
 	// 2‚Â‚Ì‹…‚Ì’†SŠÔ‚Ì‹——£‚ğŒvZ
 	float distance = (sphere1.GetCenter() - sphere2.GetCenter()).Length();
 

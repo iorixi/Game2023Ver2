@@ -7,6 +7,9 @@ namespace Timer { class ScheduledTask; }
 
 class HomingBullet : public Bullet
 {
+	//これは誰が打った球か
+	enum class CHARACTER ownerChara;
+
 	DirectX::SimpleMath::Vector3 playerPosition;//プレイヤーの位置
 
 	//追尾弾の速度
@@ -14,6 +17,7 @@ class HomingBullet : public Bullet
 	float speed = 0.5f;
 	//球の飛ぶ方向
 	DirectX::SimpleMath::Vector3 directionToEnemy;
+	DirectX::SimpleMath::Vector3 directionToPlayer;
 	//球の更新前の方向
 	DirectX::SimpleMath::Vector3 oldDirection;
 
@@ -32,6 +36,7 @@ class HomingBullet : public Bullet
 
 public:
 	HomingBullet();
+	HomingBullet(enum class CHARACTER chara);
 	~HomingBullet();
 
 	static void Load();
@@ -39,6 +44,7 @@ public:
 
 	void Init() override;
 	void Update() override;
+	void SetBulletOwner(enum class CHARACTER chara);
 
 private:
 };

@@ -2,7 +2,7 @@
 
 #include "gameObject.h"
 
-class BoundingSphere;
+class BoundingSphereObj;
 
 class Bullet : public GameObject
 {
@@ -10,7 +10,7 @@ protected:
 
 	DirectX::SimpleMath::Vector3		m_Velocity{};
 	bool m_PlayerShot = true;//ÉvÉåÉCÉÑÅ[Ç™ë≈Ç¡ÇΩÇ©Ç«Ç§Ç©
-	BoundingSphere* m_Child{};
+	BoundingSphereObj* m_Child{};
 
 public:
 	static void Load();
@@ -24,5 +24,5 @@ public:
 
 	void SetVelocity(DirectX::SimpleMath::Vector3 Velocity) { m_Velocity = Velocity; }
 	DirectX::SimpleMath::Vector3 GetVelocity() { return m_Velocity; }
-	BoundingSphere* GetBulletHitSphere() { return m_Child; };
+	BoundingSphereObj* GetBulletHitSphere() { return m_Child; };
 };

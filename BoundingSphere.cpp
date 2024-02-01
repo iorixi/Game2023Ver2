@@ -4,22 +4,22 @@
 
 using namespace DirectX::SimpleMath;
 
-Vector3 BoundingSphere::CalcWorldPos(Matrix mtx) {
+Vector3 BoundingSphereObj::CalcWorldPos(Matrix mtx) {
 	// ワールド座標を計算する
 	return Vector3::Transform(m_Center, mtx);
 }
 
-BoundingSphere::BoundingSphere()
+BoundingSphereObj::BoundingSphereObj()
 {
 }
 
-BoundingSphere::BoundingSphere(float radius, DirectX::SimpleMath::Vector3 center)
+BoundingSphereObj::BoundingSphereObj(float radius, DirectX::SimpleMath::Vector3 center)
 {
 	m_Center = center;
 	m_Radius = radius;
 }
 
-void BoundingSphere::Caliculate(const std::vector<VERTEX_3D>& vertices) {
+void BoundingSphereObj::Caliculate(const std::vector<VERTEX_3D>& vertices) {
 	std::vector<float> lengthlist;
 
 	Vector3 max;
@@ -55,18 +55,18 @@ void BoundingSphere::Caliculate(const std::vector<VERTEX_3D>& vertices) {
 	m_Radius = *iter;
 }
 
-float BoundingSphere::GetRadius() {
+float BoundingSphereObj::GetRadius() {
 	// 半径を取得する
 	return m_Radius;
 }
 
-Vector3 BoundingSphere::GetCenter() {
+Vector3 BoundingSphereObj::GetCenter() {
 	// 中心座標を取得する
 	return m_Center;
 }
 
-BoundingSphere BoundingSphere::MakeBS(Matrix mtx, Vector3 scale) {
-	BoundingSphere bs;
+BoundingSphereObj BoundingSphereObj::MakeBS(Matrix mtx, Vector3 scale) {
+	BoundingSphereObj bs;
 
 	// 中心座標をワールド座標に変換して設定する
 	Vector3 wpos = CalcWorldPos(mtx);
@@ -79,7 +79,7 @@ BoundingSphere BoundingSphere::MakeBS(Matrix mtx, Vector3 scale) {
 	return bs;
 }
 
-Matrix BoundingSphere::MakeWorldMtx(Vector3 scale, Matrix wmtx) {
+Matrix BoundingSphereObj::MakeWorldMtx(Vector3 scale, Matrix wmtx) {
 	// スケールの最大値を求め、ワールド変換行列を作成する
 	float smax;
 	smax = (std::max)((std::max)(scale.x, scale.y), scale.z);
@@ -95,12 +95,12 @@ Matrix BoundingSphere::MakeWorldMtx(Vector3 scale, Matrix wmtx) {
 	return mtx;
 }
 
-Vector3 BoundingSphere::GetMax() {
+Vector3 BoundingSphereObj::GetMax() {
 	// AABBの最大値を取得する
 	return m_Max;
 }
 
-Vector3 BoundingSphere::GetMin() {
+Vector3 BoundingSphereObj::GetMin() {
 	// AABBの最小値を取得する
 	return m_Min;
 }

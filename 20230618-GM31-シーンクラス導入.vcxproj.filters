@@ -97,9 +97,6 @@
     <Filter Include="ソース ファイル\Imgui\gui">
       <UniqueIdentifier>{bb2abe5d-41b7-4282-898a-af4a884100c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Character\Enemy\Human">
-      <UniqueIdentifier>{5d8d701b-42f3-44ed-b7a1-87e2a5215726}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Object\BoundingSphere">
       <UniqueIdentifier>{6d32d80b-94af-4ff1-b786-ac0dfaccae5f}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,9 @@
     </Filter>
     <Filter Include="ソース ファイル\Character\Enemy\Enemy">
       <UniqueIdentifier>{83499947-3843-4173-b149-83e2f84f4266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Character\Enemy\Enemy\Human">
+      <UniqueIdentifier>{5d8d701b-42f3-44ed-b7a1-87e2a5215726}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -277,7 +277,7 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="HumanEnemy.cpp">
-      <Filter>ソース ファイル\Character\Enemy\Human</Filter>
+      <Filter>ソース ファイル\Character\Enemy\Enemy\Human</Filter>
     </ClCompile>
     <ClCompile Include="BoundingSphere.cpp">
       <Filter>ソース ファイル\Object\BoundingSphere</Filter>
@@ -296,6 +296,9 @@
     </ClCompile>
     <ClCompile Include="SelectCursol.cpp">
       <Filter>ソース ファイル\Object\Cursol</Filter>
+    </ClCompile>
+    <ClCompile Include="HumanEnemyBullet.cpp">
+      <Filter>ソース ファイル\Character\Enemy\Enemy\Human</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -483,7 +486,7 @@
       <Filter>ソース ファイル\CollisionUtils</Filter>
     </ClInclude>
     <ClInclude Include="HumanEnemy.h">
-      <Filter>ソース ファイル\Character\Enemy\Human</Filter>
+      <Filter>ソース ファイル\Character\Enemy\Enemy\Human</Filter>
     </ClInclude>
     <ClInclude Include="HomingBullet.h">
       <Filter>ソース ファイル\Object\Bullet\HomingBullet</Filter>
@@ -517,6 +520,15 @@
     </ClInclude>
     <ClInclude Include="ToRadians.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerShootModo.h">
+      <Filter>ソース ファイル\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="HumanEnemyBullet.h">
+      <Filter>ソース ファイル\Character\Enemy\Enemy\Human</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyShootModo.h">
+      <Filter>ソース ファイル\Character\Enemy\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

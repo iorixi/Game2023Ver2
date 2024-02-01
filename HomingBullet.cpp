@@ -16,6 +16,8 @@
 #include "camera.h"
 #include "ScheduledTask.h"
 #include "ToRadians.h"
+#include "CharaEnum.h"
+#include <iostream>
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -24,6 +26,12 @@ using namespace Timer;
 
 HomingBullet::HomingBullet()
 {
+	ownerChara = CHARACTER::NONE;
+}
+
+HomingBullet::HomingBullet(enum class CHARACTER chara)
+{
+	ownerChara = chara;
 }
 
 HomingBullet::~HomingBullet()
@@ -47,8 +55,8 @@ void HomingBullet::Init()
 	AddComponent<Shadow>()->SetSize(0.5f);
 
 	//子オブジェクトに当たり判定を追加
-	BoundingSphere* boundingSphere = new BoundingSphere(1, m_Position);
-	m_Child = AddChild<BoundingSphere>();
+	BoundingSphereObj* boundingSphere = new BoundingSphereObj(1, m_Position);
+	m_Child = AddChild<BoundingSphereObj>();
 	m_Child = boundingSphere;
 
 	//時間関係初期化
@@ -57,88 +65,158 @@ void HomingBullet::Init()
 
 void HomingBullet::Update()
 {
-	// 現在のシーンを取得
-	Scene* currentScene = Manager::GetScene();
-	// 現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
-	// 現在のシーンの敵のオブジェクトを取得
-	HumanObject* enemy = currentScene->GetGameObject<HumanObject>();
-
-	// プレイヤーの座標を取得
-	Vector3 playerPosition = player->GetPosition();
-	Vector3 enemyPosition = enemy->GetPosition();
-
-	//一定時間経つまで処理
-	if (m_HomingPointUpdateTime->GetFlg())
+	try
 	{
-		// 球の移動方向を更新
-		// 敵に向かうベクトルを計算
-		directionToEnemy = enemyPosition - m_Position;
-		directionToEnemy.Normalize();
-
-		// 前のフレームのベクトルとの角度を計算
-		float angleChange = oldDirection.Dot(directionToEnemy);
-		// ベクトルの角度が45度以上変わった場合は無効にする
-		if (angleChange <= cos(ToRadians(overAngle)))
+		//オーナーが設定されているか
+		if (ownerChara != CHARACTER::NONE)
 		{
-			isActive = false;
+			// 現在のシーンを取得
+			Scene* currentScene = Manager::GetScene();
+			// 現在のシーンのプレイヤーのオブジェクトを取得
+			PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+			// 現在のシーンの敵のオブジェクトを取得
+			HumanObject* enemy = currentScene->GetGameObject<HumanObject>();
+
+			// プレイヤーの座標を取得
+			Vector3 playerPosition = player->GetPosition();
+			Vector3 enemyPosition = enemy->GetPosition();
+			float angleChange = 0.0f;
+
+			//一定時間経つまで処理
+			if (m_HomingPointUpdateTime->GetFlg())
+			{
+				//プレイヤーなら
+				if (ownerChara == CHARACTER::PLAYER)
+				{
+					// 球の移動方向を更新
+					// 敵に向かうベクトルを計算
+					directionToEnemy = enemyPosition - m_Position;
+					directionToEnemy.Normalize();
+					// 前のフレームのベクトルとの角度を計算
+					angleChange = oldDirection.Dot(directionToEnemy);
+					//ベクトルを保存
+					oldDirection = directionToEnemy;
+				}
+				//敵なら
+				else if (ownerChara == CHARACTER::ENEMY)
+				{
+					// 球の移動方向を更新
+					// プレイヤーに向かうベクトルを計算
+					directionToPlayer = playerPosition - m_Position;
+					directionToPlayer.Normalize();
+					// 前のフレームのベクトルとの角度を計算
+					angleChange = oldDirection.Dot(directionToPlayer);
+					//ベクトルを保存
+					oldDirection = directionToPlayer;
+				}
+
+				// ベクトルの角度が45度以上変わった場合は無効にする
+				if (angleChange <= cos(ToRadians(overAngle)))
+				{
+					isActive = false;
+				}
+				else
+				{
+					isActive = true;
+				}
+			}
+
+			// 球の追尾が有効の場合のみ処理を行う
+			if (isActive)
+			{
+				//プレイヤーなら
+				if (ownerChara == CHARACTER::PLAYER)
+				{
+					// 敵と球の距離を計算
+					float distanceToEnemy = Vector3::Distance(enemyPosition, m_Position);
+
+					// 敵との距離が一定以下の場合は追尾する
+					if (distanceToEnemy <= closeDistance)
+					{
+						// 方向にスピードをかける
+						m_Velocity = directionToEnemy * speed;
+
+						// 球の位置を更新
+						m_Position += m_Velocity;
+					}
+					else
+					{
+						// ホーミング弾が一定距離以上の敵に接近した場合、追尾を無効にして直進する
+						isActive = false;
+						Vector3 forward = m_Velocity;
+						forward.Normalize();
+
+						// ホーミング弾が直進する方向を設定する
+						m_Velocity = forward * speed; // forwardはホーミング弾の前方向ベクトルを表すものとします
+
+						// 球の位置を更新
+						m_Position += m_Velocity;
+					}
+				}
+				else if (ownerChara == CHARACTER::ENEMY)
+				{
+					// 敵と球の距離を計算
+					float distanceToPlayer = Vector3::Distance(playerPosition, m_Position);
+
+					// 敵との距離が一定以下の場合は追尾する
+					if (distanceToPlayer <= closeDistance)
+					{
+						// 方向にスピードをかける
+						m_Velocity = directionToPlayer * speed;
+
+						// 球の位置を更新
+						m_Position += m_Velocity;
+					}
+					else
+					{
+						// ホーミング弾が一定距離以上の敵に接近した場合、追尾を無効にして直進する
+						isActive = false;
+						Vector3 forward = m_Velocity;
+						forward.Normalize();
+
+						// ホーミング弾が直進する方向を設定する
+						m_Velocity = forward * speed; // forwardはホーミング弾の前方向ベクトルを表すものとします
+
+						// 球の位置を更新
+						m_Position += m_Velocity;
+					}
+				}
+			}
+			else
+			{
+				// ホーミング弾が一定距離以上の敵に接近した場合、追尾を無効にして直進する
+				isActive = false;
+				Vector3 forward = m_Velocity;
+				forward.Normalize();
+				// ホーミング弾が直進する方向を設定する
+				m_Velocity = forward * speed; // forwardはホーミング弾の前方向ベクトルを表すものとします
+
+				// 球の位置を更新
+				m_Position += m_Velocity;
+			}
+
+			// 球の位置が一定範囲を超えた場合は削除
+			if (m_Position.Length() > 100.0f)
+			{
+				SetDestroy();
+			}
+
+			// 当たり判定の位置を更新
+			m_Child->SetCenter(m_Position);
 		}
 		else
 		{
-			isActive = true;
-		}
-
-		oldDirection = directionToEnemy;
-	}
-
-	// 球の追尾が有効の場合のみ処理を行う
-	if (isActive)
-	{
-		// 敵と球の距離を計算
-		float distanceToEnemy = Vector3::Distance(enemyPosition, m_Position);
-
-		// 敵との距離が一定以下の場合は追尾する
-		if (distanceToEnemy <= closeDistance)
-		{
-			// 方向にスピードをかける
-			m_Velocity = directionToEnemy * speed;
-
-			// 球の位置を更新
-			m_Position += m_Velocity;
-		}
-		else
-		{
-			// ホーミング弾が一定距離以上の敵に接近した場合、追尾を無効にして直進する
-			isActive = false;
-			Vector3 forward = m_Velocity;
-			forward.Normalize();
-
-			// ホーミング弾が直進する方向を設定する
-			m_Velocity = forward * speed; // forwardはホーミング弾の前方向ベクトルを表すものとします
-
-			// 球の位置を更新
-			m_Position += m_Velocity;
+			throw std::exception("オーナーキャラクターが設定されていません。");
 		}
 	}
-	else
+	catch (const std::exception& e)
 	{
-		// ホーミング弾が一定距離以上の敵に接近した場合、追尾を無効にして直進する
-		isActive = false;
-		Vector3 forward = m_Velocity;
-		forward.Normalize();
-		// ホーミング弾が直進する方向を設定する
-		m_Velocity = forward * speed; // forwardはホーミング弾の前方向ベクトルを表すものとします
-
-		// 球の位置を更新
-		m_Position += m_Velocity;
+		// 例外をキャッチし、適切な処理を行います
+		std::cerr << "HomingBullet::Update で例外が発生しました: " << e.what() << std::endl;
 	}
+}
 
-	// 球の位置が一定範囲を超えた場合は削除
-	if (m_Position.Length() > 100.0f)
-	{
-		SetDestroy();
-	}
-
-	// 当たり判定の位置を更新
-	m_Child->SetCenter(m_Position);
+void HomingBullet::SetBulletOwner(enum class CHARACTER chara)
+{
+	ownerChara = chara;
 }

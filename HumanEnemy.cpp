@@ -10,6 +10,9 @@
 #include "bullet.h"
 #include "animationModel.h"
 #include "player.h"
+#include "HomingBullet.h"
+#include "CharaEnum.h"
+#include "HumanEnemyBullet.h"
 #include "BoundingSphere.h"
 
 using namespace DirectX::SimpleMath;
@@ -40,9 +43,11 @@ void HumanObject::Init()
 
 	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
 	//子オブジェクトに当たり判定を追加
-	BoundingSphere* boundingSphere = new BoundingSphere(0.1, m_Position);
-	enemyHitSphere = AddChild<BoundingSphere>();
+	BoundingSphereObj* boundingSphere = new BoundingSphereObj(0.1f, m_Position);
+	enemyHitSphere = AddChild<BoundingSphereObj>();
 	enemyHitSphere = boundingSphere;
+
+	m_EnemyShot = AddComponent<Enemy::Shot>();
 }
 
 void HumanObject::Update()
@@ -79,7 +84,8 @@ void HumanObject::Update()
 		Vector3 forward = GetForward();
 
 		Scene* nowscene = Manager::GetScene();
-		Bullet* bullet = nowscene->AddGameObject<Bullet>(2);
+		HomingBullet* bullet = nowscene->AddGameObject<HomingBullet>(2);
+		bullet->SetBulletOwner(CHARACTER::ENEMY);
 		bullet->SetPosition(m_Position + Vector3(0.0f, 1.5f, 0.0f));
 		bullet->SetVelocity(forward * -0.5f);
 	}
@@ -107,11 +113,21 @@ void HumanObject::Update()
 	//m_Rotation = Vector3(pitch, yaw, roll);
 
 	//当たり判定
-	BoundingSphere* boundingSphere = GetEnemyHitSphere();
+	BoundingSphereObj* boundingSphere = GetEnemyHitSphere();
 	enemyHitSphere->SetCenter(m_Position);
 }
 
 void HumanObject::PreDraw()
 {
 	m_Model->Update("Idle", m_Frame, "Run", m_Frame, m_BlendRate);
+}
+
+void Enemy::HumanObject::SetIsActive(bool _isActive)
+{
+	isActive = _isActive;
+}
+
+bool Enemy::HumanObject::GetIsActive()
+{
+	return isActive;
 }

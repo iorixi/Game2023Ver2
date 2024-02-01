@@ -1,5 +1,4 @@
-#include "PlayerShot.h"
-#include "input.h"
+#include "HumanEnemyBullet.h"
 #include "player.h"
 #include "scene.h"
 #include "manager.h"
@@ -11,6 +10,7 @@
 #include "enemy.h"
 #include "score.h"
 #include "CharaEnum.h"
+#include "ScheduledTask.h"
 #include "BoundingSphere.h"
 
 using namespace DirectX::SimpleMath;
@@ -18,15 +18,15 @@ using namespace Player;
 using namespace Timer;
 using namespace Enemy;
 
-void Player::Shot::Init()
+void Enemy::Shot::Init()
 {
 	// m_ScheduledTaskの初期化
-	m_ScheduledTask = std::make_unique<ScheduledTask>(0.3f);
+	m_ScheduledTask = std::make_unique<ScheduledTask>(0.2f);
 	//誘導弾モードに固定
-	PlayerShootModo = PLAYERSHOOTMODO::HOMING;
+	enemyShootModo = ENEMYSHOOTMODO::HOMING;
 }
 
-void Player::Shot::Update()
+void Enemy::Shot::Update()
 {
 	//現在のシーンを取得
 	Scene* scene = Manager::GetScene();
@@ -45,22 +45,22 @@ void Player::Shot::Update()
 	Vector3 forward = ZAxis;
 
 	//アクティブ状態なら
-	if (player->GetIsActive())
+	if (enemy->GetIsActive())
 	{
 		if (m_ScheduledTask->GetFlg())
 		{
-			// プレイヤーの現在位置にプレイヤーの前方ベクトルを加えて、ちょっと前にオフセットした位置を計算
-			Vector3 playerSpawnShot = player->GetPosition() + forward * AddForwardPlayerShotSpawnPos;
+			// 敵のの現在位置に敵の前方ベクトルを加えて、ちょっと前にオフセットした位置を計算
+			Vector3 enemySpawnShot = enemy->GetPosition() + forward * AddForwardEnemyShotSpawnPos;
 
-			// プレイヤーの前方に向かってエネミーの位置を取得
-			Vector3 directionToEnemy = enemy->GetPosition() - playerSpawnShot;
+			// 敵の前方に向かってプレイヤーの位置を取得
+			Vector3 directionToEnemy = player->GetPosition() - enemySpawnShot;
 			directionToEnemy.Normalize();
 
 			// 弾を作成し、エネミーの方向に速度を設定
 			HomingBullet* bullet = scene->AddGameObject<HomingBullet>(2);
 			//球は誰が打っているか
 			bullet->SetBulletOwner(CHARACTER::PLAYER);
-			bullet->SetPosition(playerSpawnShot);
+			bullet->SetPosition(enemySpawnShot);
 			bullet->SetVelocity(directionToEnemy * 0.5f);
 			addShotFlg = false;
 		}
@@ -68,30 +68,26 @@ void Player::Shot::Update()
 		std::vector<HumanObject*> enemyList = scene->GetGameObjects<HumanObject>();
 		std::vector<HomingBullet*> bulletList = scene->GetGameObjects<HomingBullet>();
 
-		//敵への当たり判定
-		for (HumanObject* enemy : enemyList)
+		//球への当たり判定
+		for (HomingBullet* bullet : bulletList)
 		{
-			//球への当たり判定
-			for (HomingBullet* bullet : bulletList)
+			Vector3 playerPosition = player->GetPosition();
+			BoundingSphereObj* enemyHitSphere = player->GetPlayerHitSphere();
+			BoundingSphereObj* bulletHitSphere = bullet->GetBulletHitSphere();
+
+			//球の当たり判定
+			if (IsCollision(*enemyHitSphere, *bulletHitSphere))
 			{
-				Vector3 enemyPosition = enemy->GetPosition();
-				BoundingSphereObj* enemyHitSphere = enemy->GetEnemyHitSphere();
-				BoundingSphereObj* bulletHitSphere = bullet->GetBulletHitSphere();
+				Score* score = scene->GetGameObject<Score>();
+				score->AddCount(1);
 
-				//球の当たり判定
-				if (IsCollision(*enemyHitSphere, *bulletHitSphere))
-				{
-					Score* score = scene->GetGameObject<Score>();
-					score->AddCount(1);
-
-					bullet->SetDestroy();
-				}
+				bullet->SetDestroy();
 			}
 		}
 	}
 }
 
-void Player::Shot::AddShot()
+void Enemy::Shot::AddShot()
 {
 	addShotFlg = true;
 }
