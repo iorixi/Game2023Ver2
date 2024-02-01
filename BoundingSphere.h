@@ -3,7 +3,7 @@
 #include "gameObject.h"
 #include <vector>
 
-class BoundingSphere : public GameObject
+class BoundingSphereObj : public GameObject
 {
 private:
 	DirectX::SimpleMath::Vector3 m_Center;  // スフィアの中心座標
@@ -15,8 +15,8 @@ private:
 	DirectX::SimpleMath::Vector3 CalcWorldPos(DirectX::SimpleMath::Matrix mtx);
 
 public:
-	BoundingSphere();
-	BoundingSphere(float m_Radius, DirectX::SimpleMath::Vector3 m_Center);
+	BoundingSphereObj();
+	BoundingSphereObj(float m_Radius, DirectX::SimpleMath::Vector3 m_Center);
 
 	// 与えられた頂点からバウンディングスフィアを計算する関数
 	void Caliculate(const std::vector<VERTEX_3D>& vertices);
@@ -28,7 +28,7 @@ public:
 	DirectX::SimpleMath::Vector3 GetCenter();
 
 	// スフィアをワールド座標系でスケーリングする関数
-	BoundingSphere MakeBS(DirectX::SimpleMath::Matrix mtx, DirectX::SimpleMath::Vector3 scale);
+	BoundingSphereObj MakeBS(DirectX::SimpleMath::Matrix mtx, DirectX::SimpleMath::Vector3 scale);
 
 	// スケーリングとワールド座標変換行列から新しいワールド変換行列を作成する関数
 	DirectX::SimpleMath::Matrix MakeWorldMtx(DirectX::SimpleMath::Vector3 scale, DirectX::SimpleMath::Matrix wmtx);

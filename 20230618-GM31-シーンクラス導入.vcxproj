@@ -167,6 +167,7 @@
     <ClCompile Include="goal.cpp" />
     <ClCompile Include="HomingBullet.cpp" />
     <ClCompile Include="HumanEnemy.cpp" />
+    <ClCompile Include="HumanEnemyBullet.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="ImguiOperator.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="cylinder.h" />
     <ClInclude Include="Delay.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="EnemyShootModo.h" />
     <ClInclude Include="EvasiveModo.h" />
     <ClInclude Include="explosion.h" />
     <ClInclude Include="field.h" />
@@ -236,6 +238,7 @@
     <ClInclude Include="goal.h" />
     <ClInclude Include="HomingBullet.h" />
     <ClInclude Include="HumanEnemy.h" />
+    <ClInclude Include="HumanEnemyBullet.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="ImguiOperator.h" />
     <ClInclude Include="Imgui\curve.hpp" />
@@ -259,6 +262,7 @@
     <ClInclude Include="PlayerFloating.h" />
     <ClInclude Include="PlayerMove.h" />
     <ClInclude Include="MoveModo.h" />
+    <ClInclude Include="PlayerShootModo.h" />
     <ClInclude Include="PlayerShot.h" />
     <ClInclude Include="Polygon2D.h" />
     <ClInclude Include="Random.h" />

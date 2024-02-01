@@ -31,8 +31,8 @@ void Bullet::Init()
 	AddComponent<Shadow>()->SetSize(0.5f);
 
 	//子オブジェクトに当たり判定を追加
-	BoundingSphere* boundingSphere = new BoundingSphere(1, m_Position);
-	m_Child = AddChild<BoundingSphere>();
+	BoundingSphereObj* boundingSphere = new BoundingSphereObj(1, m_Position);
+	m_Child = AddChild<BoundingSphereObj>();
 	m_Child = boundingSphere;
 }
 
@@ -46,7 +46,7 @@ void Bullet::Update()
 	Scene* scene = Manager::GetScene();
 
 	//当たり判定
-	BoundingSphere* boundingSphere = GetBulletHitSphere();
+	BoundingSphereObj* boundingSphere = GetBulletHitSphere();
 	m_Child->SetCenter(m_Position);
 }
 

@@ -1,5 +1,5 @@
 #pragma once
-class BoundingSphere;
+class BoundingSphereObj;
 
 // 2‚Â‚ÌBoundingSphere‚ªd‚È‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚·‚éŠÖ”
-bool IsCollision(BoundingSphere& sphere1, BoundingSphere& sphere2);
+bool IsCollision(BoundingSphereObj& sphere1, BoundingSphereObj& sphere2);

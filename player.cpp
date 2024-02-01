@@ -20,6 +20,7 @@
 #include "PlayerEvasive.h"
 #include "PlayerShot.h"
 #include "HumanEnemy.h"
+#include "BoundingSphere.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -74,6 +75,11 @@ void PlayerObject::Init()
 	m_PlayerShot = AddComponent<Player::Shot>();
 	m_Position.y += 10;
 	m_Position.x += 40;
+
+	//子オブジェクトに当たり判定を追加
+	BoundingSphereObj* boundingSphere = new BoundingSphereObj(0.1f, m_Position);
+	playerHitSphere = AddChild<BoundingSphereObj>();
+	playerHitSphere = boundingSphere;
 }
 
 void PlayerObject::Update()
@@ -173,4 +179,14 @@ void PlayerObject::Update()
 void PlayerObject::PreDraw()
 {
 	m_Model->Update("Idle", m_Frame, "Run", m_Frame, m_BlendRate);
+}
+
+void Player::PlayerObject::SetIsActive(bool _isActive)
+{
+	isActive = _isActive;
+}
+
+bool Player::PlayerObject::GetIsActive()
+{
+	return isActive;
 }

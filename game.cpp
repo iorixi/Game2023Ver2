@@ -89,6 +89,11 @@ void Game::Draw()
 
 void Game::ReadyGo()
 {
+	Scene* nowScene = Manager::GetScene();
+	//現在のシーンのプレイヤーのオブジェクトを取得
+	PlayerObject* player = nowScene->GetGameObject<PlayerObject>();
+	HumanObject* enemy = nowScene->GetGameObject<HumanObject>();
+
 	if (!m_GoEnd)
 	{
 		if (!m_Go)
@@ -106,6 +111,10 @@ void Game::ReadyGo()
 				//GOを表示
 				if (result)
 				{
+					//プレイヤーと敵をアクティブ状態に変更
+					player->SetIsActive(true);
+					enemy->SetIsActive(true);
+
 					Go->AddComponent<Sprite>()->Init(SENTER_WIDTH - (READYWIDTH / 2), SENTER_HEIGHT - (READYHEIGHT / 2)
 						, READYWIDTH, READYHEIGHT, "asset\\texture\\Go.png");
 

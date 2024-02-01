@@ -6,7 +6,7 @@ namespace Enemy
 {
 	class EnemyObject : public GameObject
 	{
-	private:
+	protected:
 
 	public:
 		void Init() override;

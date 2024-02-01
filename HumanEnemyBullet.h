@@ -2,11 +2,11 @@
 #include "component.h"
 #include "renderer.h"
 #include <memory>
-#include "PlayerShootModo.h"
+#include "EnemyShootModo.h"
 
 namespace Timer { class ScheduledTask; }
 
-namespace Player
+namespace Enemy
 {
 	class Shot : public Component
 	{
@@ -17,8 +17,8 @@ namespace Player
 		std::shared_ptr <Timer::ScheduledTask> m_ScheduledTask;
 
 		//ãÖÇÃÉXÉ|Å[ÉìèÍèäÇ…Ç«ÇÍÇÆÇÁÇ¢
-		float AddForwardPlayerShotSpawnPos = 4.5f;
-		PLAYERSHOOTMODO PlayerShootModo;
+		float AddForwardEnemyShotSpawnPos = 4.5f;
+		ENEMYSHOOTMODO enemyShootModo;
 
 	public:
 		using Component::Component;
