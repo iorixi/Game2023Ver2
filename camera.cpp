@@ -6,6 +6,7 @@
 #include "HumanEnemy.h"
 #include "input.h"
 #include <cmath> // 追加する行
+#include "MoveModo.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -68,9 +69,6 @@ void Camera::Update()
 		}
 	}
 
-	// Lerp 係数。カメラの位置や注視点の変更時に徐々に移動するために使用されます。
-	float lerpFactor = 0.05f;
-
 	// Transition モードから通常モードに戻る際の Lerp 係数。通常モードに戻る際にも徐々に移動するために使用されます。
 	float returnLerpFactor = 0.05f;
 
@@ -130,13 +128,14 @@ void Camera::Update()
 	switch (m_CameraMode)
 	{
 	case CameraMode::Normal:
-
+	{
 		// 通常の場合のカメラの位置計算
 		playerPosition.y += m_CameraHeight;
 		targetPosition = playerPosition - playerForward * (m_CameraDistance + (distance / m_CameraPosDistanceCorrection));
 
 		// Lerpを使って徐々に位置と注視点を変更
-		this->m_Position = Vector3::Lerp(this->m_Position, targetPosition, lerpFactor);
+		float cameraDistance = abs((this->m_Position - targetPosition).Length());
+		this->m_Position = Vector3::Lerp(this->m_Position, targetPosition, lerpFactor + cameraDistance * distanceFactor);
 		enemyCameraTargetPos = enemyPosition;
 		enemyCameraTargetPos.y += m_CameraTargetHeight * (distance / m_CameraTargetDistanceCorrection);
 
@@ -149,11 +148,10 @@ void Camera::Update()
 		// カメラの上昇角度を調整（プレイヤーの前方向と上方向のなす角度）
 		pitch = atan2f(-playerForward.y, sqrtf(playerForward.x * playerForward.x + playerForward.z * playerForward.z));
 		this->m_Rotation.x = pitch;
-
 		break;
-
+	}
 	case CameraMode::CloseRange:
-
+	{
 		// プレイヤーの後ろにカメラを設置（カメラとプレイヤーの距離はepecの距離）に向けてLerp
 		targetBehindPlayer = playerPosition - playerForward * epecDistance;
 		targetBehindPlayer.y += m_CameraHeightCloseRange;
@@ -223,6 +221,7 @@ void Camera::Update()
 		this->m_Rotation.x = pitch;
 
 		break;
+	}
 	}//switch
 }
 

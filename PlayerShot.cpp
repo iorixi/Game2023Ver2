@@ -51,6 +51,7 @@ void Player::Shot::Update()
 		{
 			// プレイヤーの現在位置にプレイヤーの前方ベクトルを加えて、ちょっと前にオフセットした位置を計算
 			Vector3 playerSpawnShot = player->GetPosition() + forward * AddForwardPlayerShotSpawnPos;
+			playerSpawnShot.y += 1.8f;
 
 			// プレイヤーの前方に向かってエネミーの位置を取得
 			Vector3 directionToEnemy = enemy->GetPosition() - playerSpawnShot;

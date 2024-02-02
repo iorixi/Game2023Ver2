@@ -61,9 +61,6 @@ void Evasive::Update()
 
 	direction = 1;
 
-	Vector3 playerRotation = player->GetRotation();
-	//playerRotation.z -= 0.01f;
-
 	switch (evasiveModo)
 	{
 	case EvasiveModo::EVASIVE:
@@ -94,6 +91,9 @@ void Evasive::Update()
 		break;
 	}//switch
 
+	//Vector3 playerRotation = player->GetRotation();
+	//playerRotation.z += 0.01f;
+
 	// プレイヤーの座標を更新
 	player->SetPosition(playerPosition);
 	player->SetRotation(playerRotation);
@@ -107,6 +107,9 @@ void Player::Evasive::EvasiveMove()
 	{
 		m_EvasiveTime->SetTimer(evasiveTime);
 		m_InitFlgEvasiveTime = false;
+
+		//アニメションフラグをオンにする
+		animationFlg = true;
 	}
 
 	// 移動速度を加速度に応じて調整する
