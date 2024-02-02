@@ -43,9 +43,7 @@ void HumanObject::Init()
 
 	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
 	//子オブジェクトに当たり判定を追加
-	BoundingSphereObj* boundingSphere = new BoundingSphereObj(0.1f, m_Position);
-	enemyHitSphere = AddChild<BoundingSphereObj>();
-	enemyHitSphere = boundingSphere;
+	enemyHitSphere = std::make_shared<BoundingSphereObj>(0.1f, m_Position);
 
 	m_EnemyShot = AddComponent<Enemy::Shot>();
 }

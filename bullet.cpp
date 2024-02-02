@@ -31,9 +31,7 @@ void Bullet::Init()
 	AddComponent<Shadow>()->SetSize(0.5f);
 
 	//子オブジェクトに当たり判定を追加
-	BoundingSphereObj* boundingSphere = new BoundingSphereObj(1, m_Position);
-	m_Child = AddChild<BoundingSphereObj>();
-	m_Child = boundingSphere;
+	m_Child = std::make_unique<BoundingSphereObj>(1, m_Position);
 }
 
 void Bullet::Update()

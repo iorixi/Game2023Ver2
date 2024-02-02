@@ -2,6 +2,7 @@
 
 #include "gameObject.h"
 #include "animationModel.h"
+#include <memory>
 
 //ëOï˚êÈåæ
 namespace Timer { class DelayCompnent; }
@@ -18,7 +19,7 @@ namespace Player
 
 		DirectX::SimpleMath::Vector3 m_Velocity{};
 
-		class BoundingSphereObj* playerHitSphere{};
+		std::shared_ptr<BoundingSphereObj> playerHitSphere{};
 
 		class AnimationModel* m_Model;
 		int	m_Frame;
@@ -49,6 +50,6 @@ namespace Player
 		void SetVelocity(DirectX::SimpleMath::Vector3 Velocity) { m_Velocity = Velocity; }
 		DirectX::SimpleMath::Vector3 GetVelocity() { return m_Velocity; }
 
-		class BoundingSphereObj* GetPlayerHitSphere() { return playerHitSphere; };
+		class BoundingSphereObj* GetPlayerHitSphere() { return playerHitSphere.get(); };
 	};
 }

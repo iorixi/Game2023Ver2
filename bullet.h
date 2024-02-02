@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gameObject.h"
+#include <memory>
 
 class BoundingSphereObj;
 
@@ -10,7 +11,7 @@ protected:
 
 	DirectX::SimpleMath::Vector3		m_Velocity{};
 	bool m_PlayerShot = true;//ÉvÉåÉCÉÑÅ[Ç™ë≈Ç¡ÇΩÇ©Ç«Ç§Ç©
-	BoundingSphereObj* m_Child{};
+	std::shared_ptr<BoundingSphereObj> m_Child;
 
 public:
 	static void Load();
@@ -24,5 +25,5 @@ public:
 
 	void SetVelocity(DirectX::SimpleMath::Vector3 Velocity) { m_Velocity = Velocity; }
 	DirectX::SimpleMath::Vector3 GetVelocity() { return m_Velocity; }
-	BoundingSphereObj* GetBulletHitSphere() { return m_Child; };
+	BoundingSphereObj* GetBulletHitSphere() { return m_Child.get(); };
 };
