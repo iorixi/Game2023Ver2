@@ -49,11 +49,15 @@ namespace Player
 
 		std::shared_ptr <Timer::ScheduledTask> m_EvasiveTime;
 
+		bool animationFlg = false;
+
 	public:
 		using Component::Component;
 
 		virtual void Init() override;
 		virtual void Update() override;
+		bool GetAnimationFlg() { return animationFlg; }
+		void SetAnimationFlg(bool animationflg) { animationflg = animationFlg; }
 
 	private:
 		//‰ñ”ğˆ—

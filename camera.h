@@ -26,6 +26,12 @@ private:
 	float m_CameraPosDistanceCorrection = 100.0f;		//カメラの位置の距離補正
 	float m_CameraTargetDistanceCorrection = 100.0f;	//カメラの中視点の距離補正
 
+	// Lerp 係数。カメラの位置や注視点の変更時に徐々に移動するために使用されます。
+	float lerpFactor = 0.07f;
+	//距離に合わせてカメラの速度を補正
+	float distanceFactor = 0.02f;
+
+	//中視点
 	bool m_FocusMidpoint;
 
 	CameraMode m_CameraMode;

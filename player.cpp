@@ -1,4 +1,3 @@
-#include "main.h"
 #include "manager.h"
 #include "renderer.h"
 #include "modelRenderer.h"
@@ -28,7 +27,7 @@ using namespace Sound;
 using namespace Enemy;
 
 //プレイヤーの移動速度
-const float moveSpeed = 1.3f;
+const float moveSpeed = 1.5f;
 
 void PlayerObject::Init()
 {
@@ -38,8 +37,8 @@ void PlayerObject::Init()
 	m_Model = AddComponent<AnimationModel>();
 
 	m_Model->Load("asset\\model\\KachujinGRosales.fbx");									// animation ok
-	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Idle");
-	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
+	m_Model->LoadAnimation("asset\\model\\Stand.fbx", "Idle");
+	m_Model->LoadAnimation("asset\\model\\Evasise.fbx", "Evasise");
 
 	//	m_Model->Load("asset\\model\\Akai2.fbx");									// animation ok
 	//	m_Model->LoadAnimation("asset\\model\\Akai_Walk.fbx", "Idle");
@@ -115,7 +114,7 @@ void PlayerObject::Update()
 	}
 	else
 	{
-		m_BlendRate -= 0.1f;
+		m_BlendRate -= 2.0f;
 		m_Frame++;
 	}
 
@@ -170,15 +169,36 @@ void PlayerObject::Update()
 		m_Velocity.y = 0.0f;
 	}
 
+	// 現在のシーンのプレイヤーのオブジェクトを取得
+	PlayerObject* player = nowscene->GetGameObject<PlayerObject>();
+	Evasive* playerEvasive = player->GetComponent<Evasive>();
+
 	if (m_BlendRate > 1.0f)
+	{
 		m_BlendRate = 1.0f;
+	}
 	if (m_BlendRate < 0.0f)
+	{
 		m_BlendRate = 0.0f;
+	}
 }
 
 void PlayerObject::PreDraw()
 {
-	m_Model->Update("Idle", m_Frame, "Run", m_Frame, m_BlendRate);
+	// 現在のシーンを取得
+	Scene* currentScene = Manager::GetScene();
+	// 現在のシーンのプレイヤーのオブジェクトを取得
+	PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+	Evasive* playerEvasive = player->GetComponent<Evasive>();
+
+	if (playerEvasive->GetAnimationFlg())
+	{
+		m_Model->Update("Idle", m_Frame, "Idle", m_Frame, m_BlendRate);
+	}
+	else
+	{
+		m_Model->Update("Idle", m_Frame, "Idle", m_Frame, m_BlendRate);
+	}
 }
 
 void Player::PlayerObject::SetIsActive(bool _isActive)
