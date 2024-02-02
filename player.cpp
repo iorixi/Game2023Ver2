@@ -76,9 +76,7 @@ void PlayerObject::Init()
 	m_Position.x += 40;
 
 	//子オブジェクトに当たり判定を追加
-	BoundingSphereObj* boundingSphere = new BoundingSphereObj(0.1f, m_Position);
-	playerHitSphere = AddChild<BoundingSphereObj>();
-	playerHitSphere = boundingSphere;
+	playerHitSphere = std::make_shared<BoundingSphereObj>(0.1f, m_Position);
 }
 
 void PlayerObject::Update()

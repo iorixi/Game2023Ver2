@@ -1,6 +1,7 @@
 #pragma once
 #include "gameObject.h"
 #include "enemy.h"
+#include <memory>
 
 // AnimationModel ƒNƒ‰ƒX‚Ì‘O•ûéŒ¾
 class AnimationModel;
@@ -12,7 +13,7 @@ namespace Enemy
 	{
 	private:
 
-		class BoundingSphereObj* enemyHitSphere{};
+		std::shared_ptr<class BoundingSphereObj> enemyHitSphere{};
 		class AnimationModel* m_Model;
 
 		float m_MoveTime{};
@@ -32,6 +33,6 @@ namespace Enemy
 		void SetIsActive(bool _isActive);
 		bool GetIsActive();
 
-		BoundingSphereObj* GetEnemyHitSphere() { return enemyHitSphere; };
+		BoundingSphereObj* GetEnemyHitSphere() { return enemyHitSphere.get(); };
 	};
 }
