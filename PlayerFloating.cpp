@@ -4,6 +4,7 @@
 #include "scene.h"
 #include "manager.h"
 #include "camera.h"
+#include "ActionModo.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -28,12 +29,16 @@ void Floating::Update()
 		if (Input::GetKeyPress(VK_SPACE))
 		{
 			playerVelocity.y = 0.16f;
+
+			player->SetActionModo(ActionModo::MOVE);
 		}
 
 		//‰º~
 		if (Input::GetKeyPress(VK_CONTROL))
 		{
 			playerVelocity.y = -0.16f;
+
+			player->SetActionModo(ActionModo::MOVE);
 		}
 	}
 	else if (m_StandRise)

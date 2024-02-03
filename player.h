@@ -10,6 +10,7 @@ namespace Timer { class DelayCompnent; }
 namespace Sound { class Audio; }
 
 class BoundingSphereObj;
+enum class ActionModo;
 
 namespace Player
 {
@@ -38,6 +39,7 @@ namespace Player
 		class Shot* m_PlayerShot{};//ŽËŒ‚
 
 		DirectX::SimpleMath::Vector3 m_HeightToCenter;
+		ActionModo actionModo;
 
 	public:
 		void Init() override;
@@ -51,5 +53,7 @@ namespace Player
 		DirectX::SimpleMath::Vector3 GetVelocity() { return m_Velocity; }
 
 		class BoundingSphereObj* GetPlayerHitSphere() { return playerHitSphere.get(); };
+		ActionModo GetActionModo();
+		void SetActionModo(ActionModo actionmodo);
 	};
 }

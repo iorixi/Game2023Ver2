@@ -13,6 +13,8 @@ namespace Player
 		float m_AroundMoveSpeed = 0.20f;
 
 		MoveModo moveModo;
+		//移動時のベクトル
+		DirectX::SimpleMath::Vector3 moveVec;
 
 		DirectX::SimpleMath::Matrix viewMatrix;
 		DirectX::SimpleMath::Vector3 cameraForward;//カメラの向き
@@ -45,5 +47,6 @@ namespace Player
 	private:
 		void FarDistance();
 		void CloseDistance();
+		DirectX::SimpleMath::Vector3 GetMoveVec();
 	};
 }

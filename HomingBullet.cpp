@@ -18,6 +18,7 @@
 #include "ToRadians.h"
 #include "CharaEnum.h"
 #include <iostream>
+#include "CalculateAngle.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -80,56 +81,55 @@ void HomingBullet::Update()
 			Vector3 enemyPosition = enemy->GetPosition();
 			float angleChange = 0.0f;
 
-			//一定時間経つまで処理
-			if (m_HomingPointUpdateTime->GetFlg())
-			{
-				//プレイヤーなら
-				if (ownerChara == CHARACTER::PLAYER)
-				{
-					// 球の移動方向を更新
-					// 敵に向かうベクトルを計算
-					directionToEnemy = enemyPosition - m_Position;
-					directionToEnemy.Normalize();
-					// 前のフレームのベクトルとの角度を計算
-					angleChange = oldDirection.Dot(directionToEnemy);
-					//ベクトルを保存
-					oldDirection = directionToEnemy;
-				}
-				//敵なら
-				else if (ownerChara == CHARACTER::ENEMY)
-				{
-					// 球の移動方向を更新
-					// プレイヤーに向かうベクトルを計算
-					directionToPlayer = playerPosition - m_Position;
-					directionToPlayer.Normalize();
-					// 前のフレームのベクトルとの角度を計算
-					angleChange = oldDirection.Dot(directionToPlayer);
-					//ベクトルを保存
-					oldDirection = directionToPlayer;
-				}
-
-				// ベクトルの角度が45度以上変わった場合は無効にする
-				if (angleChange <= cos(ToRadians(overAngle)))
-				{
-					isActive = false;
-				}
-				else
-				{
-					isActive = true;
-				}
-			}
-
 			// 球の追尾が有効の場合のみ処理を行う
 			if (isActive)
 			{
+				//一定時間たったら処理
+				//追尾位置更新
+				if (m_HomingPointUpdateTime->GetFlg())
+				{
+					//プレイヤーなら
+					if (ownerChara == CHARACTER::PLAYER)
+					{
+						// 球の移動方向を更新
+						// 敵に向かうベクトルを計算
+						directionToEnemy = enemyPosition - m_Position;
+						directionToEnemy.y += 1.0f;
+
+						directionToEnemy.Normalize();
+						// 前のフレームのベクトルとの角度を計算
+						angleChange = CalculateAngle(oldDirection, directionToEnemy);
+						//ベクトルを保存
+						oldDirection = directionToEnemy;
+					}
+					//敵なら
+					else if (ownerChara == CHARACTER::ENEMY)
+					{
+						// 球の移動方向を更新
+						// プレイヤーに向かうベクトルを計算
+						directionToPlayer = playerPosition - m_Position;
+						directionToPlayer.y += 1.0f;
+						directionToPlayer.Normalize();
+						// 前のフレームのベクトルとの角度を計算
+						angleChange = CalculateAngle(oldDirection, directionToPlayer);
+						//ベクトルを保存
+						oldDirection = directionToPlayer;
+					}
+
+					// ベクトルの角度が一定角度以上変わった場合は無効にする
+					if (angleChange >= ToRadians(overAngle)) {
+						isActive = false;
+					}
+				}
+
 				//プレイヤーなら
 				if (ownerChara == CHARACTER::PLAYER)
 				{
 					// 敵と球の距離を計算
 					float distanceToEnemy = Vector3::Distance(enemyPosition, m_Position);
 
-					// 敵との距離が一定以下の場合は追尾する
-					if (distanceToEnemy <= closeDistance)
+					// 敵との距離が一定以上の場合は追尾する
+					if (distanceToEnemy >= closeDistance)
 					{
 						// 方向にスピードをかける
 						m_Velocity = directionToEnemy * speed;
@@ -139,7 +139,7 @@ void HomingBullet::Update()
 					}
 					else
 					{
-						// ホーミング弾が一定距離以上の敵に接近した場合、追尾を無効にして直進する
+						// ホーミング弾が一定距離以下の敵に接近した場合、追尾を無効にして直進する
 						isActive = false;
 						Vector3 forward = m_Velocity;
 						forward.Normalize();
@@ -156,8 +156,8 @@ void HomingBullet::Update()
 					// 敵と球の距離を計算
 					float distanceToPlayer = Vector3::Distance(playerPosition, m_Position);
 
-					// 敵との距離が一定以下の場合は追尾する
-					if (distanceToPlayer <= closeDistance)
+					// 敵との距離が一定以上の場合は追尾する
+					if (distanceToPlayer >= closeDistance)
 					{
 						// 方向にスピードをかける
 						m_Velocity = directionToPlayer * speed;
@@ -167,7 +167,7 @@ void HomingBullet::Update()
 					}
 					else
 					{
-						// ホーミング弾が一定距離以上の敵に接近した場合、追尾を無効にして直進する
+						// ホーミング弾が一定距離以下の敵に接近した場合、追尾を無効にして直進する
 						isActive = false;
 						Vector3 forward = m_Velocity;
 						forward.Normalize();
@@ -182,7 +182,7 @@ void HomingBullet::Update()
 			}
 			else
 			{
-				// ホーミング弾が一定距離以上の敵に接近した場合、追尾を無効にして直進する
+				//追尾無効
 				isActive = false;
 				Vector3 forward = m_Velocity;
 				forward.Normalize();
@@ -217,4 +217,9 @@ void HomingBullet::Update()
 void HomingBullet::SetBulletOwner(enum class CHARACTER chara)
 {
 	ownerChara = chara;
+}
+
+CHARACTER HomingBullet::GetBulletOwner()
+{
+	return ownerChara;
 }

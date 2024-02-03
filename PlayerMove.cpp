@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "HumanEnemy.h"
 #include "ImguiManager.h"
+#include "ActionModo.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -152,6 +153,12 @@ void Player::Move::FarDistance()
 			Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
 			playerPosition -= verticalVec;
 		}
+
+		// 現在のシーンを取得
+		Scene* currentScene = Manager::GetScene();
+		// 現在のシーンのプレイヤーのオブジェクトを取得
+		PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+		player->SetActionModo(ActionModo::MOVE);
 	}
 }
 
@@ -165,6 +172,7 @@ void Player::Move::CloseDistance()
 			direction *= -1;
 		}
 		playerPosition -= horizontalVec * direction;
+		moveVec = horizontalVec * direction;
 
 		// A キーまたは D キーが単独で押されている場合
 		if (!Input::GetKeyPress('S') && !Input::GetKeyPress('W'))
@@ -172,8 +180,20 @@ void Player::Move::CloseDistance()
 			// 上下方向と奥と手前方向の移動量
 			Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
 			playerPosition -= verticalVec;
+			// 垂直方向の移動量を moveVec に加算
+			moveVec -= verticalVec;
 		}
+		// 現在のシーンを取得
+		Scene* currentScene = Manager::GetScene();
+		// 現在のシーンのプレイヤーのオブジェクトを取得
+		PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+		player->SetActionModo(ActionModo::MOVE);
 	}
+}
+
+DirectX::SimpleMath::Vector3 Player::Move::GetMoveVec()
+{
+	return moveVec;
 }
 
 MoveModo Player::Move::GetPlayerMoveModo()

@@ -285,9 +285,6 @@
     <ClCompile Include="CollisionUtils.cpp">
       <Filter>ソース ファイル\CollisionUtils</Filter>
     </ClCompile>
-    <ClCompile Include="HomingBullet.cpp">
-      <Filter>ソース ファイル\Object\Bullet\HomingBullet</Filter>
-    </ClCompile>
     <ClCompile Include="NormalBallet.cpp">
       <Filter>ソース ファイル\Object\Bullet\NormalBullet</Filter>
     </ClCompile>
@@ -299,6 +296,9 @@
     </ClCompile>
     <ClCompile Include="HumanEnemyBullet.cpp">
       <Filter>ソース ファイル\Character\Enemy\Enemy\Human</Filter>
+    </ClCompile>
+    <ClCompile Include="HomingBullet.cpp">
+      <Filter>ソース ファイル\Object\Bullet\HomingBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -529,6 +529,12 @@
     </ClInclude>
     <ClInclude Include="EnemyShootModo.h">
       <Filter>ソース ファイル\Character\Enemy\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="CalculateAngle.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionModo.h">
+      <Filter>ソース ファイル\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -206,12 +206,14 @@
     <ClCompile Include="utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionModo.h" />
     <ClInclude Include="animationModel.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="audio.h" />
     <ClInclude Include="battery.h" />
     <ClInclude Include="box.h" />
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="CalculateAngle.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="BoundingSphere.h" />
     <ClInclude Include="CharaEnum.h" />

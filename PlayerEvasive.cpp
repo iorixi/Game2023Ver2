@@ -6,6 +6,7 @@
 #include "camera.h"
 #include "HumanEnemy.h"
 #include "ScheduledTask.h"
+#include "ActionModo.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -148,6 +149,11 @@ void Player::Evasive::EvasiveMove()
 	default:
 		break;
 	}
+	// 現在のシーンを取得
+	Scene* currentScene = Manager::GetScene();
+	// 現在のシーンのプレイヤーのオブジェクトを取得
+	PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+	player->SetActionModo(ActionModo::EVASIVE);
 
 	//一定時間経つまで処理
 	if (m_EvasiveTime->GetFlg())
