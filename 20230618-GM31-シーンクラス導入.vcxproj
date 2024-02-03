@@ -168,6 +168,7 @@
     <ClCompile Include="HomingBullet.cpp" />
     <ClCompile Include="HumanEnemy.cpp" />
     <ClCompile Include="HumanEnemyBullet.cpp" />
+    <ClCompile Include="HumanEnemyMove.cpp" />
     <ClCompile Include="ImguiManager.cpp" />
     <ClCompile Include="ImguiOperator.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="HomingBullet.h" />
     <ClInclude Include="HumanEnemy.h" />
     <ClInclude Include="HumanEnemyBullet.h" />
+    <ClInclude Include="HumanEnemyMove.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="ImguiOperator.h" />
     <ClInclude Include="Imgui\curve.hpp" />

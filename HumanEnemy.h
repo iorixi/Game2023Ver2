@@ -6,6 +6,7 @@
 // AnimationModel ÉNÉâÉXÇÃëOï˚êÈåæ
 class AnimationModel;
 class BoundingSphereObj;
+enum class ActionModo;
 
 namespace Enemy
 {
@@ -15,6 +16,7 @@ namespace Enemy
 
 		std::shared_ptr<class BoundingSphereObj> enemyHitSphere{};
 		class AnimationModel* m_Model;
+		class Move* m_EnemyMove;
 
 		float m_MoveTime{};
 		float m_BulletTime{};
@@ -26,6 +28,8 @@ namespace Enemy
 
 		bool isActive = false;
 
+		ActionModo actionModo;
+
 	public:
 		void Init() override;
 		void Update() override;
@@ -34,5 +38,8 @@ namespace Enemy
 		bool GetIsActive();
 
 		BoundingSphereObj* GetEnemyHitSphere() { return enemyHitSphere.get(); };
+
+		ActionModo GetActionModo();
+		void SetActionModo(ActionModo actionmodo);
 	};
 }

@@ -1,4 +1,4 @@
-#include "PlayerMove.h"
+#include "HumanEnemyMove.h"
 #include "Input.h"
 #include "Player.h"
 #include "Scene.h"
@@ -12,12 +12,12 @@ using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Enemy;
 
-void Player::Move::Init()
+void Enemy::Move::Init()
 {
 	moveModo = MoveModo::NONE;
 }
 
-void Player::Move::Update()
+void Enemy::Move::Update()
 {
 	// 現在のシーンを取得
 	Scene* currentScene = Manager::GetScene();
@@ -33,20 +33,20 @@ void Player::Move::Update()
 	viewMatrix = cameraObj->GetViewMatrix();
 	cameraForward = Vector3(viewMatrix._13, 0.0f, viewMatrix._33);
 
-	playerPosition = player->GetPosition();
-	playerRotation = player->GetRotation();
+	enemyPosition = enemy->GetPosition();
+	enemyRotation = enemy->GetRotation();
 
 	// 前方ベクトルを取得
-	playerForward = cameraForward;
+	enemyForward = cameraForward;
 
 	// 前進および後退
 	if (Input::GetKeyPress('W'))
 	{
-		playerPosition += playerForward * (m_AroundMoveSpeed + acceleration);
+		enemyPosition += enemyForward * (m_AroundMoveSpeed + acceleration);
 	}
 	if (Input::GetKeyPress('S'))
 	{
-		playerPosition -= playerForward * (m_AroundMoveSpeed + acceleration);
+		enemyPosition -= enemyForward * (m_AroundMoveSpeed + acceleration);
 	}
 
 	// 移動速度に補正がかかる最大の距離
@@ -56,24 +56,24 @@ void Player::Move::Update()
 	float angleDelta = 0.02f;
 
 	// プレイヤーと敵の距離を計算
-	float distanceToEnemy = Vector3::Distance(playerPosition, enemy->GetPosition());
+	float distanceToEnemy = Vector3::Distance(enemyPosition, player->GetPosition());
 
 	// プレイヤーの現在の角度（ラジアン単位）を計算
-	float playerAngle = atan2(playerPosition.z - enemy->GetPosition().z, playerPosition.x - enemy->GetPosition().x);
+	float enemyAngle = atan2(enemyPosition.z - enemy->GetPosition().z, enemyPosition.x - player->GetPosition().x);
 
 	// 接触する距離
 	float collisionDistance = 20.0f;
 
 	// プレイヤーと敵の間のベクトル
-	playerToEnemy = enemy->GetPosition() - playerPosition;
-	playerToEnemy.y = 0.0f; // 高さ方向の影響を無視
-	playerToEnemy.Normalize(); // ベクトルの長さを1に正規化
+	enemyToPlayer = player->GetPosition() - enemyPosition;
+	enemyToPlayer.y = 0.0f; // 高さ方向の影響を無視
+	enemyToPlayer.Normalize(); // ベクトルの長さを1に正規化
 
 	// プレイヤーの横向きベクトル（右向き）
 	upVector = Vector3::Up;
 
 	// 接線ベクトル（右向き）
-	tangent = upVector.Cross(playerToEnemy);
+	tangent = upVector.Cross(enemyToPlayer);
 	tangent.Normalize();
 
 	// 左右方向の移動量
@@ -106,63 +106,43 @@ void Player::Move::Update()
 		break;
 	}
 
-	// 左矢印キー
-	if (Input::GetKeyPress(VK_LEFT))
-	{
-		playerRotation.y -= 0.01f;
-	}
-
-	// 右矢印キー
-	if (Input::GetKeyPress(VK_RIGHT))
-	{
-		playerRotation.y += 0.01f;
-	}
-
-	// 現在のシーンのプレイヤーのオブジェクトを取得
-	if (currentScene->GetGameObject<ImguiManager>() != NULL)
-	{
-		ImguiManager* imguiManager = currentScene->GetGameObject<ImguiManager>();
-		// Calculate and set the distance between player and enemy
-		imguiManager->SetDistance(distanceToEnemy);
-	}
-
 	// プレイヤーの座標を更新
-	player->SetPosition(playerPosition);
-	player->SetRotation(playerRotation);
+	enemy->SetPosition(enemyPosition);
+	enemy->SetRotation(enemyRotation);
 }
 
-void Player::Move::FarDistance()
+void Enemy::Move::FarDistance()
 {
 	// 左右移動
 	if (Input::GetKeyPress('A') || Input::GetKeyPress('D'))
 	{
 		// 上下方向と奥と手前方向の移動量
-		Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
+		Vector3 verticalVec = enemyForward * m_AroundMoveSpeed / 5;
 
 		if (Input::GetKeyPress('D'))
 		{
 			direction *= -1;
 		}
 
-		playerPosition -= horizontalVec * direction;
+		enemyPosition += horizontalVec * direction;
 
 		// A キーまたは D キーが単独で押されている場合
 		if (!Input::GetKeyPress('S') && !Input::GetKeyPress('W'))
 		{
 			// 上下方向と奥と手前方向の移動量
-			Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
-			playerPosition -= verticalVec;
+			Vector3 verticalVec = enemyForward * m_AroundMoveSpeed / 5;
+			enemyPosition += verticalVec;
 		}
 
 		// 現在のシーンを取得
 		Scene* currentScene = Manager::GetScene();
 		// 現在のシーンのプレイヤーのオブジェクトを取得
-		PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
-		player->SetActionModo(ActionModo::MOVE);
+		HumanObject* enemy = currentScene->GetGameObject<HumanObject>();
+		enemy->SetActionModo(ActionModo::MOVE);
 	}
 }
 
-void Player::Move::CloseDistance()
+void Enemy::Move::CloseDistance()
 {
 	// 左右移動
 	if (Input::GetKeyPress('A') || Input::GetKeyPress('D'))
@@ -171,32 +151,27 @@ void Player::Move::CloseDistance()
 		{
 			direction *= -1;
 		}
-		playerPosition -= horizontalVec * direction;
+		enemyPosition -= horizontalVec * direction;
 		moveVec = horizontalVec * direction;
 
 		// A キーまたは D キーが単独で押されている場合
 		if (!Input::GetKeyPress('S') && !Input::GetKeyPress('W'))
 		{
 			// 上下方向と奥と手前方向の移動量
-			Vector3 verticalVec = playerForward * m_AroundMoveSpeed / 5;
-			playerPosition -= verticalVec;
+			Vector3 verticalVec = enemyForward * m_AroundMoveSpeed / 5;
+			enemyPosition += verticalVec;
 			// 垂直方向の移動量を moveVec に加算
-			moveVec -= verticalVec;
+			moveVec += verticalVec;
 		}
 		// 現在のシーンを取得
 		Scene* currentScene = Manager::GetScene();
 		// 現在のシーンのプレイヤーのオブジェクトを取得
-		PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
-		player->SetActionModo(ActionModo::MOVE);
+		HumanObject* enemy = currentScene->GetGameObject<HumanObject>();
+		enemy->SetActionModo(ActionModo::MOVE);
 	}
 }
 
-DirectX::SimpleMath::Vector3 Player::Move::GetMoveVec()
-{
-	return moveVec;
-}
-
-MoveModo Player::Move::GetPlayerMoveModo()
+MoveModo Enemy::Move::GetEnemyMoveModo()
 {
 	return moveModo;
 }

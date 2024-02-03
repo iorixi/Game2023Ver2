@@ -14,6 +14,7 @@
 #include "CharaEnum.h"
 #include "HumanEnemyBullet.h"
 #include "BoundingSphere.h"
+#include "HumanEnemyMove.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -36,8 +37,8 @@ void HumanObject::Init()
 	m_Model = AddComponent<AnimationModel>();
 
 	m_Model->Load("asset\\model\\Akai.fbx");									// animation ok
-	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Idle");
-	m_Model->LoadAnimation("asset\\model\\Akai_Run.fbx", "Run");
+	m_Model->LoadAnimation("asset\\model\\Stand.fbx", "Idle");
+	m_Model->LoadAnimation("asset\\model\\Stand.fbx", "Idle");
 
 	m_Position.y = 10;
 
@@ -45,6 +46,7 @@ void HumanObject::Init()
 	//子オブジェクトに当たり判定を追加
 	enemyHitSphere = std::make_shared<BoundingSphereObj>(0.1f, m_Position);
 
+	//m_EnemyMove = AddComponent<Enemy::Move>();
 	m_EnemyShot = AddComponent<Enemy::Shot>();
 }
 
@@ -99,7 +101,7 @@ void HumanObject::Update()
 
 void HumanObject::PreDraw()
 {
-	m_Model->Update("Idle", m_Frame, "Run", m_Frame, m_BlendRate);
+	m_Model->Update("Idle", m_Frame, "Idle", m_Frame, m_BlendRate);
 }
 
 void Enemy::HumanObject::SetIsActive(bool _isActive)
@@ -110,4 +112,14 @@ void Enemy::HumanObject::SetIsActive(bool _isActive)
 bool Enemy::HumanObject::GetIsActive()
 {
 	return isActive;
+}
+
+ActionModo Enemy::HumanObject::GetActionModo()
+{
+	return actionModo;
+}
+
+void Enemy::HumanObject::SetActionModo(ActionModo actionmodo)
+{
+	actionModo = actionmodo;
 }
