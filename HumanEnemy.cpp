@@ -15,10 +15,13 @@
 #include "HumanEnemyBullet.h"
 #include "BoundingSphere.h"
 #include "HumanEnemyMove.h"
+#include "ScheduledTask.h"
+#include "Random.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Enemy;
+using namespace Timer;
 
 void HumanObject::Init()
 {
@@ -38,13 +41,13 @@ void HumanObject::Init()
 
 	m_Model->Load("asset\\model\\Akai.fbx");									// animation ok
 	m_Model->LoadAnimation("asset\\model\\Stand.fbx", "Idle");
-	m_Model->LoadAnimation("asset\\model\\Stand.fbx", "Idle");
-
 	m_Position.y = 10;
 
 	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
 	//子オブジェクトに当たり判定を追加
 	enemyHitSphere = std::make_shared<BoundingSphereObj>(0.1f, m_Position);
+
+	m_MoveChangeTask = std::make_unique<ScheduledTask>(4.0f);
 
 	//m_EnemyMove = AddComponent<Enemy::Move>();
 	m_EnemyShot = AddComponent<Enemy::Shot>();
@@ -91,6 +94,43 @@ void HumanObject::Update()
 
 	// Z軸回りの回転角度（このサンプルでは固定で0.0fとしています）
 	float roll = 0.0f;
+
+	if (m_MoveChangeTask->GetFlg())
+	{
+		C_Random random;
+		num = random.Get_Random(1, 5);
+		if (num == 5)
+		{
+			num = random.Get_Random(1, 5);
+		}
+	}
+
+	switch (num)
+	{
+	case 1:
+		//右移動
+		m_Position.x += 0.2f; // 例: 0.1f単位で左に移動
+		break;
+	case 2:
+		//右移動
+		m_Position.x += 0.2f; // 例: 0.1f単位で左に移動
+		break;
+
+	case 3:
+		//左移動
+		m_Position.x -= 0.2f; // 例: 0.1f単位で左に移動
+		break;
+	case 4:
+		//左移動
+		m_Position.x -= 0.2f; // 例: 0.1f単位で左に移動
+		break;
+	case 5:
+		//止まる
+		break;
+
+	default:
+		break;
+	}
 
 	// 回転を適用
 	m_Rotation = Vector3(pitch, yaw, roll);

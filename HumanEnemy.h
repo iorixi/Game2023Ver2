@@ -7,6 +7,7 @@
 class AnimationModel;
 class BoundingSphereObj;
 enum class ActionModo;
+namespace Timer { class ScheduledTask; }
 
 namespace Enemy
 {
@@ -15,6 +16,8 @@ namespace Enemy
 	private:
 
 		std::shared_ptr<class BoundingSphereObj> enemyHitSphere{};
+		std::shared_ptr <Timer::ScheduledTask> m_MoveChangeTask;
+
 		class AnimationModel* m_Model;
 		class Move* m_EnemyMove;
 
@@ -29,6 +32,7 @@ namespace Enemy
 		bool isActive = false;
 
 		ActionModo actionModo;
+		int num;
 
 	public:
 		void Init() override;
