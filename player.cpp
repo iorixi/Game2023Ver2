@@ -20,6 +20,7 @@
 #include "PlayerShot.h"
 #include "HumanEnemy.h"
 #include "BoundingSphere.h"
+#include "ActionModo.h"
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -59,7 +60,7 @@ void PlayerObject::Init()
 	AddComponent<Shadow>()->SetSize(1.5f);
 
 	m_SE = AddComponent<Audio>();
-	m_SE->Load("asset\\audio\\wan.wav");
+	m_SE->Load("asset\\audio\\damage.wav");
 
 	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
 
@@ -76,7 +77,9 @@ void PlayerObject::Init()
 	m_Position.x += 40;
 
 	//子オブジェクトに当たり判定を追加
-	playerHitSphere = std::make_shared<BoundingSphereObj>(0.1f, m_Position);
+	//当たり判定
+	playerHitSphere = std::make_shared<BoundingSphereObj>(0.2f, m_Position);
+	actionModo = ActionModo::NONE;
 }
 
 void PlayerObject::Update()
@@ -99,6 +102,8 @@ void PlayerObject::Update()
 	//　範囲チェック
 	Vector3 max = fieldobj->GetMax();
 	Vector3 min = fieldobj->GetMin();
+
+	actionModo = ActionModo::NONE;
 
 	if (Input::GetKeyPress('W'))
 	{
@@ -179,6 +184,9 @@ void PlayerObject::Update()
 	{
 		m_BlendRate = 0.0f;
 	}
+
+	//当たり判定
+	playerHitSphere->SetCenter(m_Position);
 }
 
 void PlayerObject::PreDraw()
@@ -207,4 +215,14 @@ void Player::PlayerObject::SetIsActive(bool _isActive)
 bool Player::PlayerObject::GetIsActive()
 {
 	return isActive;
+}
+
+ActionModo Player::PlayerObject::GetActionModo()
+{
+	return actionModo;
+}
+
+void Player::PlayerObject::SetActionModo(ActionModo actionmodo)
+{
+	actionModo = actionmodo;
 }

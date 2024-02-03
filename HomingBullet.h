@@ -14,7 +14,7 @@ class HomingBullet : public Bullet
 
 	//追尾弾の速度
 	// 移動速度を設定（例えば、この場合はプレイヤーに向かって一定の速度で移動する）
-	float speed = 0.5f;
+	float speed = 0.7f;
 	//球の飛ぶ方向
 	DirectX::SimpleMath::Vector3 directionToEnemy;
 	DirectX::SimpleMath::Vector3 directionToPlayer;
@@ -22,7 +22,7 @@ class HomingBullet : public Bullet
 	DirectX::SimpleMath::Vector3 oldDirection;
 
 	//追尾弾の追尾位置の更新時間
-	float homingPointUpdateTime = 3.0f;
+	float homingPointUpdateTime = 0.12f;
 	//追尾弾の追尾位置の時間
 	std::shared_ptr <Timer::ScheduledTask> m_HomingPointUpdateTime;
 
@@ -30,9 +30,9 @@ class HomingBullet : public Bullet
 	bool isActive = true;
 
 	//球と敵との追従を切る距離
-	float closeDistance = 2.0f;
+	float closeDistance = 3.0f;
 	//一定以上の角度
-	float overAngle = 45.0f;
+	float overAngle = 10.0f;
 
 public:
 	HomingBullet();
@@ -45,6 +45,7 @@ public:
 	void Init() override;
 	void Update() override;
 	void SetBulletOwner(enum class CHARACTER chara);
+	enum class CHARACTER GetBulletOwner();
 
 private:
 };

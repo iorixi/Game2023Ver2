@@ -13,10 +13,13 @@
 #include "ScheduledTask.h"
 #include "BoundingSphere.h"
 
+#include "audio.h"
+
 using namespace DirectX::SimpleMath;
 using namespace Player;
 using namespace Timer;
 using namespace Enemy;
+using namespace Sound;
 
 void Enemy::Shot::Init()
 {
@@ -49,9 +52,9 @@ void Enemy::Shot::Update()
 	{
 		if (m_ScheduledTask->GetFlg())
 		{
-			// 敵のの現在位置に敵の前方ベクトルを加えて、ちょっと前にオフセットした位置を計算
+			// 敵の現在位置に敵の前方ベクトルを加えて、ちょっと前にオフセットした位置を計算
 			Vector3 enemySpawnShot = enemy->GetPosition() + forward * AddForwardEnemyShotSpawnPos;
-
+			enemySpawnShot.y += 1.6f;
 			// 敵の前方に向かってプレイヤーの位置を取得
 			Vector3 directionToEnemy = player->GetPosition() - enemySpawnShot;
 			directionToEnemy.Normalize();
@@ -59,7 +62,7 @@ void Enemy::Shot::Update()
 			// 弾を作成し、エネミーの方向に速度を設定
 			HomingBullet* bullet = scene->AddGameObject<HomingBullet>(2);
 			//球は誰が打っているか
-			bullet->SetBulletOwner(CHARACTER::PLAYER);
+			bullet->SetBulletOwner(CHARACTER::ENEMY);
 			bullet->SetPosition(enemySpawnShot);
 			bullet->SetVelocity(directionToEnemy * 0.5f);
 			addShotFlg = false;
@@ -72,16 +75,20 @@ void Enemy::Shot::Update()
 		for (HomingBullet* bullet : bulletList)
 		{
 			Vector3 playerPosition = player->GetPosition();
-			BoundingSphereObj* enemyHitSphere = player->GetPlayerHitSphere();
+			BoundingSphereObj* playerHitSphere = player->GetPlayerHitSphere();
 			BoundingSphereObj* bulletHitSphere = bullet->GetBulletHitSphere();
 
-			//球の当たり判定
-			if (IsCollision(*enemyHitSphere, *bulletHitSphere))
+			if (bullet->GetBulletOwner() == CHARACTER::ENEMY)
 			{
-				Score* score = scene->GetGameObject<Score>();
-				score->AddCount(1);
-
-				bullet->SetDestroy();
+				//球の当たり判定
+				if (IsCollision(*playerHitSphere, *bulletHitSphere))
+				{
+					Score* score = scene->GetGameObject<Score>();
+					score->AddCount(1);
+					Sound::Audio* m_SE = player->GetComponent<Audio>();
+					m_SE->Play();
+					bullet->SetDestroy();
+				}
 			}
 		}
 	}

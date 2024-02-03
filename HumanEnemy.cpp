@@ -71,23 +71,6 @@ void HumanObject::Update()
 		m_Frame++;
 	}
 
-	//指定時間
-	m_BulletTime += 1.0f / 60.0f;
-
-	//弾発射
-	if (m_BulletTime > 1.0f)
-	{
-		m_BulletTime -= 1.0f;
-
-		Vector3 forward = GetForward();
-
-		Scene* nowscene = Manager::GetScene();
-		HomingBullet* bullet = nowscene->AddGameObject<HomingBullet>(2);
-		bullet->SetBulletOwner(CHARACTER::ENEMY);
-		bullet->SetPosition(m_Position + Vector3(0.0f, 1.5f, 0.0f));
-		bullet->SetVelocity(forward * -0.5f);
-	}
-
 	// プレイヤーオブジェクトの位置を取得
 	PlayerObject* playerObject = nowscene->GetGameObject<PlayerObject>();
 	Vector3 playerPos = playerObject->GetPosition();
@@ -108,10 +91,9 @@ void HumanObject::Update()
 	float roll = 0.0f;
 
 	// 回転を適用
-	//m_Rotation = Vector3(pitch, yaw, roll);
+	m_Rotation = Vector3(pitch, yaw, roll);
 
 	//当たり判定
-	BoundingSphereObj* boundingSphere = GetEnemyHitSphere();
 	enemyHitSphere->SetCenter(m_Position);
 }
 
