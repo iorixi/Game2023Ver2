@@ -7,8 +7,11 @@ namespace Enemy
 	class EnemyObject : public GameObject
 	{
 	protected:
+		int hp = 100;
 
 	public:
 		void Init() override;
+		void Damege(int damege);
+		int GetHp();
 	};
 }

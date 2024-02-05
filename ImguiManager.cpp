@@ -113,7 +113,10 @@ void ImguiManager::Draw()
 {
 	if (imguiUpdateFlg)
 	{
-		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+		if (imguiFlg)
+		{
+			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+		}
 	}
 	// ImGui‚Ì•`‰æˆ—
 	// ImGui::Render();

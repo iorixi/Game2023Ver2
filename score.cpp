@@ -60,6 +60,11 @@ void Score::Init()
 	m_Count = 0;
 }
 
+void Score::Init(int initCount)
+{
+	m_Count = initCount;
+}
+
 void Score::Uninit()
 {
 	m_VertexBuffer->Release();
@@ -91,7 +96,7 @@ void Score::Draw()
 
 	int count = m_Count;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		int number = count % 10;
 		count /= 10;
@@ -107,27 +112,25 @@ void Score::Draw()
 
 		VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 
-		float x = 100 - i * 30.0f;
-		float y = 30;
-		float height = 50.0f;
-		float width = 50.0f;
+		//‚˜À•W‚ðÝ’è
+		float x = m_x - i * m_space;
 
-		vertex[0].Position = Vector3(x, y, 0.0f);
+		vertex[0].Position = Vector3(x, m_y, 0.0f);
 		vertex[0].Normal = Vector3(0.0f, 1.0f, 0.0f);
 		vertex[0].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[0].TexCoord = Vector2(tx, ty);
 
-		vertex[1].Position = Vector3(x + width, y, 0.0f);
+		vertex[1].Position = Vector3(x + m_width, m_y, 0.0f);
 		vertex[1].Normal = Vector3(0.0f, 1.0f, 0.0f);
 		vertex[1].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[1].TexCoord = Vector2(tx + 0.2f, ty);
 
-		vertex[2].Position = Vector3(x, y + height, 0.0f);
+		vertex[2].Position = Vector3(x, m_y + m_height, 0.0f);
 		vertex[2].Normal = Vector3(0.0f, 1.0f, 0.0f);
 		vertex[2].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[2].TexCoord = Vector2(tx, ty + 0.2f);
 
-		vertex[3].Position = Vector3(x + width, y + height, 0.0f);
+		vertex[3].Position = Vector3(x + m_width, m_y + m_height, 0.0f);
 		vertex[3].Normal = Vector3(0.0f, 1.0f, 0.0f);
 		vertex[3].Diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertex[3].TexCoord = Vector2(tx + 0.2f, ty + 0.2f);
@@ -137,4 +140,13 @@ void Score::Draw()
 		// ƒ|ƒŠƒSƒ“•`‰æ
 		Renderer::GetDeviceContext()->Draw(4, 0);
 	}
+}
+
+void Score::SetPlace(float x, float y, float height, float width, float space)
+{
+	m_x = x;
+	m_y = y;
+	m_height = height;
+	m_width = width;
+	m_space = space;
 }

@@ -93,10 +93,11 @@ void Player::Shot::Update()
 					//‹…‚Ì“–‚½‚è”»’è
 					if (IsCollision(*enemyHitSphere, *bulletHitSphere))
 					{
-						Score* score = scene->GetGameObject<Score>();
 						//score->AddCount(1);
-						//Sound::Audio* m_SE = player->GetComponent<Audio>();
-						//m_SE->Play();
+						Sound::Audio* m_SE = player->GetComponent<Audio>();
+						m_SE->Play();
+
+						enemy->Damege(1);
 						bullet->SetDestroy();
 					}
 				}

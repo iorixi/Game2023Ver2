@@ -193,6 +193,7 @@
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
+    <ClCompile Include="scene.cpp" />
     <ClCompile Include="ScheduledTask.cpp" />
     <ClCompile Include="score.cpp" />
     <ClCompile Include="SelectCursol.cpp" />

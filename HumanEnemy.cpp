@@ -17,6 +17,9 @@
 #include "HumanEnemyMove.h"
 #include "ScheduledTask.h"
 #include "Random.h"
+#include "ActionModo.h"
+#include "score.h"
+#include <vector>
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -110,22 +113,30 @@ void HumanObject::Update()
 	case 1:
 		//右移動
 		m_Position.x += 0.2f; // 例: 0.1f単位で左に移動
+		actionModo = ActionModo::MOVE;
 		break;
 	case 2:
 		//右移動
 		m_Position.x += 0.2f; // 例: 0.1f単位で左に移動
+		actionModo = ActionModo::MOVE;
+
 		break;
 
 	case 3:
 		//左移動
 		m_Position.x -= 0.2f; // 例: 0.1f単位で左に移動
+		actionModo = ActionModo::MOVE;
+
 		break;
 	case 4:
 		//左移動
 		m_Position.x -= 0.2f; // 例: 0.1f単位で左に移動
+		actionModo = ActionModo::MOVE;
 		break;
 	case 5:
 		//止まる
+		actionModo = ActionModo::SPELL1;
+
 		break;
 
 	default:
@@ -137,6 +148,8 @@ void HumanObject::Update()
 
 	//当たり判定
 	enemyHitSphere->SetCenter(m_Position);
+	std::vector<Score*> score = nowscene->GetGameObjects<Score>();
+	score.at(0)->SetCount(hp);
 }
 
 void HumanObject::PreDraw()

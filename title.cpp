@@ -28,7 +28,7 @@ void Title::Init()
 {
 	GameObject* titleLogo = AddGameObject<GameObject>(3);			// 3‚ÍƒŒƒCƒ„”Ô†
 	titleLogo->AddComponent<Shader>()->Load("shader\\unlitTextureVS.cso", "shader\\unlitTexturePS.cso");
-	titleLogo->AddComponent<Sprite>()->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, "asset\\texture\\title.jpg");
+	titleLogo->AddComponent<Sprite>()->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, "asset\\texture\\title2.jpg");
 
 	titleChara = AddGameObject<GameObject>(3);
 	titleChara->AddComponent<Shader>()->Load("shader\\unlitTextureVS.cso", "shader\\unlitTexturePS.cso");

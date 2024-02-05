@@ -21,6 +21,8 @@
 #include "HumanEnemy.h"
 #include "BoundingSphere.h"
 #include "ActionModo.h"
+#include "score.h"
+#include <vector>
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -187,6 +189,8 @@ void PlayerObject::Update()
 
 	//“–‚½‚è”»’è
 	playerHitSphere->SetCenter(m_Position);
+	std::vector<Score*> score = nowscene->GetGameObjects<Score>();
+	score.at(1)->SetCount(hp);
 }
 
 void PlayerObject::PreDraw()
@@ -215,6 +219,23 @@ void Player::PlayerObject::SetIsActive(bool _isActive)
 bool Player::PlayerObject::GetIsActive()
 {
 	return isActive;
+}
+
+void Player::PlayerObject::Damege(int damege)
+{
+	if (hp < damege)
+	{
+		hp = 0;
+	}
+	else
+	{
+		hp -= damege;
+	}
+}
+
+int Player::PlayerObject::GetHp()
+{
+	return hp;
 }
 
 ActionModo Player::PlayerObject::GetActionModo()
