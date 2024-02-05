@@ -43,7 +43,19 @@ void Game::Init()
 	AddGameObject<Field>(1);
 	AddGameObject<PlayerObject>(1);
 	AddGameObject<HumanObject>(1);
-	AddGameObject<Score>(3);
+
+	Scene* nowscene = Manager::GetScene();
+	PlayerObject* player = nowscene->GetGameObject<PlayerObject>();
+	HumanObject* enemy = nowscene->GetGameObject<HumanObject>();
+
+	scoreObj.push_back(AddGameObject<Score>(3));
+	scoreObj.at(0)->Init(enemy->GetHp());
+	scoreObj.at(0)->SetPlace(200, 30, 50, 50, 30);
+
+	scoreObj.push_back(AddGameObject<Score>(3));
+	scoreObj.at(1)->Init(player->GetHp());
+	scoreObj.at(1)->SetPlace(1200, 600, 70, 70, 40);
+
 	AddGameObject<ImguiManager>(1);
 
 	Ready = AddGameObject<GameObject>(3);
@@ -58,8 +70,8 @@ void Game::Init()
 
 	//3.0後にタスクを実行するScheduledTaskを作成
 	scheduledTask = std::make_shared<ScheduledTask>(3.0f);
+	m_GameOverTask = std::make_shared<ScheduledTask>();
 
-	Scene* nowscene = Manager::GetScene();
 	ImguiManager* imguiManager = nowscene->GetGameObject<ImguiManager>();
 	imguiManager->Init(Application::GetHwnd());
 }
@@ -79,8 +91,10 @@ void Game::Update()
 	//開始合図
 	ReadyGo();
 
-	//imguiの処理
-	Imgui();
+	if (imguiEndflg == false)
+	{
+		Imgui();
+	}
 }
 
 void Game::Draw()
@@ -133,6 +147,42 @@ void Game::ReadyGo()
 			{
 				Go->SetDestroy();
 				m_GoEnd = true;
+			}
+		}
+	}
+
+	if (player->GetHp() <= 0 || enemy->GetHp() <= 0)
+	{
+		if (flg)
+		{
+			m_GameOverTask->SetTimer(2);
+			flg = false;
+			if (player->GetHp() <= 0)
+			{
+				win = true;
+			}
+			else
+			{
+				win = false;
+			}
+		}
+
+		if (m_GameOverTask->GetFlg())
+		{
+			endflg = true;
+		}
+
+		if (endflg)
+		{
+			if (m_Transition->GetState() == Transition::State::Stop) {
+				m_Transition->FadeOut();
+			}
+
+			// 画面遷移が終了してるか？
+			if (m_Transition->GetState() == Transition::State::Finish)
+			{
+				Manager::SetScene<Result>();
+				imguiEndflg = true;
 			}
 		}
 	}

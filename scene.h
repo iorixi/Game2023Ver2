@@ -8,11 +8,12 @@
 #include "modelRenderer.h"
 #include "ImguiManager.h"
 
+static bool win = true;
+
 class Scene
 {
 protected:
 	std::array<std::list<GameObject*>, 4>	m_GameObject;	//STLÇÃÉäÉXÉgç\ë¢
-
 public:
 	Scene() {}
 	virtual ~Scene() {}
@@ -21,6 +22,8 @@ public:
 	virtual void Uninit() {}
 	virtual void Update() {}
 	virtual void Draw() {}
+
+	bool GetWin();
 
 	void InitBase()
 	{

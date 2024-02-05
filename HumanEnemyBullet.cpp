@@ -84,9 +84,9 @@ void Enemy::Shot::Update()
 				if (IsCollision(*playerHitSphere, *bulletHitSphere))
 				{
 					Score* score = scene->GetGameObject<Score>();
-					score->AddCount(1);
 					Sound::Audio* m_SE = player->GetComponent<Audio>();
 					m_SE->Play();
+					player->Damege(1);
 					bullet->SetDestroy();
 				}
 			}

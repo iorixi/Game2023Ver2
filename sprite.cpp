@@ -67,11 +67,35 @@ void Sprite::Init(int x, int y, int Width, int Height, const char* TextureName)
 	m_Material.TextureEnable = true;
 }
 
+void Sprite::Init(int x, int y, int Width, int Height, const char* TextureName, float r, float g, float b, float a)
+{
+	spriteDate.x = x;
+	spriteDate.y = y;
+	spriteDate.width = Width;
+	spriteDate.height = Height;
+
+	UpdateSpriteBase();
+
+	std::wstring ws = sjis_to_wide_winapi(TextureName);
+
+	// テクスチャ読み込み
+	DirectX::CreateWICTextureFromFile(
+		Renderer::GetDevice(),
+		ws.c_str(),
+		nullptr,
+		//		&m_TextureResource,
+		&m_Texture);
+
+	assert(m_Texture);
+
+	m_Material.Diffuse = Color(r, g, b, a);
+	m_Material.TextureEnable = true;
+}
+
 void Sprite::Update()
 {
 	UpdateSpriteBase();
 
-	m_Material.Diffuse = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	m_Material.TextureEnable = true;
 }
 

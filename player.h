@@ -41,6 +41,8 @@ namespace Player
 		DirectX::SimpleMath::Vector3 m_HeightToCenter;
 		ActionModo actionModo;
 
+		int hp = 100;
+
 	public:
 		void Init() override;
 		void Update() override;
@@ -48,6 +50,8 @@ namespace Player
 
 		void SetIsActive(bool _isActive);
 		bool GetIsActive();
+		void Damege(int damege);
+		int GetHp();
 
 		void SetVelocity(DirectX::SimpleMath::Vector3 Velocity) { m_Velocity = Velocity; }
 		DirectX::SimpleMath::Vector3 GetVelocity() { return m_Velocity; }

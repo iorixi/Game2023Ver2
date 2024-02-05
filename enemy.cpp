@@ -16,3 +16,20 @@ void EnemyObject::Init()
 	AddComponent<ModelRenderer>()->Load("asset\\model\\enemy.obj");
 	//	AddComponent<Shadow>()->SetSize(2.0f);
 }
+
+void Enemy::EnemyObject::Damege(int damege)
+{
+	if (hp < damege)
+	{
+		hp = 0;
+	}
+	else
+	{
+		hp -= damege;
+	}
+}
+
+int Enemy::EnemyObject::GetHp()
+{
+	return hp;
+}

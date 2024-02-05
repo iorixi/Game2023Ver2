@@ -18,7 +18,15 @@ void Result::Init()
 {
 	GameObject* resultLogo = AddGameObject<GameObject>(3);			// 3‚ÍƒŒƒCƒ„”Ô†
 	resultLogo->AddComponent<Shader>()->Load("shader\\unlitTextureVS.cso", "shader\\unlitTexturePS.cso");
-	resultLogo->AddComponent<Sprite>()->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, "asset\\texture\\result.jpg");
+
+	if (win)
+	{
+		resultLogo->AddComponent<Sprite>()->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, "asset\\texture\\Win.png");
+	}
+	else
+	{
+		resultLogo->AddComponent<Sprite>()->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, "asset\\texture\\GameOver.png");
+	}
 
 	m_Transition = AddGameObject<Transition>(3);					// 3‚ÍƒŒƒCƒ„”Ô†
 	m_Transition->FadeIn();
@@ -30,7 +38,6 @@ void Result::Update()
 	if (m_Transition->GetState() == Transition::State::Stop) {
 		if (Input::GetKeyTrigger(VK_RETURN))
 		{
-
 			m_Transition->FadeOut();
 		}
 	}

@@ -17,6 +17,8 @@ class ImguiManager : public GameObject
 	bool imguiUpdateFlg = false;
 	float m_distance = 0;
 	float roundDistance = 0;
+	//imgui‚ğƒIƒ“‚É‚·‚é‚©
+	bool imguiFlg = false;
 
 public:
 	ImguiManager();

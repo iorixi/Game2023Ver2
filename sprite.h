@@ -30,6 +30,8 @@ public:
 	using Component::Component;
 
 	void Init(int x, int y, int Width, int Height, const char* TextureName);
+	void Init(int x, int y, int Width, int Height, const char* TextureName, float r, float g, float b, float a);
+
 	void Update() override;
 	void Uninit() override;
 	void Draw() override;

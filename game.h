@@ -3,6 +3,10 @@
 #include "scene.h"
 #include <memory>
 #include "ScheduledTask.h"
+#include <vector>
+
+class Sprite;
+class Score;
 
 class Game : public Scene
 {
@@ -19,6 +23,12 @@ private:
 	std::shared_ptr<Timer::ScheduledTask> scheduledTask;
 	GameObject* Ready;
 	GameObject* Go;
+	std::vector<Score*> scoreObj;
+
+	std::shared_ptr <Timer::ScheduledTask> m_GameOverTask;
+	bool flg = true;
+	bool endflg = false;
+	bool imguiEndflg = false;
 
 public:
 	void Init() override;
