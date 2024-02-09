@@ -118,6 +118,9 @@
     <Filter Include="ソース ファイル\Character\Enemy\Enemy\Human">
       <UniqueIdentifier>{5d8d701b-42f3-44ed-b7a1-87e2a5215726}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\newmodel">
+      <UniqueIdentifier>{ff961189-e045-4546-b4dd-587ccc614ee2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -305,6 +308,30 @@
     </ClCompile>
     <ClCompile Include="scene.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CMeshRenderer.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CAnimationData.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CAnimMesh.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CAnimMeshRenderrer.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CStaticMeshRenderer.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CStaticMesh.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\dx11helper.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CShader.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -544,6 +571,45 @@
     </ClInclude>
     <ClInclude Include="HumanEnemyMove.h">
       <Filter>ソース ファイル\Character\Enemy\Enemy\Human</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CMesh.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CMeshRenderer.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CAnimationData.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CAnimMesh.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CAnimMeshRenderer.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CMaterial.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CStaticMesh.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CStaticMeshRenderer.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CSphereMesh.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CIndexBuffer.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CVertexBuffer.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\dx11helper.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CShader.h">
+      <Filter>ソース ファイル\newmodel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -72,12 +72,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Program Files\Assimp\5.2.5\include;C:\directxtk\include;C:\directxtex\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Assimp\5.2.5\lib;C:\directxtk\lib\x64\Debug;C:\directxtex\lib\x64\debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\Assimp\5.2.5\include;C:\directxtex\include;C:\directxtk2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Assimp\5.2.5\lib;C:\directxtex\lib\x64\debug;C:\directxtk2\lib\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Program Files\Assimp\5.2.5\include;C:\directxtk\include;C:\directxtex\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\Assimp\5.2.5\lib;C:\directxtk\lib\x64\Release;C:\directxtex\lib\x64\release;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files\Assimp\5.2.5\include;C:\directxtex\include;C:\directxtk2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files\Assimp\5.2.5\lib;C:\directxtex\lib\x64\release;C:\directxtk2\lib\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,8 +113,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -135,6 +135,8 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,6 +155,7 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="BoundingSphere.cpp" />
+    <ClCompile Include="CMeshRenderer.cpp" />
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="CollisionUtils.cpp" />
     <ClCompile Include="CPlane.cpp" />
@@ -182,6 +185,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="modelRenderer.cpp" />
+    <ClCompile Include="newModel\CAnimationData.cpp" />
+    <ClCompile Include="newModel\CAnimMesh.cpp" />
+    <ClCompile Include="newModel\CAnimMeshRenderrer.cpp" />
+    <ClCompile Include="newModel\CShader.cpp" />
+    <ClCompile Include="newModel\CStaticMesh.cpp" />
+    <ClCompile Include="newModel\CStaticMeshRenderer.cpp" />
+    <ClCompile Include="newModel\dx11helper.cpp" />
     <ClCompile Include="NormalBallet.cpp" />
     <ClCompile Include="Perlinnoise.cpp" />
     <ClCompile Include="player.cpp" />
@@ -259,6 +269,17 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="modelRenderer.h" />
+    <ClInclude Include="newModel\CAnimationData.h" />
+    <ClInclude Include="newModel\CAnimMesh.h" />
+    <ClInclude Include="newModel\CAnimMeshRenderer.h" />
+    <ClInclude Include="newModel\CIndexBuffer.h" />
+    <ClInclude Include="newModel\CMaterial.h" />
+    <ClInclude Include="newModel\CShader.h" />
+    <ClInclude Include="newModel\CSphereMesh.h" />
+    <ClInclude Include="newModel\CStaticMesh.h" />
+    <ClInclude Include="newModel\CStaticMeshRenderer.h" />
+    <ClInclude Include="newModel\CVertexBuffer.h" />
+    <ClInclude Include="newModel\dx11helper.h" />
     <ClInclude Include="NormalBallet.h" />
     <ClInclude Include="Perlinnoise.h" />
     <ClInclude Include="player.h" />

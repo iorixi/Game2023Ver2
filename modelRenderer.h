@@ -14,12 +14,16 @@ struct MODEL_MATERIAL
 	ID3D11ShaderResourceView* Texture;
 };
 
-// 描画サブセット構造体
-struct SUBSET
-{
-	unsigned int	StartIndex;
-	unsigned int	IndexNum;
+// メッシュ（マテリアル毎にサブセットが存在する）
+struct SUBSET {
+	std::string		Name;							//サブセット名
+	unsigned int	IndexNum = 0;					// インデックス数
+	unsigned int	VertexNum = 0;					// 頂点数
+	unsigned int	IndexBase = 0;					// 開始インデックス
+	unsigned int	VertexBase = 0;					// 頂点ベース
+	unsigned int	MaterialIdx = 0;				// マテリアルインデックス
 	MODEL_MATERIAL	Material;
+	unsigned int	StartIndex;
 };
 
 // モデル構造体
