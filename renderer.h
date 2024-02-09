@@ -3,10 +3,40 @@
 #include	<d3d11.h>
 #include	<SimpleMath.h>
 #include	"Application.h"
+#include	<io.h>
+#include	<string>
+#include <vector>
+
+// assimp５．２．５用
+#include	<assimp\Importer.hpp>
+#include	<assimp\scene.h>
+#include	<assimp\postprocess.h>
+#include	<assimp/cimport.h>
 
 // リンクすべき外部ライブラリ
 #pragma comment(lib,"directxtk.lib")
 #pragma comment(lib,"d3d11.lib")
+
+// ウェイト情報　20231225 追加
+struct WEIGHT {
+	std::string bonename;						// ボーン名
+	std::string meshname;						// メッシュ名
+	float weight;								// ウェイト値
+	int	vertexindex;							// 頂点インデックス
+};
+
+//ボーン構造体　20231220 追加
+struct C_BONE
+{
+	std::string bonename;						// ボーン名
+	std::string meshname;						// メッシュ名
+	std::string armaturename;					// アーマチュア名
+	aiMatrix4x4 Matrix{};						// 親子関係を考慮した行列
+	aiMatrix4x4 AnimationMatrix{};				// 自分の事だけを考えた行列
+	aiMatrix4x4 OffsetMatrix{};					// ボーンオフセット行列
+	int			idx;							// 配列の何番目か
+	std::vector<WEIGHT> weights;				// このボーンが影響を与える頂点インデックス・ウェイト値
+};
 
 // ３Ｄ頂点データ
 struct VERTEX_3D
@@ -17,6 +47,7 @@ struct VERTEX_3D
 	DirectX::SimpleMath::Vector2 TexCoord;
 	int			BoneIndex[4];						// 20230909-02
 	float		BoneWeight[4];						// 20230909-02
+	int		bonecnt = 0;			// 20231226
 };
 
 // マテリアル
@@ -103,3 +134,5 @@ public:
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 };
+
+extern HWND	 g_hwnd;

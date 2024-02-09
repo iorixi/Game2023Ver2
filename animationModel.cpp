@@ -1,8 +1,14 @@
+#ifdef MDd_DynamicDebug
+#undef MDd_DynamicDebug
+#endif
+#define MDd_DynamicDebug "MTd_StaticDebug"
+
 #include <SimpleMath.h>
 #include "main.h"
 #include "renderer.h"
 #include "animationModel.h"
 #include "utility.h"
+#include "newModel/dx11helper.h"
 
 using namespace DirectX::SimpleMath;
 

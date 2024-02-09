@@ -2,10 +2,9 @@
 
 #include	<vector>
 #include	<wrl/client.h>
-#include	"utility.h"
+#include	"dx11helper.h"
 
-#include	"renderer.h"
-#include "newModel/dx11helper.h"
+#include	"../renderer.h"
 
 using Microsoft::WRL::ComPtr;
 
