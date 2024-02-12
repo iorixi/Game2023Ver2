@@ -18,7 +18,7 @@ namespace Player
 
 		//‹…‚ÌƒXƒ|[ƒ“êŠ‚É‚Ç‚ê‚®‚ç‚¢
 		float AddForwardPlayerShotSpawnPos = 4.5f;
-		PLAYERSHOOTMODO PlayerShootModo;
+		PlayerShootModo playerShootModo;
 
 	public:
 		using Component::Component;

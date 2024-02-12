@@ -3,8 +3,8 @@
 #include	"CMesh.h"
 
 class CSphereMesh : public CMesh {
-// 法線ベクトルを計算
-// 頂点座標をノーマライズ
+	// 法線ベクトルを計算
+	// 頂点座標をノーマライズ
 	void Normalize(DirectX::SimpleMath::Vector3 vec, DirectX::SimpleMath::Vector3& Normal) {
 		vec.Normalize();
 		Normal = vec;
@@ -13,8 +13,8 @@ class CSphereMesh : public CMesh {
 public:
 	void Init(float radius,
 		DirectX::SimpleMath::Color color,
-		int division_horizontal, 
-		int division_vertical) 
+		int division_horizontal,
+		int division_vertical)
 	{
 		// 分割数を保存
 		m_divX = division_horizontal;
@@ -105,5 +105,3 @@ private:
 	float m_radius = 100.0f;
 	DirectX::SimpleMath::Color m_color;
 };
-
-

@@ -1,6 +1,5 @@
 #include "manager.h"
 #include "renderer.h"
-#include "modelRenderer.h"
 #include "shader.h"
 #include "Player.h"
 #include "input.h"
@@ -25,14 +24,11 @@
 #include <vector>
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
-using namespace Sound;
-using namespace Enemy;
 
 //プレイヤーの移動速度
 const float moveSpeed = 1.5f;
 
-void PlayerObject::Init()
+void Player::PlayerObject::Init()
 {
 	//	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");  20230909-02
 	AddComponent<Shader>()->Load("shader\\vertexLightingOneSkinVS.cso", "shader\\vertexLightingPS.cso"); //20230909-02
@@ -61,7 +57,7 @@ void PlayerObject::Init()
 
 	AddComponent<Shadow>()->SetSize(1.5f);
 
-	m_SE = AddComponent<Audio>();
+	m_SE = AddComponent<Sound::Audio>();
 	m_SE->Load("asset\\audio\\damage.wav");
 
 	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
@@ -84,7 +80,7 @@ void PlayerObject::Init()
 	actionModo = ActionModo::NONE;
 }
 
-void PlayerObject::Update()
+void Player::PlayerObject::Update()
 {
 	Vector3 oldPosition = m_Position;
 
@@ -123,7 +119,7 @@ void PlayerObject::Update()
 		m_Frame++;
 	}
 
-	HumanObject* enemyObject = nowscene->GetGameObject<HumanObject>();
+	Enemy::HumanObject* enemyObject = nowscene->GetGameObject<Enemy::HumanObject>();
 
 	// 敵オブジェクトの位置を取得
 	Vector3 enemyPosition = enemyObject->GetPosition();
@@ -175,7 +171,7 @@ void PlayerObject::Update()
 	}
 
 	// 現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = nowscene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = nowscene->GetGameObject<Player::PlayerObject>();
 	Evasive* playerEvasive = player->GetComponent<Evasive>();
 
 	if (m_BlendRate > 1.0f)
@@ -193,12 +189,12 @@ void PlayerObject::Update()
 	score.at(1)->SetCount(hp);
 }
 
-void PlayerObject::PreDraw()
+void Player::PlayerObject::PreDraw()
 {
 	// 現在のシーンを取得
 	Scene* currentScene = Manager::GetScene();
 	// 現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
 	Evasive* playerEvasive = player->GetComponent<Evasive>();
 
 	if (playerEvasive->GetAnimationFlg())

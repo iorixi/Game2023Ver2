@@ -5,7 +5,6 @@
 #include "manager.h"
 #include "camera.h"
 #include "HomingBullet.h"
-
 #include "CollisionUtils.h"
 #include "HumanEnemy.h"
 #include "enemy.h"
@@ -13,21 +12,17 @@
 #include "CharaEnum.h"
 #include "BoundingSphere.h"
 #include "ActionModo.h"
-
 #include "audio.h"
+#include "PlayerShootModo.h"
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
-using namespace Timer;
-using namespace Enemy;
-using namespace Sound;
 
 void Player::Shot::Init()
 {
 	// m_ScheduledTaskの初期化
-	m_ScheduledTask = std::make_unique<ScheduledTask>(0.15f);
+	m_ScheduledTask = std::make_unique<Timer::ScheduledTask>(0.15f);
 	//誘導弾モードに固定
-	PlayerShootModo = PLAYERSHOOTMODO::HOMING;
+	playerShootModo = PlayerShootModo::HOMING;
 }
 
 void Player::Shot::Update()
@@ -35,9 +30,9 @@ void Player::Shot::Update()
 	//現在のシーンを取得
 	Scene* scene = Manager::GetScene();
 	//現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = scene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = scene->GetGameObject<Player::PlayerObject>();
 	//現在のシーンの敵のオブジェクトを取得
-	HumanObject* enemy = scene->GetGameObject<HumanObject>();
+	Enemy::HumanObject* enemy = scene->GetGameObject<Enemy::HumanObject>();
 
 	//現在のシーンのカメラを取得
 	Camera* cameraobj = scene->GetGameObject<Camera>();
@@ -75,11 +70,11 @@ void Player::Shot::Update()
 			}
 		}
 
-		std::vector<HumanObject*> enemyList = scene->GetGameObjects<HumanObject>();
+		std::vector<Enemy::HumanObject*> enemyList = scene->GetGameObjects<Enemy::HumanObject>();
 		std::vector<HomingBullet*> bulletList = scene->GetGameObjects<HomingBullet>();
 
 		//敵への当たり判定
-		for (HumanObject* enemy : enemyList)
+		for (Enemy::HumanObject* enemy : enemyList)
 		{
 			//球への当たり判定
 			for (HomingBullet* bullet : bulletList)
@@ -94,7 +89,7 @@ void Player::Shot::Update()
 					if (IsCollision(*enemyHitSphere, *bulletHitSphere))
 					{
 						//score->AddCount(1);
-						Sound::Audio* m_SE = player->GetComponent<Audio>();
+						Sound::Audio* m_SE = player->GetComponent<Sound::Audio>();
 						m_SE->Play();
 
 						enemy->Damege(1);

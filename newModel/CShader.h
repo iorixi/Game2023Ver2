@@ -15,4 +15,3 @@ private:
 	ComPtr<ID3D11PixelShader>  m_pPixelShader;		// ピクセルシェーダー
 	ComPtr<ID3D11InputLayout>  m_pVertexLayout;		// 頂点レイアウト
 };
-

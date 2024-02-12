@@ -1,7 +1,8 @@
 #pragma once
 #include "component.h"
 #include "renderer.h"
-#include "MoveModo.h"
+
+enum class MoveModo;
 
 namespace Player
 {

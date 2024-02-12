@@ -1,7 +1,6 @@
 #include	"CStaticMeshRenderer.h"
 
 void CStaticMeshRenderer::Init(CStaticMesh& mesh) {
-
 	// 頂点バッファ生成
 	m_VertexBuffer.Create(mesh.GetVertices());
 
@@ -25,14 +24,13 @@ void CStaticMeshRenderer::Init(CStaticMesh& mesh) {
 }
 
 void CStaticMeshRenderer::Uninit() {
-
 	for (auto& mtrl : m_Materials) {
 		mtrl->Uninit();
 		delete mtrl;
 	}
 }
 
-void CStaticMeshRenderer::Draw(){
+void CStaticMeshRenderer::Draw() {
 	// デバイスコンテキスト取得
 	ID3D11DeviceContext* devicecontext;
 	devicecontext = Renderer::GetDeviceContext();
@@ -56,8 +54,7 @@ void CStaticMeshRenderer::Draw(){
 		// ドローコール
 		devicecontext->DrawIndexed(
 			subset.IndexNum,	// 描画するインデックス数
-			subset.IndexBase,	// インデックスバッファベース開始位置（この場所がインデックス０番目になる）	
+			subset.IndexBase,	// インデックスバッファベース開始位置（この場所がインデックス０番目になる）
 			subset.VertexBase);	// 頂点バッファベース開始位置（この場所が頂点の０番目になる）
-
 	}
 }

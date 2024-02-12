@@ -10,7 +10,6 @@
 #include	<assimp\postprocess.h>
 #include	<assimp/cimport.h>
 
-
 class CAnimationData {
 	// このアニメーションのパス名
 	std::string m_filename;
@@ -21,9 +20,8 @@ class CAnimationData {
 
 public:
 	// アニメーションデータ読み込み
-	void LoadAnimation(const std::string filename,const std::string name);
+	void LoadAnimation(const std::string filename, const std::string name);
 
 	// 指定した名前のアニメーションを取得する
 	aiAnimation* GetAnimation(const char* name, int idx);
-
 };

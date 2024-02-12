@@ -1,9 +1,7 @@
 #pragma once
-namespace Player
+
+enum class PlayerShootModo
 {
-	enum class PLAYERSHOOTMODO
-	{
-		HOMING,
-		NONE,
-	};
-}
+	HOMING,
+	NONE,
+};

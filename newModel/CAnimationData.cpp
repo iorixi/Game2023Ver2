@@ -1,15 +1,14 @@
 #include	<cassert>
 #include	"CAnimationData.h"
 
-void CAnimationData::LoadAnimation(const std::string filename,const std::string name) {
-
+void CAnimationData::LoadAnimation(const std::string filename, const std::string name) {
 	// importer解放される際　シーンも解放されるのでｓｔａｔｉｃにしてる
 	static Assimp::Importer importer;
 
 	// シーン情報を構築
 	m_Animation[name] = importer.ReadFile(
 		filename.c_str(),
-		aiProcess_ConvertToLeftHanded);	
+		aiProcess_ConvertToLeftHanded);
 	assert(m_Animation[name]);
 
 	if (m_Animation[name] == nullptr) {
@@ -18,8 +17,7 @@ void CAnimationData::LoadAnimation(const std::string filename,const std::string 
 }
 
 // 指定した名前のアニメーションを取得する
-aiAnimation* CAnimationData::GetAnimation(const char* name,int idx) {
-
+aiAnimation* CAnimationData::GetAnimation(const char* name, int idx) {
 	aiAnimation* animation = m_Animation[name]->mAnimations[idx];
 
 	return animation;

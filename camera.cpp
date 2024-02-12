@@ -5,12 +5,10 @@
 #include "Player.h"
 #include "HumanEnemy.h"
 #include "input.h"
-#include <cmath> // 追加する行
+#include <cmath>
 #include "MoveModo.h"
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
-using namespace Enemy;
 
 void Camera::Init()
 {
@@ -33,8 +31,8 @@ void Camera::SetFocusMidpoint(bool focusMidpoint)
 void Camera::Update()
 {
 	Scene* nowscene = Manager::GetScene();
-	PlayerObject* playerObject = nowscene->GetGameObject<PlayerObject>();
-	HumanObject* enemyObject = nowscene->GetGameObject<HumanObject>();
+	Player::PlayerObject* playerObject = nowscene->GetGameObject<Player::PlayerObject>();
+	Enemy::HumanObject* enemyObject = nowscene->GetGameObject<Enemy::HumanObject>();
 
 	Vector3 playerPosition = playerObject->GetPosition();
 	Vector3 playerForward = playerObject->GetForward();
@@ -73,9 +71,6 @@ void Camera::Update()
 	float returnLerpFactor = 0.05f;
 
 	// カメラの高さや速度、角度などの変数の宣言
-	float cameraHeight;
-	float playerVelocityY;
-	float heightFactor;
 	float pitch;
 	float yaw;
 
@@ -231,7 +226,7 @@ void Camera::Draw()
 	Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
 	Vector3 pos = m_Position;
 	Scene* nowscene = Manager::GetScene();
-	PlayerObject* playerObject = nowscene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* playerObject = nowscene->GetGameObject<Player::PlayerObject>();
 	Vector3 cameraPosition = m_Position + m_CameraRightOffset * playerObject->GetRight();
 	m_ViewMatrix = DirectX::XMMatrixLookAtLH(cameraPosition, m_Target, up);									// 左手系にした　20230511 by suzuki.tomoki
 
