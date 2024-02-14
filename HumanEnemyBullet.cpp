@@ -81,7 +81,7 @@ void Enemy::Shot::Update()
 				{
 					Score* score = scene->GetGameObject<Score>();
 					Sound::Audio* m_SE = player->GetComponent <Sound::Audio >();
-					m_SE->Play();
+					//m_SE->Play();
 					player->Damege(1);
 					bullet->SetDestroy();
 				}

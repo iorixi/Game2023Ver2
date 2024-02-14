@@ -90,7 +90,7 @@ void Player::Shot::Update()
 					{
 						//score->AddCount(1);
 						Sound::Audio* m_SE = player->GetComponent<Sound::Audio>();
-						m_SE->Play();
+						//m_SE->Play();
 
 						enemy->Damege(1);
 						bullet->SetDestroy();

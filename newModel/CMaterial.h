@@ -148,4 +148,6 @@ public:
 	void SetShiness(float shiness) {
 		m_Material.Shininess = shiness;
 	}
+
+	MATERIAL GetMaterial() { return m_Material; }
 };

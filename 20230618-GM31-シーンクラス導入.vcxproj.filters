@@ -333,6 +333,18 @@
     <ClCompile Include="CMeshRenderer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="newModel\CBoxMesh.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CBoundingBox.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CBoundingSphere.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\dx11mathutil.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -605,6 +617,18 @@
     <ClInclude Include="newModel\CShader.h">
       <Filter>ソース ファイル\newmodel</Filter>
     </ClInclude>
+    <ClInclude Include="newModel\CBoxMesh.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CBoundingBox.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CBoundingSphere.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\dx11mathutil.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -626,6 +650,12 @@
       <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\SkyPS.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureFadePS.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureFadeVS.hlsl">
       <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>
