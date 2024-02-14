@@ -9,18 +9,22 @@
 
 class ImguiManager : public GameObject
 {
-	float someVariable = 100;
-	bool checkboxValue = false;
+	//imguiをオンにするか
+	bool imguiFlg = false;
+	//ImguiUpdate処理を実行するか
+	bool imguiUpdateFlg = false;
+
+	//AddSystem変数
 	bool titleFlg = false;
 	std::map<std::string, bool> mapBool;
 	std::map<std::string, float> mapFloat;
-	bool imguiUpdateFlg = false;
-	float m_distance = 0;
-	float roundDistance = 0;
-	//imguiをオンにするか
-	bool imguiFlg = false;
+	float m_distance = 0;//距離
+
+	//AddCameraSystem変数
+	std::map<std::string, float> mapCameraFloat;
 
 public:
+
 	ImguiManager();
 	~ImguiManager();
 
@@ -40,8 +44,14 @@ public:
 
 	bool  GetMapBool(const std::string string);
 	float GetMapFloat(const std::string string);
+	float GetMapCameraFloat(const std::string string);
+
 	void  SetImguiUpdateFlg(bool flg);
 	void  SetDistance(float distance);
 
 private:
+
+	//システムの追加処理
+	void ImguiAddSystem();
+	void CameraAddSystem();
 };
