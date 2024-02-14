@@ -3,7 +3,7 @@
 #include	<algorithm>
 #include	<iostream>
 #include	"../renderer.h"
-#include	"Collision.h"
+#include	"../collision.h"
 
 class CBoundingSphere {
 	DirectX::SimpleMath::Vector3	m_center;			// ’†SÀ•W

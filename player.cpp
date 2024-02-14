@@ -21,6 +21,8 @@
 #include "BoundingSphere.h"
 #include "ActionModo.h"
 #include "score.h"
+#include "PlayerBullerHit.h"
+
 #include <vector>
 
 #include "newModel/CBoxMesh.h"
@@ -66,45 +68,42 @@ static CBoundingSphere g_bs;
 
 void Player::PlayerObject::Init()
 {
-	//	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");  20230909-02
-	AddComponent<Shader>()->Load("shader\\vertexLightingOneSkinVS.cso", "shader\\vertexLightingPS.cso"); //20230909-02
+	AddComponent<Shader>()->Load("shader\\vertexLightingOneSkinVS.cso", "shader\\vertexLightingPS.cso");
 
 	m_Model = AddComponent<AnimationModel>();
 
-	m_Model->Load("asset\\model\\KachujinGRosales.fbx");									// animation ok
+	m_Model->Load("asset\\model\\KachujinGRosales.fbx");
 	m_Model->LoadAnimation("asset\\model\\Stand.fbx", "Idle");
 	m_Model->LoadAnimation("asset\\model\\Evasise.fbx", "Evasise");
 
-	{
-		// 使用するシェーダーを生成
-		g_shader.SetShader(
-			"shader/vertexLightingVS.hlsl",					// 頂点シェーダ
-			"shader/vertexLightingPS.hlsl");				// ピクセルシェーダ
-
-		// モデルファイル名
-		//読み込みうまくいかなかったらu8みたいな書き方探せ
-		std::string filename[] = {
-			"asset\\model\\youmu\\youmu.pmx",
-			"asset\\model\\Akai_Run.fbx",
-		};
-
-		// メッシュ生成（ジオメトリデータ）
-		g_staticmesh.Init(filename[0]);
-
-		//// 描画の為のデータ生成
-		g_staticmeshrenderer.Init(g_staticmesh);
-
-		// マテリアル生成
-		MATERIAL mtrl;
-		mtrl.Ambient = Color(0, 0, 0, 0);
-		mtrl.Diffuse = Color(1, 1, 1, 0.5f);
-		mtrl.Specular = Color(0, 0, 0, 0);
-		mtrl.Shininess = 0;
-		mtrl.Emission = Color(0, 0, 0, 0);
-		mtrl.TextureEnable = true;
-
-		g_material.Init(mtrl);
-	}
+	//{
+	//	// 使用するシェーダーを生成
+	//	g_shader.SetShader(
+	//		"shader/vertexLightingVS.hlsl",					// 頂点シェーダ
+	//		"shader/vertexLightingPS.hlsl");				// ピクセルシェーダ
+	//
+	//	// モデルファイル名
+	//	//読み込みうまくいかなかったらu8みたいな書き方探せ
+	//	std::string filename[] = {
+	//		"asset\\model\\youmu\\youmu.pmx",
+	//		"asset\\model\\Akai_Run.fbx",
+	//	};
+	//
+	//	// メッシュ生成（ジオメトリデータ）
+	//	g_staticmesh.Init(filename[0]);
+	//
+	//	//// 描画の為のデータ生成
+	//	g_staticmeshrenderer.Init(g_staticmesh);
+	//
+	//	// マテリアル生成
+	//	MATERIAL mtrl;
+	//	mtrl.Ambient = Color(0, 0, 0, 0);
+	//	mtrl.Diffuse = Color(1, 1, 1, 1.0f);
+	//	mtrl.Specular = Color(0, 0, 0, 0);
+	//	mtrl.Shininess = 0;
+	//	mtrl.Emission = Color(0, 0, 0, 0);
+	//	mtrl.TextureEnable = true;
+	//}
 
 	AddComponent<Shadow>()->SetSize(1.5f);
 
@@ -122,6 +121,8 @@ void Player::PlayerObject::Init()
 	m_PlayerFloating = AddComponent<Player::Floating>();
 	m_PlayerEvasive = AddComponent<Player::Evasive>();
 	m_PlayerShot = AddComponent<Player::Shot>();
+	m_BulletHit = AddComponent<Player::BulletHit>();
+
 	m_Position.y += 10;
 	m_Position.x += 40;
 
@@ -239,7 +240,7 @@ void Player::PlayerObject::Update()
 	std::vector<Score*> score = nowscene->GetGameObjects<Score>();
 	score.at(1)->SetCount(hp);
 
-	g_material.Update();
+	//g_material.Update();
 }
 
 void Player::PlayerObject::PreDraw()
@@ -259,32 +260,32 @@ void Player::PlayerObject::PreDraw()
 		m_Model->Update("Idle", m_Frame, "Idle", m_Frame, m_BlendRate);
 	}
 
-	// デバイスコンテキスト取得
-	ID3D11DeviceContext* devicecontext;
-	devicecontext = Renderer::GetDeviceContext();
-
-	// ワールド変換行列生成
-	Matrix mtx;
-	DX11MakeWorldMatrixRadian(
-		mtx,
-		m_Scale,							// スケール
-		m_Rotation,							// 姿勢
-		m_Position);						// 位置
-
-	// GPUに行列をセットする
-	Renderer::SetWorldMatrix(&mtx);
-
-	// シェーダーをGPUにセット
-	g_shader.SetGPU();
-
-	// モデル描画
-	g_staticmeshrenderer.Draw();
-
-	// 境界ボックス描画
-	mtx = g_obb.MakeWorldMtx(m_Scale, mtx);
-
-	g_material.SetGPU();
-	g_meshrenderer.Draw();
+	//// デバイスコンテキスト取得
+	//ID3D11DeviceContext* devicecontext;
+	//devicecontext = Renderer::GetDeviceContext();
+	//
+	//// ワールド変換行列生成
+	//Matrix mtx;
+	//DX11MakeWorldMatrixRadian(
+	//	mtx,
+	//	m_Scale,							// スケール
+	//	m_Rotation,							// 姿勢
+	//	m_Position);						// 位置
+	//
+	//// GPUに行列をセットする
+	//Renderer::SetWorldMatrix(&mtx);
+	//
+	//// シェーダーをGPUにセット
+	//g_shader.SetGPU();
+	//
+	//// モデル描画
+	//g_staticmeshrenderer.Draw();
+	//
+	//// 境界ボックス描画
+	//mtx = g_obb.MakeWorldMtx(m_Scale, mtx);
+	//
+	//g_material.SetGPU();
+	//g_meshrenderer.Draw();
 }
 
 void Player::PlayerObject::SetIsActive(bool _isActive)

@@ -66,11 +66,11 @@ BoundingSphere CBoundingSphere::MakeBS(
 
 	// ’†SÀ•WŒvZ
 	Vector3 wpos = CalcWorldPos(mtx);
-	bs.Center = wpos;
+	bs.center = wpos;
 
 	// ”¼Œa‚ÌÄŒvZiŠgk‚ª‚ ‚éˆ×j
 	float maxsclae = std::max(std::max(scale.x, scale.y), scale.z);
-	bs.Radius = m_radius * maxsclae;
+	bs.radius = m_radius * maxsclae;
 
 	return bs;
 }

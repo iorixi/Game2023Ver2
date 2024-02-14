@@ -38,6 +38,7 @@ namespace Player
 		class Floating* m_PlayerFloating{};		//•‚—V
 		class Evasive* m_PlayerEvasive{};		//‰ñ”ð
 		class Shot* m_PlayerShot{};//ŽËŒ‚
+		class BulletHit* m_BulletHit;//‹…‚Ì“–‚½‚è”»’è
 
 		DirectX::SimpleMath::Vector3 m_HeightToCenter;
 		ActionModo actionModo;
