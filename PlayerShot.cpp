@@ -69,35 +69,6 @@ void Player::Shot::Update()
 				addShotFlg = false;
 			}
 		}
-
-		std::vector<Enemy::HumanObject*> enemyList = scene->GetGameObjects<Enemy::HumanObject>();
-		std::vector<HomingBullet*> bulletList = scene->GetGameObjects<HomingBullet>();
-
-		//“G‚Ö‚Ì“–‚½‚è”»’è
-		for (Enemy::HumanObject* enemy : enemyList)
-		{
-			//‹…‚Ö‚Ì“–‚½‚è”»’è
-			for (HomingBullet* bullet : bulletList)
-			{
-				Vector3 enemyPosition = enemy->GetPosition();
-				BoundingSphereObj* enemyHitSphere = enemy->GetEnemyHitSphere();
-				BoundingSphereObj* bulletHitSphere = bullet->GetBulletHitSphere();
-
-				if (bullet->GetBulletOwner() == CHARACTER::PLAYER)
-				{
-					//‹…‚Ì“–‚½‚è”»’è
-					if (IsCollision(*enemyHitSphere, *bulletHitSphere))
-					{
-						//score->AddCount(1);
-						Sound::Audio* m_SE = player->GetComponent<Sound::Audio>();
-						//m_SE->Play();
-
-						enemy->Damege(1);
-						bullet->SetDestroy();
-					}
-				}
-			}
-		}
 	}
 }
 

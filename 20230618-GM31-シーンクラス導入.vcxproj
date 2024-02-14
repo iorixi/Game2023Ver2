@@ -203,6 +203,7 @@
     <ClCompile Include="NormalBallet.cpp" />
     <ClCompile Include="Perlinnoise.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="PlayerBulletHit.cpp" />
     <ClCompile Include="PlayerEvasive.cpp" />
     <ClCompile Include="PlayerFloating.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
@@ -300,6 +301,7 @@
     <ClInclude Include="Perlinnoise.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="AssimpModel.h" />
+    <ClInclude Include="PlayerBullerHit.h" />
     <ClInclude Include="PlayerEvasive.h" />
     <ClInclude Include="PlayerFloating.h" />
     <ClInclude Include="PlayerMove.h" />
