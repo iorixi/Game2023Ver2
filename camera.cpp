@@ -7,6 +7,7 @@
 #include "input.h"
 #include <cmath>
 #include "MoveModo.h"
+#include "ImguiManager.h"
 
 using namespace DirectX::SimpleMath;
 
@@ -37,6 +38,9 @@ void Camera::Update()
 	Vector3 playerPosition = playerObject->GetPosition();
 	Vector3 playerForward = playerObject->GetForward();
 	Vector3 enemyPosition = enemyObject->GetPosition(); // “G‚ÌˆÊ’u‚ðŽæ“¾
+
+	//imgui‚Ì•Ï”‚ðŽæ“¾
+	GetImguiCameraUpdate();
 
 	// ƒvƒŒƒCƒ„[‚Æ“G‚ÌŠÔ‚Ì‹——£‚ðŒvŽZ‚µ‚Ü‚·
 	float distance = Vector3::Distance(playerPosition, enemyPosition);
@@ -254,4 +258,24 @@ void Camera::Draw()
 //	projectionMatrix = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlane, farPlane);
 
 	Renderer::SetProjectionMatrix(&projectionMatrix);
+}
+
+void Camera::GetImguiCameraUpdate()
+{
+	Scene* nowscene = Manager::GetScene();
+	ImguiManager* imguiManager = nowscene->GetGameObject<ImguiManager>();
+	if (imguiManager != NULL)
+	{
+		m_CameraDistance = imguiManager->GetMapCameraFloat("CameraDistance");
+		m_PlayerTopThreshold = imguiManager->GetMapCameraFloat("PlayerTopThreshold");
+		m_CameraHeight = imguiManager->GetMapCameraFloat("CameraHeight");
+		m_CameraHeightCloseRange = imguiManager->GetMapCameraFloat("CameraHeightCloseRange");
+		m_CameraTargetHeight = imguiManager->GetMapCameraFloat("CameraTargetHeight");
+		m_CameraRightOffset = imguiManager->GetMapCameraFloat("CameraRightOffset");
+		m_CameraRotatePitchPower = imguiManager->GetMapCameraFloat("CameraRotatePitchPower");
+		m_CameraPosDistanceCorrection = imguiManager->GetMapCameraFloat("CameraPosDistanceCorrection");
+		m_CameraTargetDistanceCorrection = imguiManager->GetMapCameraFloat("CameraTargetDistanceCorrection");
+		lerpFactor = imguiManager->GetMapCameraFloat("lerpFactor");
+		distanceFactor = imguiManager->GetMapCameraFloat("distanceFactor");
+	}
 }

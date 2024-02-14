@@ -50,4 +50,6 @@ public:
 	}
 
 private:
+	//imgui‚Ì’l‚ðŽæ‚Á‚Ä‚­‚é
+	void GetImguiCameraUpdate();
 };

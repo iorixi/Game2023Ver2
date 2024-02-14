@@ -34,7 +34,7 @@ void Input::Update()
 	oldMousePos = mousePos;
 	GetCursorPos(&mousePos);
 
-	if (GetKeyTrigger('P'))
+	if (GetKeyTrigger('O'))
 	{
 		m_inputControl = !m_inputControl;
 		// マウスカーソルを表示非表示にする
