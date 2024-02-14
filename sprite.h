@@ -29,6 +29,8 @@ public:
 
 	using Component::Component;
 
+	int id = 0;
+
 	void Init(int x, int y, int Width, int Height, const char* TextureName);
 	void Init(int x, int y, int Width, int Height, const char* TextureName, float r, float g, float b, float a);
 

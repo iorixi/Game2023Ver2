@@ -108,6 +108,11 @@ void Sprite::Uninit()
 
 void Sprite::Draw()
 {
+	if (id == 777)
+	{
+		int a = 0;
+	}
+
 	// マトリクス設定
 	Renderer::SetWorldViewProjection2D();
 

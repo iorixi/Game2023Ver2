@@ -9,7 +9,7 @@ using namespace DirectX::SimpleMath;
 
 void Transition::Init()
 {
-	AddComponent<Shader>()->Load("shader\\unlitTextureVS.cso", "shader\\unlitTexturePS.cso");
+	AddComponent<Shader>()->Load("shader\\unlitTextureFadeVS.cso", "shader\\unlitTextureFadePS.cso");
 
 	m_Sprite = AddComponent<Sprite>();
 	m_Sprite->Init(0.0f, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, "asset\\texture\\title.jpg");
@@ -19,6 +19,7 @@ void Transition::Init()
 	material.Diffuse = Color(0.0f, 0.0f, 0.0f, 1.0f);
 	material.TextureEnable = false;
 	m_Sprite->SetMaterial(material);
+	m_Sprite->id = 777;
 }
 
 void Transition::Update()
@@ -55,6 +56,15 @@ void Transition::Update()
 		break;
 	}
 
+	// マテリアルの設定
+	MATERIAL material{};
+	material.Diffuse = Color(0.0f, 0.0f, 0.0f, m_Alpha);
+	material.TextureEnable = false;
+	m_Sprite->SetMaterial(material);
+}
+
+void Transition::PreDraw()
+{
 	// マテリアルの設定
 	MATERIAL material{};
 	material.Diffuse = Color(0.0f, 0.0f, 0.0f, m_Alpha);

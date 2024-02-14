@@ -9,8 +9,6 @@
 #include "ActionModo.h"
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
-using namespace Enemy;
 
 void Enemy::Move::Init()
 {
@@ -22,7 +20,7 @@ void Enemy::Move::Update()
 	// 現在のシーンを取得
 	Scene* currentScene = Manager::GetScene();
 	// 現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
 
 	// 現在のシーンの敵のオブジェクトを取得
 	HumanObject* enemy = currentScene->GetGameObject<HumanObject>();

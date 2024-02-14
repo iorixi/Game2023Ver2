@@ -1,3 +1,4 @@
+#define _SILENCE_ALL_CXX20_DEPRECATION_WARNINGS
 #include    "utility.h"
 #include  <filesystem>
 

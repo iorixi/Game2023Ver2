@@ -1,6 +1,5 @@
 #include "manager.h"
 #include "renderer.h"
-#include "modelRenderer.h"
 #include "shader.h"
 #include "Player.h"
 #include "input.h"
@@ -24,15 +23,48 @@
 #include "score.h"
 #include <vector>
 
+#include "newModel/CBoxMesh.h"
+#include "newModel/CBoundingBox.h"
+#include "newModel/CMaterial.h"
+#include "newModel/CShader.h"
+#include "newModel/CStaticMesh.h"
+#include "newModel/CStaticMeshRenderer.h"
+#include "newModel/CBoundingSphere.h"
+#include "newModel/CSphereMesh.h"
+#include "newModel/dx11mathutil.h"
+
 using namespace DirectX::SimpleMath;
-using namespace Player;
-using namespace Sound;
-using namespace Enemy;
 
 //プレイヤーの移動速度
 const float moveSpeed = 1.5f;
 
-void PlayerObject::Init()
+// 描画の為に必要な情報
+// 使用するシェーダー
+static CShader	g_shader;
+
+// スタティックメッシュ（ジオメトリデータ）
+static CStaticMesh g_staticmesh;
+
+// メッシュレンダラー
+static CStaticMeshRenderer g_staticmeshrenderer;
+
+static Vector3	g_move = { 0.0f,0.0f,0.0f };			// 移動量
+static Vector3	g_destrot = { 0.0f,0.0f,0.0f };			// 目標回転角度
+
+// 球
+static CSphereMesh g_sphere;// メッシュレンダラ
+static CMeshRenderer g_meshrenderer;
+
+// ボックスメッシュ
+static CBoxMesh	g_box;
+
+// OBB
+static CBoundingBox g_obb;
+
+// BS
+static CBoundingSphere g_bs;
+
+void Player::PlayerObject::Init()
 {
 	//	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");  20230909-02
 	AddComponent<Shader>()->Load("shader\\vertexLightingOneSkinVS.cso", "shader\\vertexLightingPS.cso"); //20230909-02
@@ -43,25 +75,40 @@ void PlayerObject::Init()
 	m_Model->LoadAnimation("asset\\model\\Stand.fbx", "Idle");
 	m_Model->LoadAnimation("asset\\model\\Evasise.fbx", "Evasise");
 
-	//	m_Model->Load("asset\\model\\Akai2.fbx");									// animation ok
-	//	m_Model->LoadAnimation("asset\\model\\Akai_Walk.fbx", "Idle");
-	//	m_Model->LoadAnimation("asset\\model\\Akai_Walk.fbx", "Run");
+	{
+		// 使用するシェーダーを生成
+		g_shader.SetShader(
+			"shader/vertexLightingVS.hlsl",					// 頂点シェーダ
+			"shader/vertexLightingPS.hlsl");				// ピクセルシェーダ
 
-	//	m_Model->Load("data\\model\\Walking\\Walking2.fbx");						// animation ok
-	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking2.fbx", "Idle");
-	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking2.fbx", "Run");
+		// モデルファイル名
+		//読み込みうまくいかなかったらu8みたいな書き方探せ
+		std::string filename[] = {
+			"asset\\model\\youmu\\youmu.pmx",
+			"asset\\model\\Akai_Run.fbx",
+		};
 
-	//	m_Model->Load("data\\model\\Walking\\Walking.fbx");							// animation ok
-	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.fbx", "Idle");
-	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.fbx", "Run");
+		// メッシュ生成（ジオメトリデータ）
+		g_staticmesh.Init(filename[0]);
 
-	//	m_Model->Load("data\\model\\Walking\\Walking.dae");							// animation ok
-	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.dae", "Idle");		// animation ok
-	//	m_Model->LoadAnimation("data\\model\\Walking\\Walking.dae", "Run");			// animation ok
+		//// 描画の為のデータ生成
+		g_staticmeshrenderer.Init(g_staticmesh);
+
+		// マテリアル生成
+		MATERIAL mtrl;
+		mtrl.Ambient = Color(0, 0, 0, 0);
+		mtrl.Diffuse = Color(1, 1, 1, 0.5f);
+		mtrl.Specular = Color(0, 0, 0, 0);
+		mtrl.Shininess = 0;
+		mtrl.Emission = Color(0, 0, 0, 0);
+		mtrl.TextureEnable = true;
+
+		g_material.Init(mtrl);
+	}
 
 	AddComponent<Shadow>()->SetSize(1.5f);
 
-	m_SE = AddComponent<Audio>();
+	m_SE = AddComponent<Sound::Audio>();
 	m_SE->Load("asset\\audio\\damage.wav");
 
 	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
@@ -84,7 +131,7 @@ void PlayerObject::Init()
 	actionModo = ActionModo::NONE;
 }
 
-void PlayerObject::Update()
+void Player::PlayerObject::Update()
 {
 	Vector3 oldPosition = m_Position;
 
@@ -123,7 +170,7 @@ void PlayerObject::Update()
 		m_Frame++;
 	}
 
-	HumanObject* enemyObject = nowscene->GetGameObject<HumanObject>();
+	Enemy::HumanObject* enemyObject = nowscene->GetGameObject<Enemy::HumanObject>();
 
 	// 敵オブジェクトの位置を取得
 	Vector3 enemyPosition = enemyObject->GetPosition();
@@ -175,7 +222,7 @@ void PlayerObject::Update()
 	}
 
 	// 現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = nowscene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = nowscene->GetGameObject<Player::PlayerObject>();
 	Evasive* playerEvasive = player->GetComponent<Evasive>();
 
 	if (m_BlendRate > 1.0f)
@@ -191,14 +238,16 @@ void PlayerObject::Update()
 	playerHitSphere->SetCenter(m_Position);
 	std::vector<Score*> score = nowscene->GetGameObjects<Score>();
 	score.at(1)->SetCount(hp);
+
+	g_material.Update();
 }
 
-void PlayerObject::PreDraw()
+void Player::PlayerObject::PreDraw()
 {
 	// 現在のシーンを取得
 	Scene* currentScene = Manager::GetScene();
 	// 現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
 	Evasive* playerEvasive = player->GetComponent<Evasive>();
 
 	if (playerEvasive->GetAnimationFlg())
@@ -209,6 +258,33 @@ void PlayerObject::PreDraw()
 	{
 		m_Model->Update("Idle", m_Frame, "Idle", m_Frame, m_BlendRate);
 	}
+
+	// デバイスコンテキスト取得
+	ID3D11DeviceContext* devicecontext;
+	devicecontext = Renderer::GetDeviceContext();
+
+	// ワールド変換行列生成
+	Matrix mtx;
+	DX11MakeWorldMatrixRadian(
+		mtx,
+		m_Scale,							// スケール
+		m_Rotation,							// 姿勢
+		m_Position);						// 位置
+
+	// GPUに行列をセットする
+	Renderer::SetWorldMatrix(&mtx);
+
+	// シェーダーをGPUにセット
+	g_shader.SetGPU();
+
+	// モデル描画
+	g_staticmeshrenderer.Draw();
+
+	// 境界ボックス描画
+	mtx = g_obb.MakeWorldMtx(m_Scale, mtx);
+
+	g_material.SetGPU();
+	g_meshrenderer.Draw();
 }
 
 void Player::PlayerObject::SetIsActive(bool _isActive)

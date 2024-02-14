@@ -2,7 +2,6 @@
 #include	"CAnimMesh.h"
 
 void CAnimMeshRenderer::Init(CAnimMesh& mesh) {
-
 	// 頂点バッファ生成
 	m_VertexBuffer.Create(mesh.GetVertices());
 
@@ -31,11 +30,9 @@ void CAnimMeshRenderer::Init(CAnimMesh& mesh) {
 		&m_BoneCombMtxCBuffer);						// コンスタントバッファ			// 20231227
 
 	assert(m_BoneCombMtxCBuffer);
-
 }
 
 void CAnimMeshRenderer::Uninit() {
-
 	for (auto& mtrl : m_Materials) {
 		mtrl->Uninit();
 		delete mtrl;
@@ -43,7 +40,6 @@ void CAnimMeshRenderer::Uninit() {
 }
 
 void CAnimMeshRenderer::Draw() {
-
 	// デバイスコンテキスト取得
 	ID3D11DeviceContext* devicecontext;
 	devicecontext = Renderer::GetDeviceContext();
@@ -70,9 +66,8 @@ void CAnimMeshRenderer::Draw() {
 		// ドローコール
 		devicecontext->DrawIndexed(
 			subset.IndexNum,	// 描画するインデックス数
-			subset.IndexBase,	// インデックスバッファベース開始位置（この場所がインデックス０番目になる）	
+			subset.IndexBase,	// インデックスバッファベース開始位置（この場所がインデックス０番目になる）
 			subset.VertexBase);	// 頂点バッファベース開始位置（この場所が頂点の０番目になる）
-
 	}
 }
 

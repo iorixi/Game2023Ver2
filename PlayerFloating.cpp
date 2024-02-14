@@ -7,18 +7,17 @@
 #include "ActionModo.h"
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
 
-void Floating::Init()
+void Player::Floating::Init()
 {
 }
 
-void Floating::Update()
+void Player::Floating::Update()
 {
 	//現在のシーンを取得
 	Scene* scene = Manager::GetScene();
 	//現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = scene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = scene->GetGameObject<Player::PlayerObject>();
 
 	Vector3 playerVelocity = player->GetVelocity();
 

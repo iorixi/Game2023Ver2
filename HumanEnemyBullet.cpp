@@ -16,15 +16,11 @@
 #include "audio.h"
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
-using namespace Timer;
-using namespace Enemy;
-using namespace Sound;
 
 void Enemy::Shot::Init()
 {
 	// m_ScheduledTaskの初期化
-	m_ScheduledTask = std::make_unique<ScheduledTask>(0.2f);
+	m_ScheduledTask = std::make_unique<Timer::ScheduledTask>(0.2f);
 	//誘導弾モードに固定
 	enemyShootModo = ENEMYSHOOTMODO::HOMING;
 }
@@ -34,7 +30,7 @@ void Enemy::Shot::Update()
 	//現在のシーンを取得
 	Scene* scene = Manager::GetScene();
 	//現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = scene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = scene->GetGameObject<Player::PlayerObject>();
 	//現在のシーンの敵のオブジェクトを取得
 	HumanObject* enemy = scene->GetGameObject<HumanObject>();
 
@@ -84,8 +80,8 @@ void Enemy::Shot::Update()
 				if (IsCollision(*playerHitSphere, *bulletHitSphere))
 				{
 					Score* score = scene->GetGameObject<Score>();
-					Sound::Audio* m_SE = player->GetComponent<Audio>();
-					m_SE->Play();
+					Sound::Audio* m_SE = player->GetComponent <Sound::Audio >();
+					//m_SE->Play();
 					player->Damege(1);
 					bullet->SetDestroy();
 				}

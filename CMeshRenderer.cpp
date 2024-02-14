@@ -7,7 +7,6 @@ void CMeshRenderer::Init(CMesh& mesh) {
 }
 
 void CMeshRenderer::Draw() {
-
 	ID3D11DeviceContext* devicecontext;
 
 	devicecontext = Renderer::GetDeviceContext();

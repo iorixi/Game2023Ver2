@@ -3,6 +3,7 @@
 #include "gameObject.h"
 #include "animationModel.h"
 #include <memory>
+#include "newModel/CMaterial.h"
 
 //前方宣言
 namespace Timer { class DelayCompnent; }
@@ -40,7 +41,8 @@ namespace Player
 
 		DirectX::SimpleMath::Vector3 m_HeightToCenter;
 		ActionModo actionModo;
-
+		// マテリアル
+		CMaterial g_material;
 		int hp = 100;
 
 	public:

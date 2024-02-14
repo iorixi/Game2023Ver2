@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gameObject.h"
+#include "newModel/CMaterial.h"
 
 class Transition : public GameObject
 {
@@ -19,11 +20,13 @@ private:
 	State m_State = State::Stop;
 
 	class Sprite* m_Sprite{};
+	CMaterial m_Material;
 
 public:
 
 	void Init() override;
 	void Update() override;
+	void PreDraw() override;
 
 	State GetState() { return m_State; }
 

@@ -27,7 +27,7 @@ std::string GetFileExt(const char* filename) {
 
 	std::string fullpathstr(filename);
 	size_t ext_i = fullpathstr.find_last_of(".");
-	extname = fullpathstr.substr(ext_i+1, fullpathstr.size() - ext_i);
+	extname = fullpathstr.substr(ext_i + 1, fullpathstr.size() - ext_i);
 	return extname;
 }
 
@@ -56,7 +56,6 @@ bool readShader(const char* csoName, std::vector<unsigned char>& byteArray)
 // シェーダーをファイル拡張子に合わせてコンパイル
 //--------------------------------------------------------------------------------------
 HRESULT CompileShader(const char* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, void** ShaderObject, size_t& ShaderObjectSize, ID3DBlob** ppBlobOut) {
-
 	HRESULT hr;
 	static std::vector<unsigned char> byteArray;
 	*ppBlobOut = nullptr;
@@ -107,8 +106,8 @@ HRESULT CompileShaderFromFile(const char* szFileName, LPCSTR szEntryPoint, LPCST
 	DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
 #if defined( DEBUG ) || defined( _DEBUG )
 	// Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
-	// Setting this flag improves the shader debugging experience, but still allows 
-	// the shaders to be optimized and to run exactly the way they will run in 
+	// Setting this flag improves the shader debugging experience, but still allows
+	// the shaders to be optimized and to run exactly the way they will run in
 	// the release configuration of this program.
 	dwShaderFlags |= D3DCOMPILE_DEBUG;
 #endif
@@ -123,10 +122,10 @@ HRESULT CompileShaderFromFile(const char* szFileName, LPCSTR szEntryPoint, LPCST
 		dwShaderFlags,						// UINT Flags1
 		0,									// UINT Flags2
 		ppBlobOut,							// ID3DBlob** ppCode
-		&pErrorBlob);						// ID3DBlob** ppErrorMsg 
+		&pErrorBlob);						// ID3DBlob** ppErrorMsg
 	if (FAILED(hr))
 	{
-		if (pErrorBlob != nullptr){
+		if (pErrorBlob != nullptr) {
 			MessageBox(NULL,
 				(char*)pErrorBlob->GetBufferPointer(), "Error", MB_OK);
 		}
@@ -149,8 +148,7 @@ bool CreateVertexShader(
 	D3D11_INPUT_ELEMENT_DESC* layout,
 	unsigned int numElements,
 	ID3D11VertexShader** ppVertexShader,
-	ID3D11InputLayout**  ppVertexLayout) {
-
+	ID3D11InputLayout** ppVertexLayout) {
 	HRESULT hr;
 
 	ID3DBlob* pBlob = nullptr;
@@ -198,7 +196,6 @@ bool CreatePixelShader(ID3D11Device* device,
 	LPCSTR szEntryPoint,
 	LPCSTR szShaderModel,
 	ID3D11PixelShader** ppPixelShader) {
-
 	HRESULT hr;
 
 	ID3DBlob* pBlob = nullptr;
@@ -230,14 +227,13 @@ bool CreatePixelShader(ID3D11Device* device,
 /*
 
 bool CreateVertexShader(ID3D11Device* device,
-						const char* szFileName, 
-						LPCSTR szEntryPoint, 
+						const char* szFileName,
+						LPCSTR szEntryPoint,
 						LPCSTR szShaderModel,
 						D3D11_INPUT_ELEMENT_DESC* layout,
 						unsigned int numElements,
 						ID3D11VertexShader** ppVertexShader,
 						ID3D11InputLayout**  ppVertexLayout){
-
 	ID3DBlob* pBlob=nullptr;
 
 	HRESULT hr = CompileShaderFromFile(szFileName, szEntryPoint, szShaderModel, &pBlob);
@@ -281,7 +277,6 @@ bool CreatePixelShader(ID3D11Device* device,
 	LPCSTR szEntryPoint,
 	LPCSTR szShaderModel,
 	ID3D11PixelShader** ppPixelShader){
-
 	ID3DBlob* pBlob = nullptr;
 
 	// コンパイル
@@ -309,8 +304,7 @@ bool CreateConstantBuffer(
 	ID3D11Device* device,					// デバイスオブジェクト
 	unsigned int bytesize,					// コンスタントバッファサイズ
 	ID3D11Buffer** pConstantBuffer			// コンスタントバッファ
-	){
-
+) {
 	// コンスタントバッファ生成
 	D3D11_BUFFER_DESC bd;
 
@@ -321,7 +315,7 @@ bool CreateConstantBuffer(
 	bd.CPUAccessFlags = 0;										// CPUアクセス不要
 
 	HRESULT hr = device->CreateBuffer(&bd, nullptr, pConstantBuffer);
-	if (FAILED(hr)){
+	if (FAILED(hr)) {
 		MessageBox(nullptr, "CreateBuffer(constant buffer) error", "Error", MB_OK);
 		return false;
 	}
@@ -337,7 +331,6 @@ bool CreateConstantBufferWrite(
 	unsigned int bytesize,					// コンスタントバッファサイズ
 	ID3D11Buffer** pConstantBuffer			// コンスタントバッファ
 ) {
-
 	// コンスタントバッファ生成
 	D3D11_BUFFER_DESC bd;
 
@@ -363,8 +356,7 @@ bool CreateIndexBuffer(
 	ID3D11Device* device,						// デバイスオブジェクト
 	unsigned int indexnum,						// インデックス数
 	void* indexdata,							// インデックスデータ格納メモリ先頭アドレス
-	ID3D11Buffer** pIndexBuffer){				// インデックスバッファ
-
+	ID3D11Buffer** pIndexBuffer) {				// インデックスバッファ
 	// インデックスバッファ生成
 	D3D11_BUFFER_DESC bd;
 	D3D11_SUBRESOURCE_DATA InitData;
@@ -379,7 +371,7 @@ bool CreateIndexBuffer(
 	InitData.pSysMem = indexdata;
 
 	HRESULT hr = device->CreateBuffer(&bd, &InitData, pIndexBuffer);
-	if (FAILED(hr)){
+	if (FAILED(hr)) {
 		MessageBox(nullptr, "CreateBuffer(index buffer) error", "Error", MB_OK);
 		return false;
 	}
@@ -396,8 +388,7 @@ bool CreateVertexBuffer(
 	unsigned int vertexnum,				// 頂点数
 	void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
 	ID3D11Buffer** pVertexBuffer		// 頂点バッファ
-	){
-
+) {
 	HRESULT hr;
 
 	// 頂点バッファ生成
@@ -413,7 +404,7 @@ bool CreateVertexBuffer(
 	InitData.pSysMem = vertexdata;							// バッファの初期値
 
 	hr = device->CreateBuffer(&bd, &InitData, pVertexBuffer);		// バッファ生成
-	if (FAILED(hr)){
+	if (FAILED(hr)) {
 		MessageBox(nullptr, "CreateBuffer(vertex buffer) error", "Error", MB_OK);
 		return false;
 	}
@@ -431,7 +422,6 @@ bool CreateVertexBufferWrite(
 	void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
 	ID3D11Buffer** pVertexBuffer		// 頂点バッファ
 ) {
-
 	HRESULT hr;
 
 	// 頂点バッファ生成
@@ -464,8 +454,7 @@ bool CreateVertexBufferUAV(
 	unsigned int vertexnum,				// 頂点数
 	void* vertexdata,					// 頂点データ格納メモリ先頭アドレス
 	ID3D11Buffer** pVertexBuffer		// 頂点バッファ
-	){
-
+) {
 	HRESULT hr;
 
 	D3D11_BUFFER_DESC bd;
@@ -484,7 +473,7 @@ bool CreateVertexBufferUAV(
 	InitData.pSysMem = vertexdata;							// バッファの初期値
 
 	hr = device->CreateBuffer(&bd, &InitData, pVertexBuffer);		// バッファ生成
-	if (FAILED(hr)){
+	if (FAILED(hr)) {
 		MessageBox(nullptr, "CreateBuffer(vertex buffer) error", "Error", MB_OK);
 		return false;
 	}
@@ -501,8 +490,7 @@ bool CreateStructuredBuffer(
 	unsigned int num,					// 個数
 	void* data,							// データ格納メモリ先頭アドレス
 	ID3D11Buffer** pStructuredBuffer	// RWStructuredBuffer
-	){
-
+) {
 	HRESULT hr;
 
 	// Structuredバッファ生成
@@ -515,7 +503,7 @@ bool CreateStructuredBuffer(
 	bd.StructureByteStride = stride;												// 構造化バッファサイズ
 	bd.CPUAccessFlags = 0;															// CPUアクセス不要
 
-	if (data != nullptr){
+	if (data != nullptr) {
 		D3D11_SUBRESOURCE_DATA InitData;
 		ZeroMemory(&InitData, sizeof(InitData));
 
@@ -523,10 +511,10 @@ bool CreateStructuredBuffer(
 
 		hr = device->CreateBuffer(&bd, &InitData, pStructuredBuffer);		// バッファ生成
 	}
-	else{
+	else {
 		hr = device->CreateBuffer(&bd, nullptr, pStructuredBuffer);		// バッファ生成
 	}
-	if (FAILED(hr)){
+	if (FAILED(hr)) {
 		MessageBox(nullptr, "CreateBuffer(StructuredBuffer) error", "Error", MB_OK);
 		return false;
 	}
@@ -541,8 +529,7 @@ ID3D11Buffer* CreateAndCopyToBuffer(
 	ID3D11Device* device,
 	ID3D11DeviceContext* devicecontext,
 	ID3D11Buffer* pBuffer	// RWStructuredBuffer
-	){
-
+) {
 	HRESULT hr;
 	ID3D11Buffer* CloneBuffer = nullptr;
 
@@ -558,7 +545,7 @@ ID3D11Buffer* CreateAndCopyToBuffer(
 	bd.MiscFlags = 0;
 
 	hr = device->CreateBuffer(&bd, nullptr, &CloneBuffer);
-	if (SUCCEEDED(hr)){
+	if (SUCCEEDED(hr)) {
 		devicecontext->CopyResource(CloneBuffer, pBuffer);
 	}
 
@@ -570,8 +557,7 @@ ShaderResourceViewを作成
 bool CreateShaderResourceView(
 	ID3D11Device* device,
 	ID3D11Buffer* pBuffer,	// Buffer
-	ID3D11ShaderResourceView** ppSRV){
-
+	ID3D11ShaderResourceView** ppSRV) {
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	pBuffer->GetDesc(&bd);
@@ -581,22 +567,22 @@ bool CreateShaderResourceView(
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
 	srvDesc.BufferEx.FirstElement = 0;
 
-	if (bd.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS){
+	if (bd.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS) {
 		srvDesc.Format = DXGI_FORMAT_R32_TYPELESS;
 		srvDesc.BufferEx.Flags = D3D11_BUFFEREX_SRV_FLAG_RAW;
 		srvDesc.BufferEx.NumElements = bd.ByteWidth / 4;
 	}
-	else if (bd.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_STRUCTURED){
+	else if (bd.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_STRUCTURED) {
 		srvDesc.Format = DXGI_FORMAT_UNKNOWN;
 		srvDesc.BufferEx.NumElements = bd.ByteWidth / bd.StructureByteStride;
 	}
-	else{
+	else {
 		return false;
 	}
 
 	HRESULT hr;
 	hr = device->CreateShaderResourceView(pBuffer, &srvDesc, ppSRV);
-	if (FAILED(hr)){
+	if (FAILED(hr)) {
 		MessageBox(nullptr, "CreateShaderResourceView error", "Error", MB_OK);
 		return false;
 	}
@@ -610,8 +596,7 @@ UnOrderedAccessViewを作成
 bool CreateUnOrderAccessView(
 	ID3D11Device* device,
 	ID3D11Buffer* pBuffer,	// Buffer
-	ID3D11UnorderedAccessView** ppUAV){
-
+	ID3D11UnorderedAccessView** ppUAV) {
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	pBuffer->GetDesc(&bd);
@@ -621,22 +606,22 @@ bool CreateUnOrderAccessView(
 	uavDesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
 	uavDesc.Buffer.FirstElement = 0;
 
-	if (bd.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS){
+	if (bd.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS) {
 		uavDesc.Format = DXGI_FORMAT_R32_TYPELESS;
 		uavDesc.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
 		uavDesc.Buffer.NumElements = bd.ByteWidth / 4;
 	}
-	else if (bd.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_STRUCTURED){
+	else if (bd.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_STRUCTURED) {
 		uavDesc.Format = DXGI_FORMAT_UNKNOWN;
 		uavDesc.Buffer.NumElements = bd.ByteWidth / bd.StructureByteStride;
 	}
-	else{
+	else {
 		return false;
 	}
 
 	HRESULT hr;
 	hr = device->CreateUnorderedAccessView(pBuffer, &uavDesc, ppUAV);
-	if (FAILED(hr)){
+	if (FAILED(hr)) {
 		MessageBox(nullptr, "CreateUnorderedAccessView error", "Error", MB_OK);
 		return false;
 	}
@@ -650,7 +635,6 @@ bool CreateUnOrderAccessView(
 bool CreateSRVfromTGAFile(const char* filename,
 	ID3D11Device* device,
 	ID3D11ShaderResourceView** srv) {
-
 	HRESULT		hr;
 
 	wchar_t ws[512];
@@ -684,10 +668,9 @@ bool CreateSRVfromTGAFile(const char* filename,
  --------------------------------------------------------------*/
 bool CreateSRVfromWICFile(const char* filename,
 	ID3D11Device* device,
-	ID3D11DeviceContext*	device11Context,
+	ID3D11DeviceContext* device11Context,
 	ID3D11ShaderResourceView** srv) {
-
-	ID3D11Resource*			texr = nullptr;		// テクスチャリソース
+	ID3D11Resource* texr = nullptr;		// テクスチャリソース
 
 	wchar_t ws[512];
 	size_t ret;
@@ -714,10 +697,9 @@ bool CreateSRVfromWICFile(const char* filename,
  --------------------------------------------------------------*/
 bool CreateSRVfromDDS(const char* filename,
 	ID3D11Device* device,
-	ID3D11DeviceContext*	device11Context,
+	ID3D11DeviceContext* device11Context,
 	ID3D11ShaderResourceView** srv) {
-
-	ID3D11Resource*			texr = nullptr;		// テクスチャリソース
+	ID3D11Resource* texr = nullptr;		// テクスチャリソース
 
 	wchar_t ws[512];
 	size_t ret;
@@ -745,9 +727,8 @@ bool CreateSRVfromDDS(const char* filename,
 bool CreateSRVfromFile(
 	const char* filename,
 	ID3D11Device* device,
-	ID3D11DeviceContext*	device11Context,
+	ID3D11DeviceContext* device11Context,
 	ID3D11ShaderResourceView** srv) {
-
 	std::string fname(filename);
 
 	std::string ext;
@@ -762,7 +743,7 @@ bool CreateSRVfromFile(
 			device11Context,
 			srv);
 		if (!sts) {
-//			MessageBox(nullptr, fname.c_str(), "texload error", MB_OK);
+			//			MessageBox(nullptr, fname.c_str(), "texload error", MB_OK);
 			return false;
 		}
 	}
@@ -772,7 +753,7 @@ bool CreateSRVfromFile(
 			device,
 			srv);
 		if (!sts) {
-//			MessageBox(nullptr, fname.c_str(), "texload error", MB_OK);
+			//			MessageBox(nullptr, fname.c_str(), "texload error", MB_OK);
 			return false;
 		}
 	}
@@ -783,7 +764,7 @@ bool CreateSRVfromFile(
 			device11Context,
 			srv);
 		if (!sts) {
-//			MessageBox(nullptr, fname.c_str(), "texload error", MB_OK);
+			//			MessageBox(nullptr, fname.c_str(), "texload error", MB_OK);
 			return false;
 		}
 	}

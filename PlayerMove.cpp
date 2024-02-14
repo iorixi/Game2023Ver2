@@ -7,9 +7,9 @@
 #include "HumanEnemy.h"
 #include "ImguiManager.h"
 #include "ActionModo.h"
+#include "MoveModo.h"
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
 using namespace Enemy;
 
 void Player::Move::Init()
@@ -22,7 +22,7 @@ void Player::Move::Update()
 	// 現在のシーンを取得
 	Scene* currentScene = Manager::GetScene();
 	// 現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
 
 	// 現在のシーンの敵のオブジェクトを取得
 	HumanObject* enemy = currentScene->GetGameObject<HumanObject>();
@@ -186,7 +186,7 @@ void Player::Move::CloseDistance()
 		// 現在のシーンを取得
 		Scene* currentScene = Manager::GetScene();
 		// 現在のシーンのプレイヤーのオブジェクトを取得
-		PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+		Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
 		player->SetActionModo(ActionModo::MOVE);
 	}
 }

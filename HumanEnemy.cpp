@@ -1,12 +1,8 @@
-#include "main.h"
 #include "manager.h"
-#include "renderer.h"
 #include "input.h"
 #include "scene.h"
-#include "modelRenderer.h"
 #include "HumanEnemy.h"
 #include "shader.h"
-//#include "shadow.h"
 #include "bullet.h"
 #include "animationModel.h"
 #include "player.h"
@@ -14,7 +10,6 @@
 #include "CharaEnum.h"
 #include "HumanEnemyBullet.h"
 #include "BoundingSphere.h"
-#include "HumanEnemyMove.h"
 #include "ScheduledTask.h"
 #include "Random.h"
 #include "ActionModo.h"
@@ -22,11 +17,8 @@
 #include <vector>
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
-using namespace Enemy;
-using namespace Timer;
 
-void HumanObject::Init()
+void Enemy::HumanObject::Init()
 {
 	//AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");
 	//AddComponent<ModelRenderer>()->Load("asset\\model\\battery1.obj");
@@ -50,19 +42,18 @@ void HumanObject::Init()
 	//子オブジェクトに当たり判定を追加
 	enemyHitSphere = std::make_shared<BoundingSphereObj>(0.1f, m_Position);
 
-	m_MoveChangeTask = std::make_unique<ScheduledTask>(4.0f);
+	m_MoveChangeTask = std::make_unique<Timer::ScheduledTask>(4.0f);
 
 	//m_EnemyMove = AddComponent<Enemy::Move>();
 	m_EnemyShot = AddComponent<Enemy::Shot>();
 }
 
-void HumanObject::Update()
+void Enemy::HumanObject::Update()
 {
 	Scene* nowscene = Manager::GetScene();
 
 	m_MoveTime += 1.0f / 60.0f;
 
-	//m_Position.z += cosf(m_MoveTime * 1.0f) * 0.1f;
 	if (cosf(m_MoveTime * 1.0f) * 0.1f > 0)
 	{
 		m_BlendRate += 0.1f;
@@ -80,7 +71,7 @@ void HumanObject::Update()
 	}
 
 	// プレイヤーオブジェクトの位置を取得
-	PlayerObject* playerObject = nowscene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* playerObject = nowscene->GetGameObject<Player::PlayerObject>();
 	Vector3 playerPos = playerObject->GetPosition();
 	Vector3 toPlayer;
 	toPlayer.x = playerPos.x - m_Position.x;
@@ -152,7 +143,7 @@ void HumanObject::Update()
 	score.at(0)->SetCount(hp);
 }
 
-void HumanObject::PreDraw()
+void Enemy::HumanObject::PreDraw()
 {
 	m_Model->Update("Idle", m_Frame, "Idle", m_Frame, m_BlendRate);
 }

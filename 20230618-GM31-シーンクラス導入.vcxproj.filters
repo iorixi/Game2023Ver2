@@ -19,17 +19,8 @@
     <Filter Include="ソース ファイル\Audio">
       <UniqueIdentifier>{20cc0ab4-89ba-46a5-8aea-09fd4247ae67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Model">
-      <UniqueIdentifier>{a5f8ecb6-a46e-41dc-99e5-b57b9ae6b71d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Model\Animetion">
-      <UniqueIdentifier>{8259cfba-80d4-4b5b-93bc-c93a15d2e1cd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\System">
       <UniqueIdentifier>{e185a88c-60bf-405d-b212-71909a6c6ef2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Model\Assimp">
-      <UniqueIdentifier>{c06b040a-e7cc-4a46-982a-670f58b6e177}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Character">
       <UniqueIdentifier>{87b322dd-de4c-43eb-b9c3-ff260e65df1a}</UniqueIdentifier>
@@ -54,9 +45,6 @@
     </Filter>
     <Filter Include="ソース ファイル\Camera">
       <UniqueIdentifier>{00993162-76a0-4a40-9d60-79a925ed93eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Mesh">
-      <UniqueIdentifier>{4c752b00-2022-4a61-8c1b-cc81bd73af02}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Object\Collision">
       <UniqueIdentifier>{7882b3af-dbe4-44be-8e62-16da5fde8827}</UniqueIdentifier>
@@ -121,6 +109,18 @@
     <Filter Include="ソース ファイル\newmodel">
       <UniqueIdentifier>{ff961189-e045-4546-b4dd-587ccc614ee2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\System\Mesh">
+      <UniqueIdentifier>{4c752b00-2022-4a61-8c1b-cc81bd73af02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System\Model">
+      <UniqueIdentifier>{a5f8ecb6-a46e-41dc-99e5-b57b9ae6b71d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System\Model\Animetion">
+      <UniqueIdentifier>{8259cfba-80d4-4b5b-93bc-c93a15d2e1cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System\Model\Assimp">
+      <UniqueIdentifier>{c06b040a-e7cc-4a46-982a-670f58b6e177}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -130,13 +130,13 @@
       <Filter>ソース ファイル\Audio</Filter>
     </ClCompile>
     <ClCompile Include="animationModel.cpp">
-      <Filter>ソース ファイル\Model\Animetion</Filter>
+      <Filter>ソース ファイル\System\Model\Animetion</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>ソース ファイル\System</Filter>
     </ClCompile>
     <ClCompile Include="AssimpModel.cpp">
-      <Filter>ソース ファイル\Model\Assimp</Filter>
+      <Filter>ソース ファイル\System\Model\Assimp</Filter>
     </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>ソース ファイル\Character\Player</Filter>
@@ -199,7 +199,7 @@
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
     <ClCompile Include="modelRenderer.cpp">
-      <Filter>ソース ファイル\Model</Filter>
+      <Filter>ソース ファイル\System\Model</Filter>
     </ClCompile>
     <ClCompile Include="result.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -309,9 +309,6 @@
     <ClCompile Include="scene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="newModel\CMeshRenderer.cpp">
-      <Filter>ソース ファイル\newmodel</Filter>
-    </ClCompile>
     <ClCompile Include="newModel\CAnimationData.cpp">
       <Filter>ソース ファイル\newmodel</Filter>
     </ClCompile>
@@ -333,6 +330,21 @@
     <ClCompile Include="newModel\CShader.cpp">
       <Filter>ソース ファイル\newmodel</Filter>
     </ClCompile>
+    <ClCompile Include="CMeshRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CBoxMesh.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CBoundingBox.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\CBoundingSphere.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
+    <ClCompile Include="newModel\dx11mathutil.cpp">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -342,13 +354,13 @@
       <Filter>ソース ファイル\Audio</Filter>
     </ClInclude>
     <ClInclude Include="animationModel.h">
-      <Filter>ソース ファイル\Model\Animetion</Filter>
+      <Filter>ソース ファイル\System\Model\Animetion</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>ソース ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="AssimpModel.h">
-      <Filter>ソース ファイル\Model\Assimp</Filter>
+      <Filter>ソース ファイル\System\Model\Assimp</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>ソース ファイル\Character\Player</Filter>
@@ -360,10 +372,10 @@
       <Filter>ソース ファイル\Object\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="CMesh.h">
-      <Filter>ソース ファイル\Mesh</Filter>
+      <Filter>ソース ファイル\System\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="CMeshRenderer.h">
-      <Filter>ソース ファイル\Mesh</Filter>
+      <Filter>ソース ファイル\System\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="collision.h">
       <Filter>ソース ファイル\Object\Collision</Filter>
@@ -417,7 +429,7 @@
       <Filter>ソース ファイル\Object</Filter>
     </ClInclude>
     <ClInclude Include="modelRenderer.h">
-      <Filter>ソース ファイル\Model</Filter>
+      <Filter>ソース ファイル\System\Model</Filter>
     </ClInclude>
     <ClInclude Include="gameObject.h">
       <Filter>ソース ファイル\Object</Filter>
@@ -572,12 +584,6 @@
     <ClInclude Include="HumanEnemyMove.h">
       <Filter>ソース ファイル\Character\Enemy\Enemy\Human</Filter>
     </ClInclude>
-    <ClInclude Include="newModel\CMesh.h">
-      <Filter>ソース ファイル\newmodel</Filter>
-    </ClInclude>
-    <ClInclude Include="newModel\CMeshRenderer.h">
-      <Filter>ソース ファイル\newmodel</Filter>
-    </ClInclude>
     <ClInclude Include="newModel\CAnimationData.h">
       <Filter>ソース ファイル\newmodel</Filter>
     </ClInclude>
@@ -611,6 +617,18 @@
     <ClInclude Include="newModel\CShader.h">
       <Filter>ソース ファイル\newmodel</Filter>
     </ClInclude>
+    <ClInclude Include="newModel\CBoxMesh.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CBoundingBox.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\CBoundingSphere.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
+    <ClInclude Include="newModel\dx11mathutil.h">
+      <Filter>ソース ファイル\newmodel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -632,6 +650,12 @@
       <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\SkyPS.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureFadePS.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureFadeVS.hlsl">
       <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

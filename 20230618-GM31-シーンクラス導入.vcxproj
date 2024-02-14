@@ -188,10 +188,18 @@
     <ClCompile Include="newModel\CAnimationData.cpp" />
     <ClCompile Include="newModel\CAnimMesh.cpp" />
     <ClCompile Include="newModel\CAnimMeshRenderrer.cpp" />
+    <ClCompile Include="newModel\CBoundingBox.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="newModel\CBoundingSphere.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="newModel\CBoxMesh.cpp" />
     <ClCompile Include="newModel\CShader.cpp" />
     <ClCompile Include="newModel\CStaticMesh.cpp" />
     <ClCompile Include="newModel\CStaticMeshRenderer.cpp" />
     <ClCompile Include="newModel\dx11helper.cpp" />
+    <ClCompile Include="newModel\dx11mathutil.cpp" />
     <ClCompile Include="NormalBallet.cpp" />
     <ClCompile Include="Perlinnoise.cpp" />
     <ClCompile Include="player.cpp" />
@@ -272,6 +280,13 @@
     <ClInclude Include="newModel\CAnimationData.h" />
     <ClInclude Include="newModel\CAnimMesh.h" />
     <ClInclude Include="newModel\CAnimMeshRenderer.h" />
+    <ClInclude Include="newModel\CBoundingBox.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="newModel\CBoundingSphere.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="newModel\CBoxMesh.h" />
     <ClInclude Include="newModel\CIndexBuffer.h" />
     <ClInclude Include="newModel\CMaterial.h" />
     <ClInclude Include="newModel\CShader.h" />
@@ -280,6 +295,7 @@
     <ClInclude Include="newModel\CStaticMeshRenderer.h" />
     <ClInclude Include="newModel\CVertexBuffer.h" />
     <ClInclude Include="newModel\dx11helper.h" />
+    <ClInclude Include="newModel\dx11mathutil.h" />
     <ClInclude Include="NormalBallet.h" />
     <ClInclude Include="Perlinnoise.h" />
     <ClInclude Include="player.h" />
@@ -320,6 +336,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureFadePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureFadeVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="shader\unlitTexturePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

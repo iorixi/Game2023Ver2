@@ -9,31 +9,28 @@
 #include "ActionModo.h"
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
-using namespace Enemy;
-using namespace Timer;
 
-void Evasive::Init()
+void Player::Evasive::Init()
 {
 	evasiveModo = EvasiveModo::NONE;
 	// m_ScheduledTaskの初期化
-	m_EvasiveTime = std::make_shared<ScheduledTask>();
+	m_EvasiveTime = std::make_shared<Timer::ScheduledTask>();
 
 	m_EvasiveMoveSpeed = 0.5f;
 	//evasiveTime = 0.2f;
 	//coolDown = 0.1f;
 }
 
-void Evasive::Update()
+void Player::Evasive::Update()
 {
 	// 現在のシーンを取得
 	Scene* currentScene = Manager::GetScene();
 	// 現在のシーンのプレイヤーのオブジェクトを取得
-	PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+	Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
 	Vector3 playerVelocity = player->GetVelocity();
 
 	// 現在のシーンの敵のオブジェクトを取得
-	HumanObject* enemy = currentScene->GetGameObject<HumanObject>();
+	Enemy::HumanObject* enemy = currentScene->GetGameObject<Enemy::HumanObject>();
 
 	playerPosition = player->GetPosition();
 
