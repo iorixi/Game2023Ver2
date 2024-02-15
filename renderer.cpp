@@ -345,7 +345,14 @@ void Renderer::SetProjectionMatrix(Matrix* ProjectionMatrix)
 
 void Renderer::SetMaterial(MATERIAL Material)
 {
+	// マテリアルを更新
 	m_DeviceContext->UpdateSubresource(m_MaterialBuffer, 0, NULL, &Material, 0, 0);
+
+	// 頂点シェーダーにマテリアルをセット
+	m_DeviceContext->VSSetConstantBuffers(3, 1, &m_MaterialBuffer);
+
+	// ピクセルシェーダーにマテリアルをセット
+	m_DeviceContext->PSSetConstantBuffers(3, 1, &m_MaterialBuffer);
 }
 
 void Renderer::SetLight(LIGHT Light)

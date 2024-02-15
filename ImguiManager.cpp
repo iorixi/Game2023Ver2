@@ -25,7 +25,8 @@ const float CAMERA_TARGET_DISTANCE_CORRECTION = 100.0f;		//ƒJƒƒ‰‚Ì’†‹“_‚Ì‹——£•
 
 // Lerp ŒW”BƒJƒƒ‰‚ÌˆÊ’u‚â’‹“_‚Ì•ÏX‚É™X‚ÉˆÚ“®‚·‚é‚½‚ß‚Ég—p‚³‚ê‚Ü‚·B
 const float LERP_FACTOR = 0.07f;		//ƒJƒƒ‰‚Ì’†‹“_‚Ì‹——£•â³
-
+// “G‚ÆƒvƒŒƒCƒ„[‚ª‹ß‚¢‚Æ‚«‚ÌLerp ŒW”BƒJƒƒ‰‚ÌˆÊ’u‚â’‹“_‚Ì•ÏX‚É™X‚ÉˆÚ“®‚·‚é‚½‚ß‚Ég—p‚³‚ê‚Ü‚·B
+const float SHORT_LERP_FACTOR = 0.03f;
 //‹——£‚É‡‚í‚¹‚ÄƒJƒƒ‰‚Ì‘¬“x‚ğ•â³
 const float DISTANCE_FACTOR = 0.02f;		//ƒJƒƒ‰‚Ì’†‹“_‚Ì‹——£•â³
 
@@ -100,6 +101,8 @@ void ImguiManager::CameraAddSystem()
 
 		// Lerp ŒW”BƒJƒƒ‰‚ÌˆÊ’u‚â’‹“_‚Ì•ÏX‚É™X‚ÉˆÚ“®‚·‚é‚½‚ß‚Ég—p‚³‚ê‚Ü‚·B
 		AddSliderNum("lerpFactor", &mapCameraFloat["lerpFactor"], 0, 1);//ƒJƒƒ‰‚Ì’†‹“_‚Ì‹——£•â³
+		AddSliderNum("ShortlerpFactor", &mapCameraFloat["ShortlerpFactor"], 0, 1);//ƒJƒƒ‰‚Ì’†‹“_‚Ì‹——£•â³
+
 		//‹——£‚É‡‚í‚¹‚ÄƒJƒƒ‰‚Ì‘¬“x‚ğ•â³
 		AddSliderNum("distanceFactor", &mapCameraFloat["distanceFactor"], 0, 1);//ƒJƒƒ‰‚Ì’†‹“_‚Ì‹——£•â³
 	}
@@ -149,6 +152,7 @@ void ImguiManager::Init(HWND hwnd)
 
 	// Lerp ŒW”BƒJƒƒ‰‚ÌˆÊ’u‚â’‹“_‚Ì•ÏX‚É™X‚ÉˆÚ“®‚·‚é‚½‚ß‚Ég—p‚³‚ê‚Ü‚·B
 	mapCameraFloat["lerpFactor"] = LERP_FACTOR;		//ƒJƒƒ‰‚Ì’†‹“_‚Ì‹——£•â³
+	mapCameraFloat["ShortlerpFactor"] = SHORT_LERP_FACTOR;		//‹ß‹——£ƒ‚[ƒh‚Ì‚ÌƒJƒƒ‰‚Ì’†‹“_‚Ì‹——£•â³
 	//‹——£‚É‡‚í‚¹‚ÄƒJƒƒ‰‚Ì‘¬“x‚ğ•â³
 	mapCameraFloat["distanceFactor"] = DISTANCE_FACTOR;		//ƒJƒƒ‰‚Ì’†‹“_‚Ì‹——£•â³
 }
