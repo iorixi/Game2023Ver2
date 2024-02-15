@@ -70,44 +70,45 @@ void Player::PlayerObject::Init()
 	m_Model = AddComponent<AnimationModel>();
 
 	m_Model->Load("asset\\model\\KachujinGRosales.fbx");
-	m_Model->LoadAnimation("asset\\model\\Stand.fbx", "Idle");
-	m_Model->LoadAnimation("asset\\model\\Evasise.fbx", "Evasise");
 
-	//{
-	//	// 使用するシェーダーを生成
-	//	g_shader.SetShader(
-	//		"shader/vertexLightingVS.hlsl",					// 頂点シェーダ
-	//		"shader/vertexLightingPS.hlsl");				// ピクセルシェーダ
-	//
-	//	// モデルファイル名
-	//	//読み込みうまくいかなかったらu8みたいな書き方探せ
-	//	std::string filename[] = {
-	//		"asset\\model\\youmu\\youmu.pmx",
-	//		"asset\\model\\Akai_Run.fbx",
-	//	};
-	//
-	//	// メッシュ生成（ジオメトリデータ）
-	//	g_staticmesh.Init(filename[0]);
-	//
-	//	//// 描画の為のデータ生成
-	//	g_staticmeshrenderer.Init(g_staticmesh);
-	//
-	//	// マテリアル生成
-	//	MATERIAL mtrl;
-	//	mtrl.Ambient = Color(0, 0, 0, 0);
-	//	mtrl.Diffuse = Color(1, 1, 1, 1.0f);
-	//	mtrl.Specular = Color(0, 0, 0, 0);
-	//	mtrl.Shininess = 0;
-	//	mtrl.Emission = Color(0, 0, 0, 0);
-	//	mtrl.TextureEnable = true;
-	//}
+	//マテリアル処理
+	{
+		// 使用するシェーダーを生成
+		g_shader.SetShader(
+			"shader/vertexLightingVS.hlsl",					// 頂点シェーダ
+			"shader/vertexLightingPS.hlsl");				// ピクセルシェーダ
+
+		// モデルファイル名
+		//読み込みうまくいかなかったらu8みたいな書き方探せ
+		std::string filename[] = {
+			"asset\\model\\youmu\\youmu2.pmx",
+			"asset\\model\\Akai_Run.fbx",
+		};
+
+		// メッシュ生成（ジオメトリデータ）
+		g_staticmesh.Init(filename[0]);
+
+		//// 描画の為のデータ生成
+		g_staticmeshrenderer.Init(g_staticmesh);
+
+		// マテリアル生成
+		MATERIAL mtrl;
+		mtrl.Ambient = Color(0, 0, 0, 0);
+		mtrl.Diffuse = Color(1, 1, 1, 0.3f);
+		mtrl.Specular = Color(0, 0, 0, 0);
+		mtrl.Shininess = 0;
+		mtrl.Emission = Color(0, 0, 0, 0);
+		mtrl.TextureEnable = false;
+
+		g_material.Init(mtrl);
+	}
 
 	AddComponent<Shadow>()->SetSize(1.5f);
 
 	m_SE = AddComponent<Sound::Audio>();
 	m_SE->Load("asset\\audio\\damage.wav");
 
-	m_Scale = Vector3(0.015f, 0.015f, 0.015f);
+	m_Scale = Vector3(0.15f, 0.15f, 0.15f);
 
 	m_Delay = AddComponent<Timer::DelayCompnent>();
 	m_Delay->SetLoop(true);
@@ -236,53 +237,38 @@ void Player::PlayerObject::Update()
 	playerHitSphere->SetCenter(m_Position);
 	std::vector<Score*> score = nowscene->GetGameObjects<Score>();
 	score.at(1)->SetCount(hp);
-
-	//g_material.Update();
 }
 
 void Player::PlayerObject::PreDraw()
 {
-	// 現在のシーンを取得
-	Scene* currentScene = Manager::GetScene();
-	// 現在のシーンのプレイヤーのオブジェクトを取得
-	Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
-	Evasive* playerEvasive = player->GetComponent<Evasive>();
+	//マテリアル処理
+	// デバイスコンテキスト取得
+	ID3D11DeviceContext* devicecontext;
+	devicecontext = Renderer::GetDeviceContext();
 
-	if (playerEvasive->GetAnimationFlg())
-	{
-		m_Model->Update("Idle", m_Frame, "Idle", m_Frame, m_BlendRate);
-	}
-	else
-	{
-		m_Model->Update("Idle", m_Frame, "Idle", m_Frame, m_BlendRate);
-	}
+	// ワールド変換行列生成
+	Matrix mtx;
+	DX11MakeWorldMatrixRadian(
+		mtx,
+		m_Scale,							// スケール
+		m_Rotation,							// 姿勢
+		m_Position);						// 位置
 
-	//// デバイスコンテキスト取得
-	//ID3D11DeviceContext* devicecontext;
-	//devicecontext = Renderer::GetDeviceContext();
-	//
-	//// ワールド変換行列生成
-	//Matrix mtx;
-	//DX11MakeWorldMatrixRadian(
-	//	mtx,
-	//	m_Scale,							// スケール
-	//	m_Rotation,							// 姿勢
-	//	m_Position);						// 位置
-	//
-	//// GPUに行列をセットする
-	//Renderer::SetWorldMatrix(&mtx);
-	//
-	//// シェーダーをGPUにセット
-	//g_shader.SetGPU();
-	//
-	//// モデル描画
-	//g_staticmeshrenderer.Draw();
-	//
-	//// 境界ボックス描画
-	//mtx = g_obb.MakeWorldMtx(m_Scale, mtx);
-	//
-	//g_material.SetGPU();
-	//g_meshrenderer.Draw();
+	// GPUに行列をセットする
+	Renderer::SetWorldMatrix(&mtx);
+
+	// シェーダーをGPUにセット
+	g_shader.SetGPU();
+
+	// モデル描画
+	g_staticmeshrenderer.Draw();
+
+	// 境界ボックス描画
+	mtx = g_obb.MakeWorldMtx(m_Scale, mtx);
+
+	Renderer::SetWorldMatrix(&mtx);
+	g_material.SetGPU();
+	g_meshrenderer.Draw();
 }
 
 void Player::PlayerObject::SetIsActive(bool _isActive)

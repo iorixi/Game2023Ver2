@@ -37,6 +37,7 @@ class CMaterial {
 	ID3D11Buffer* m_pConstantBufferMaterial = nullptr;
 
 public:
+
 	bool Init(MATERIAL mtrl) {
 		ID3D11Device* dev;
 		//		dev = CDirectXGraphics::GetInstance()->GetDXDevice();

@@ -28,6 +28,8 @@ private:
 
 	// Lerp 係数。カメラの位置や注視点の変更時に徐々に移動するために使用されます。
 	float lerpFactor = 0.07f;
+	// 敵とプレイヤーが近いときのLerp 係数。カメラの位置や注視点の変更時に徐々に移動するために使用されます。
+	float ShortlerpFactor = 0.03f;
 	//距離に合わせてカメラの速度を補正
 	float distanceFactor = 0.02f;
 

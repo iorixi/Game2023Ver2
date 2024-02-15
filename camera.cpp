@@ -155,17 +155,17 @@ void Camera::Update()
 		targetBehindPlayer = playerPosition - playerForward * epecDistance;
 		targetBehindPlayer.y += m_CameraHeightCloseRange;
 		// カメラ位置を徐々に変更
-		this->m_Position = Vector3::Lerp(this->m_Position, targetBehindPlayer, lerpFactor);
+		this->m_Position = Vector3::Lerp(this->m_Position, targetBehindPlayer, ShortlerpFactor);
 
 		// 徐々に中間点に向ける処理
 		midpoint.y += m_CameraHeightCloseRange;
-		m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);
+		m_Target = Vector3::Lerp(m_Target, midpoint, ShortlerpFactor);
 
 		currentEpecDistance = Vector3::Distance(playerPosition, enemyPosition) - Vector3::Distance(enemyPosition, m_Position);
 
 		// カメラを動かす条件を満たす場合
 		// epecDistanceの距離がepecDistanceDifferenceの誤差の範囲を超えたかどうか
-		if (abs(currentEpecDistance - epecDistance) > epecDistanceDifference)
+		if (abs(currentEpecDistance - epecDistance) < epecDistanceDifference)
 		{
 			// カメラを動かす条件を満たす場合
 			// epecの距離がepecDistanceの誤差がepecDistanceDifferenceまでになるように常にカメラを動かす
@@ -175,13 +175,13 @@ void Camera::Update()
 			//新しいカメラposを定義
 			newCameraPosition = playerPosition + directionToMove * (currentEpecDistance + epecDistance);
 
-			this->m_Position = Vector3::Lerp(this->m_Position, newCameraPosition, lerpFactor);
-			m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);  // 再度中間点に向ける処理を行う
+			this->m_Position = Vector3::Lerp(this->m_Position, newCameraPosition, ShortlerpFactor);
+			m_Target = Vector3::Lerp(m_Target, midpoint, ShortlerpFactor);  // 再度中間点に向ける処理を行う
 		}
 		else
 		{
 			// カメラを動かす条件を満たさない場合は中間点に向ける処理のみ行う
-			m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);
+			m_Target = Vector3::Lerp(m_Target, midpoint, ShortlerpFactor);
 		}
 
 		// 敵からプレイヤーと敵からカメラのなす角が70度以上になるように動かす
@@ -193,7 +193,7 @@ void Camera::Update()
 		//toPlayer と toCamera ベクトルの内積を外積の積で割ることにより、ベクトル間の角度を計算しています。
 		//acos 関数はアークコサインを計算し、その結果が角度となります。
 		angle = acos(toPlayer.Dot(toCamera) / (toPlayer.Length() * toCamera.Length()));
-
+		//ある一定の角度を超えた場合
 		if (angle > DirectX::XMConvertToRadians(70.0f))
 		{
 			// カメラを動かす条件を満たす場合
@@ -204,11 +204,10 @@ void Camera::Update()
 				DirectX::SimpleMath::Matrix::CreateRotationY(DirectX::XMConvertToRadians(70.0f)));
 
 			// カメラの現在の位置から目標位置にLerpを使用して徐々に移動させます。
-			this->m_Position = Vector3::Lerp(this->m_Position, desiredCameraPosition, lerpFactor);
+			this->m_Position = Vector3::Lerp(this->m_Position, desiredCameraPosition, ShortlerpFactor);
 
 			// カメラの注視点も中間点にLerpを使用して徐々に向けます。
-			m_Target = Vector3::Lerp(m_Target, midpoint, lerpFactor);
-			// 再度中間点に向ける処理を行う
+			m_Target = Vector3::Lerp(m_Target, midpoint, ShortlerpFactor);
 		}
 
 		// カメラの回転を調整（プレイヤーの前方向に対して適切な角度）
@@ -277,5 +276,6 @@ void Camera::GetImguiCameraUpdate()
 		m_CameraTargetDistanceCorrection = imguiManager->GetMapCameraFloat("CameraTargetDistanceCorrection");
 		lerpFactor = imguiManager->GetMapCameraFloat("lerpFactor");
 		distanceFactor = imguiManager->GetMapCameraFloat("distanceFactor");
+		ShortlerpFactor = imguiManager->GetMapCameraFloat("ShortlerpFactor");
 	}
 }
