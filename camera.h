@@ -18,7 +18,7 @@ private:
 
 	float m_CameraDistance = 8.0f;						//カメラの距離
 	float m_PlayerTopThreshold = 2.0f;					//プレイヤーキャラクターの頭の位置
-	float m_CameraHeight = 4.0f;						//通常モードの時のカメラの高さ
+	float m_CameraHeight = 3.5f;						//通常モードの時のカメラの高さ
 	float m_CameraHeightCloseRange = 2.2f;				//近距離モードの時のカメラの高さ
 	float m_CameraTargetHeight = -6.8f;					//カメラの中視点の高さ
 	float m_CameraRightOffset = 1.2f;					//カメラを右に寄せる

@@ -143,6 +143,14 @@ void CStaticMesh::Exit() {
 			texres.second->Release();
 		}
 	}
+
+	// ボーン関連の解放処理を追加
+	m_Bone.clear();
+	m_SubsetBones.clear();
+	m_vertices.clear();
+	// 他のベクターやマップも同様に解放やクリアを行う
+
+	// 必要に応じて他のリソースの解放やクリアも行う
 }
 
 // 全頂点をaiMeshから取得する

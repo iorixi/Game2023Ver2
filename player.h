@@ -50,6 +50,7 @@ namespace Player
 		void Init() override;
 		void Update() override;
 		void PreDraw() override;
+		void Uninit()override;
 
 		void SetIsActive(bool _isActive);
 		bool GetIsActive();
