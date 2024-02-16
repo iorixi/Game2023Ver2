@@ -47,21 +47,12 @@ static CStaticMesh g_staticmesh;
 // メッシュレンダラー
 static CStaticMeshRenderer g_staticmeshrenderer;
 
-static Vector3	g_move = { 0.0f,0.0f,0.0f };			// 移動量
-static Vector3	g_destrot = { 0.0f,0.0f,0.0f };			// 目標回転角度
-
 // 球
 static CSphereMesh g_sphere;// メッシュレンダラ
 static CMeshRenderer g_meshrenderer;
 
-// ボックスメッシュ
-static CBoxMesh	g_box;
-
 // OBB
 static CBoundingBox g_obb;
-
-// BS
-static CBoundingSphere g_bs;
 
 void Player::PlayerObject::Init()
 {
@@ -269,6 +260,12 @@ void Player::PlayerObject::PreDraw()
 	Renderer::SetWorldMatrix(&mtx);
 	g_material.SetGPU();
 	g_meshrenderer.Draw();
+}
+
+void Player::PlayerObject::Uninit()
+{
+	GameObject::Uninit();
+	g_staticmesh.Exit();
 }
 
 void Player::PlayerObject::SetIsActive(bool _isActive)

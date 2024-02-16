@@ -14,7 +14,7 @@
 //カメラの初期化処理
 const float CAMERA_DISTANCE = 8.0f;	//カメラとの距離
 const float PLAYER_TOP_THRESHOLD = 2.0f;	//プレイヤーキャラクターの頭の位置
-const float CAMERA_HEIGHT = 4.0f;	//通常モードの時のカメラの高さ
+const float CAMERA_HEIGHT = 3.5f;	//通常モードの時のカメラの高さ
 const float CAMERA_HEIGHT_CLOSERANGE = 2.2f;	//近距離モードの時のカメラの高さ
 const float CAMERA_TARGET_HEIGHT = -6.8f;	//カメラの中視点の高さ
 const float CAMERA_RIGHT_OFFSET = 1.2f;	//カメラを右に寄せる
