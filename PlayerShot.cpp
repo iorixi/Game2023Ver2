@@ -14,6 +14,8 @@
 #include "ActionModo.h"
 #include "audio.h"
 #include "PlayerShootModo.h"
+#include "CircleSkillShoot.h"
+#include <array>
 
 using namespace DirectX::SimpleMath;
 
@@ -21,6 +23,10 @@ void Player::Shot::Init()
 {
 	// m_ScheduledTaskの初期化
 	m_ScheduledTask = std::make_unique<Timer::ScheduledTask>(0.15f);
+	m_ShootSkill = std::make_unique<Timer::ScheduledTask>();
+	m_ShootSkillCool = std::make_unique<Timer::ScheduledTask>();
+	m_ShootSkillRate = std::make_unique<Timer::ScheduledTask>();
+
 	//誘導弾モードに固定
 	playerShootModo = PlayerShootModo::HOMING;
 }
@@ -46,6 +52,42 @@ void Player::Shot::Update()
 	//アクティブ状態なら
 	if (player->GetIsActive())
 	{
+		//スペル１発動
+		if (Input::GetKeyTrigger('Q' || VK_LBUTTON || VK_UP))
+		{
+			if (m_ShootFlg)
+			{
+				player->SetActionModo(ActionModo::SPELL1);
+				m_ShootSkill->SetTimer(0.5f);
+				m_ShootFlg = false;
+
+				// プレイヤーの現在位置にプレイヤーの前方ベクトルを加えて、ちょっと前にオフセットした位置を計算
+				Vector3 playerSpawnShot = player->GetPosition();
+
+				// 弾を作成し、エネミーの方向に速度を設定
+				std::array<CircleSkillShoot*, 5> bullets;
+				int Defdegree = 3;
+				float slidePosx = 5.0f;
+				for (auto i = 0; i < bullets.size(); i++)
+				{
+					Vector3 newPlayerSpawnShot = playerSpawnShot;
+
+					newPlayerSpawnShot.x + slidePosx * -2 + slidePosx * i;
+
+					bullets.at(i) = scene->AddGameObject<CircleSkillShoot>(2);
+					bullets.at(i)->SetBulletOwner(CHARACTER::PLAYER);
+					bullets.at(i)->SetPosition(playerSpawnShot);
+					bullets.at(i)->SetBulletDegree(Defdegree * -2 + Defdegree * i);
+				}
+			}
+		}
+
+		if (m_ShootSkill->GetFlg())
+		{
+			player->SetActionModo(ActionModo::NONE);
+			m_ShootFlg = true;
+		}
+
 		//移動状態もしくは何もしてないときは球を発射する
 		if (player->GetActionModo() == ActionModo::NONE || player->GetActionModo() == ActionModo::MOVE)
 		{

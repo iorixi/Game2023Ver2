@@ -7,6 +7,7 @@
 class BoundingSphereObj;
 enum class ActionModo;
 namespace Timer { class ScheduledTask; }
+namespace Sound { class Audio; }
 
 namespace Enemy
 {
@@ -29,11 +30,15 @@ namespace Enemy
 
 		bool isActive = false; // アクティブ状態
 
-		ActionModo actionModo;// アクションモード
+		ActionModo actionModo;// フライト時アクションモード
 		int actionModoSelect; // アクションモードの選択
+		int actionFloatingModoSelect; // フライト時アクションモードの選択
 
 		// マテリアル
 		CMaterial g_material;
+		Sound::Audio* m_SE{};
+
+		DirectX::SimpleMath::Vector3 m_oldPosition;
 
 	public:
 		// 初期化関数

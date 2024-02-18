@@ -12,7 +12,7 @@
 #include "CharaEnum.h"
 #include "ScheduledTask.h"
 #include "BoundingSphere.h"
-
+#include "CircleSkillShoot.h"
 #include "audio.h"
 
 using namespace DirectX::SimpleMath;
@@ -21,6 +21,7 @@ void Enemy::Shot::Init()
 {
 	// m_ScheduledTaskの初期化
 	m_ScheduledTask = std::make_unique<Timer::ScheduledTask>(0.2f);
+	m_SpellBulletRate = std::make_unique<Timer::ScheduledTask>(0.7f);
 	//誘導弾モードに固定
 	enemyShootModo = ENEMYSHOOTMODO::HOMING;
 }
@@ -64,6 +65,28 @@ void Enemy::Shot::Update()
 			addShotFlg = false;
 		}
 
+		if (m_SpellBulletRate->GetFlg())
+		{
+			// プレイヤーの現在位置にプレイヤーの前方ベクトルを加えて、ちょっと前にオフセットした位置を計算
+			Vector3 enemySpawnShot = enemy->GetPosition();
+
+			// 弾を作成し、エネミーの方向に速度を設定
+			std::array<CircleSkillShoot*, 5> bullets;
+			int Defdegree = 3;
+			float slidePosx = 5.0f;
+			for (auto i = 0; i < bullets.size(); i++)
+			{
+				Vector3 newEnemySpawnShot = enemySpawnShot;
+
+				newEnemySpawnShot.x + slidePosx * -2 + slidePosx * i;
+
+				bullets.at(i) = scene->AddGameObject<CircleSkillShoot>(2);
+				bullets.at(i)->SetBulletOwner(CHARACTER::ENEMY);
+				bullets.at(i)->SetPosition(enemySpawnShot);
+				bullets.at(i)->SetBulletDegree(Defdegree * -2 + Defdegree * i);
+			}
+		}
+
 		std::vector<HumanObject*> enemyList = scene->GetGameObjects<HumanObject>();
 		std::vector<HomingBullet*> bulletList = scene->GetGameObjects<HomingBullet>();
 
@@ -81,8 +104,34 @@ void Enemy::Shot::Update()
 				{
 					Score* score = scene->GetGameObject<Score>();
 					Sound::Audio* m_SE = player->GetComponent <Sound::Audio >();
-					//m_SE->Play();
+					m_SE->Play();
 					player->Damege(1);
+					bullet->SetDestroy();
+				}
+			}
+		}
+
+		//CircleSkillShootの当たり判定
+
+		std::vector<CircleSkillShoot*> skillBulletList = scene->GetGameObjects<CircleSkillShoot>();
+
+		//球への当たり判定
+		for (CircleSkillShoot* bullet : skillBulletList)
+		{
+			Vector3 playerPosition = player->GetPosition();
+			BoundingSphereObj* playerHitSphere = player->GetPlayerHitSphere();
+			BoundingSphereObj* bulletHitSphere = bullet->GetBulletHitSphere();
+
+			//オーナーがプレイヤーなら当たり判定
+			if (bullet->GetBulletOwner() == CHARACTER::ENEMY)
+			{
+				//球の当たり判定
+				if (IsCollision(*playerHitSphere, *bulletHitSphere))
+				{
+					Score* score = scene->GetGameObject<Score>();
+					Sound::Audio* m_SE = enemy->GetComponent <Sound::Audio >();
+					m_SE->Play();
+					player->Damege(3);
 					bullet->SetDestroy();
 				}
 			}

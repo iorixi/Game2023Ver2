@@ -4,6 +4,7 @@
 #include <memory>
 #include "ScheduledTask.h"
 #include <vector>
+namespace Sound { class Audio; }
 
 class Sprite;
 class Score;
@@ -12,7 +13,6 @@ class Game : public Scene
 {
 private:
 	class Transition* m_Transition{};
-	class Audio* m_BGM{};
 
 	bool m_Goal = false;
 	bool StartSetTime = false;

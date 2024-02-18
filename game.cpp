@@ -21,6 +21,7 @@
 #include "title.h"
 #include "HumanEnemy.h"
 #include "ImguiManager.h"
+#include <memory>
 
 using namespace DirectX::SimpleMath;
 using namespace Player;
@@ -50,11 +51,11 @@ void Game::Init()
 
 	scoreObj.push_back(AddGameObject<Score>(3));
 	scoreObj.at(0)->Init(enemy->GetHp());
-	scoreObj.at(0)->SetPlace(200, 30, 50, 50, 30);
+	scoreObj.at(0)->SetPlace(300, 80, 50, 50, 30);
 
 	scoreObj.push_back(AddGameObject<Score>(3));
 	scoreObj.at(1)->Init(player->GetHp());
-	scoreObj.at(1)->SetPlace(1200, 600, 70, 70, 40);
+	scoreObj.at(1)->SetPlace(1000, 600, 70, 70, 40);
 
 	AddGameObject<ImguiManager>(1);
 

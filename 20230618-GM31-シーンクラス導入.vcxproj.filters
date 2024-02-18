@@ -348,11 +348,11 @@
     <ClCompile Include="newModel\dx11mathutil.cpp">
       <Filter>ソース ファイル\newmodel</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBulletHit.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="CircleSkillShoot.cpp">
       <Filter>ソース ファイル\Object\Bullet\SkillBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletHit.cpp">
+      <Filter>ソース ファイル\Character\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

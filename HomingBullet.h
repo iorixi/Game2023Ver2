@@ -19,6 +19,7 @@ class HomingBullet : public Bullet
 	//‹…‚Ì”ò‚Ô•ûŒü
 	DirectX::SimpleMath::Vector3 directionToEnemy;
 	DirectX::SimpleMath::Vector3 directionToPlayer;
+	DirectX::SimpleMath::Vector3 m_PositionStart;
 	//‹…‚ÌXV‘O‚Ì•ûŒü
 	DirectX::SimpleMath::Vector3 oldDirection;
 

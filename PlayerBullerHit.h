@@ -17,6 +17,8 @@ namespace Player
 
 		//ホーミング弾の当たり判定処理
 		virtual void HomingHit();
+		//ホーミング弾の当たり判定処理
+		virtual void SpellOneHit();
 
 		bool GetHitFlg();
 

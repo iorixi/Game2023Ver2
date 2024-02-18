@@ -29,6 +29,24 @@ HomingBullet::HomingBullet()
 HomingBullet::HomingBullet(enum class CHARACTER chara)
 {
 	ownerChara = chara;
+	if (ownerChara == CHARACTER::PLAYER)
+	{
+		// 現在のシーンを取得
+		Scene* currentScene = Manager::GetScene();
+		// 現在のシーンのプレイヤーのオブジェクトを取得
+		Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
+
+		m_PositionStart = player->GetPosition();
+	}
+	else if (ownerChara == CHARACTER::ENEMY)
+	{
+		// 現在のシーンを取得
+		Scene* currentScene = Manager::GetScene();
+		// 現在のシーンの敵のオブジェクトを取得
+		Enemy::HumanObject* enemy = currentScene->GetGameObject<Enemy::HumanObject>();
+
+		m_PositionStart = enemy->GetPosition();
+	}
 }
 
 HomingBullet::~HomingBullet()
@@ -198,7 +216,7 @@ void HomingBullet::Update()
 			}
 
 			// 球の位置が一定範囲を超えた場合は削除
-			if (m_Position.Length() > 100.0f)
+			if ((m_Position - m_PositionStart).Length() > 300.0f)
 			{
 				SetDestroy();
 			}
@@ -233,6 +251,24 @@ void HomingBullet::Update()
 void HomingBullet::SetBulletOwner(enum class CHARACTER chara)
 {
 	ownerChara = chara;
+	if (ownerChara == CHARACTER::PLAYER)
+	{
+		// 現在のシーンを取得
+		Scene* currentScene = Manager::GetScene();
+		// 現在のシーンのプレイヤーのオブジェクトを取得
+		Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
+
+		m_PositionStart = player->GetPosition();
+	}
+	else if (ownerChara == CHARACTER::ENEMY)
+	{
+		// 現在のシーンを取得
+		Scene* currentScene = Manager::GetScene();
+		// 現在のシーンの敵のオブジェクトを取得
+		Enemy::HumanObject* enemy = currentScene->GetGameObject<Enemy::HumanObject>();
+
+		m_PositionStart = enemy->GetPosition();
+	}
 }
 
 CHARACTER HomingBullet::GetBulletOwner()
