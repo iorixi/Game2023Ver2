@@ -121,6 +121,9 @@
     <Filter Include="ソース ファイル\System\Model\Assimp">
       <UniqueIdentifier>{c06b040a-e7cc-4a46-982a-670f58b6e177}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Object\Bullet\SkillBullet">
+      <UniqueIdentifier>{d5aa1e0e-d7fa-4177-a1d8-1433a65b0467}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -345,6 +348,12 @@
     <ClCompile Include="newModel\dx11mathutil.cpp">
       <Filter>ソース ファイル\newmodel</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerBulletHit.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleSkillShoot.cpp">
+      <Filter>ソース ファイル\Object\Bullet\SkillBullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -533,9 +542,6 @@
     <ClInclude Include="HumanEnemy.h">
       <Filter>ソース ファイル\Character\Enemy\Enemy\Human</Filter>
     </ClInclude>
-    <ClInclude Include="HomingBullet.h">
-      <Filter>ソース ファイル\Object\Bullet\HomingBullet</Filter>
-    </ClInclude>
     <ClInclude Include="NormalBallet.h">
       <Filter>ソース ファイル\Object\Bullet\NormalBullet</Filter>
     </ClInclude>
@@ -629,6 +635,15 @@
     <ClInclude Include="newModel\dx11mathutil.h">
       <Filter>ソース ファイル\newmodel</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerBullerHit.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleSkillShoot.h">
+      <Filter>ソース ファイル\Object\Bullet\SkillBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="HomingBullet.h">
+      <Filter>ソース ファイル\Object\Bullet\HomingBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -656,6 +671,12 @@
       <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
     <FxCompile Include="shader\unlitTextureFadeVS.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\PlayerShootBulletVS.hlsl">
+      <Filter>リソース ファイル\shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\EnemyShootBulletVS.hlsl">
       <Filter>リソース ファイル\shader</Filter>
     </FxCompile>
   </ItemGroup>

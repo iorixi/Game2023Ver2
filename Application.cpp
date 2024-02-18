@@ -17,8 +17,8 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 //-----------------------------------------------------------------------------
 // Constant Values.
 //-----------------------------------------------------------------------------
-const auto ClassName = TEXT("2023 framework ひな型");     //!< ウィンドウクラス名.
-const auto WindowName = TEXT("2023 framework ひな型");    //!< ウィンドウ名.
+const auto ClassName = TEXT("sky shoot ～天（そら）の攻防～");     //!< ウィンドウクラス名.
+const auto WindowName = TEXT("sky shoot ～天（そら）の攻防～");    //!< ウィンドウ名.
 
 ///////////////////////////////////////////////////////////////////////////////
 // App class
@@ -135,7 +135,7 @@ bool Application::InitWnd()
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
 		rc.right - rc.left,
-		rc.bottom - rc.top,
+		(rc.bottom + 200) - (rc.top + 200),
 		nullptr,
 		nullptr,
 		m_hInst,

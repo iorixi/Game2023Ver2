@@ -9,8 +9,10 @@ https://seiga.nicovideo.jp/seiga/im10525425
 すけ様のモデルを使用
 
 配布ページ
+妖夢
 https://3d.nicovideo.jp/works/td27282
-
+フラン
+https://3d.nicovideo.jp/works/td27081
 
 音楽
 魔王魂

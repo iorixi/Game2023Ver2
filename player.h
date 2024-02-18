@@ -1,7 +1,6 @@
 #pragma once
 
 #include "gameObject.h"
-#include "animationModel.h"
 #include <memory>
 #include "newModel/CMaterial.h"
 
@@ -23,7 +22,6 @@ namespace Player
 
 		std::shared_ptr<BoundingSphereObj> playerHitSphere{};
 
-		class AnimationModel* m_Model;
 		int	m_Frame;
 		float	m_BlendRate;
 
