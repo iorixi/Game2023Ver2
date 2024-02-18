@@ -8,7 +8,6 @@
 #include "bullet.h"
 #include "shadow.h"
 #include "camera.h"
-#include "animationModel.h"
 #include "field.h"
 #include "PlayerMove.h"
 #include "PlayerFloating.h"
@@ -22,55 +21,45 @@
 
 #include <vector>
 
-#include "newModel/CBoxMesh.h"
 #include "newModel/CBoundingBox.h"
-#include "newModel/CMaterial.h"
 #include "newModel/CShader.h"
 #include "newModel/CStaticMesh.h"
 #include "newModel/CStaticMeshRenderer.h"
-#include "newModel/CBoundingSphere.h"
 #include "newModel/CSphereMesh.h"
 #include "newModel/dx11mathutil.h"
 
 using namespace DirectX::SimpleMath;
 
-//プレイヤーの移動速度
+// プレイヤーの移動速度
 const float moveSpeed = 1.5f;
 
 // 描画の為に必要な情報
 // 使用するシェーダー
-static CShader	g_shader;
-
+static CShader g_shader;
 // スタティックメッシュ（ジオメトリデータ）
 static CStaticMesh g_staticmesh;
-
 // メッシュレンダラー
 static CStaticMeshRenderer g_staticmeshrenderer;
-
 // 球
 static CSphereMesh g_sphere;// メッシュレンダラ
 static CMeshRenderer g_meshrenderer;
-
 // OBB
 static CBoundingBox g_obb;
 
+// プレイヤーオブジェクトの初期化
 void Player::PlayerObject::Init()
 {
+	// シェーダーコンポーネントを追加してシェーダーをロードする
 	AddComponent<Shader>()->Load("shader\\vertexLightingOneSkinVS.cso", "shader\\vertexLightingPS.cso");
 
-	m_Model = AddComponent<AnimationModel>();
-
-	m_Model->Load("asset\\model\\KachujinGRosales.fbx");
-
-	//マテリアル処理
+	// モデルの初期化
 	{
 		// 使用するシェーダーを生成
 		g_shader.SetShader(
-			"shader/vertexLightingVS.hlsl",					// 頂点シェーダ
-			"shader/vertexLightingPS.hlsl");				// ピクセルシェーダ
+			"shader/vertexLightingVS.hlsl",   // 頂点シェーダ
+			"shader/vertexLightingPS.hlsl");  // ピクセルシェーダ
 
 		// モデルファイル名
-		//読み込みうまくいかなかったらu8みたいな書き方探せ
 		std::string filename[] = {
 			"asset\\model\\youmu\\youmu2.pmx",
 			"asset\\model\\Akai_Run.fbx",
@@ -79,7 +68,7 @@ void Player::PlayerObject::Init()
 		// メッシュ生成（ジオメトリデータ）
 		g_staticmesh.Init(filename[0]);
 
-		//// 描画の為のデータ生成
+		// 描画の為のデータ生成
 		g_staticmeshrenderer.Init(g_staticmesh);
 
 		// マテリアル生成
@@ -94,18 +83,18 @@ void Player::PlayerObject::Init()
 		g_material.Init(mtrl);
 	}
 
-	AddComponent<Shadow>()->SetSize(1.5f);
-
+	// 音声用のコンポーネントを追加してロードする
 	m_SE = AddComponent<Sound::Audio>();
 	m_SE->Load("asset\\audio\\damage.wav");
 
 	m_Scale = Vector3(0.15f, 0.15f, 0.15f);
 
+	// タイマー用の遅延コンポーネントを追加
 	m_Delay = AddComponent<Timer::DelayCompnent>();
 	m_Delay->SetLoop(true);
 	m_Delay->SetdelayTime(0.2f);
 
-	//プレイヤーのコンポーネント
+	// プレイヤーコンポーネントを追加
 	m_PlayerMove = AddComponent<Player::Move>();
 	m_PlayerFloating = AddComponent<Player::Floating>();
 	m_PlayerEvasive = AddComponent<Player::Evasive>();
@@ -115,12 +104,12 @@ void Player::PlayerObject::Init()
 	m_Position.y += 10;
 	m_Position.x += 40;
 
-	//子オブジェクトに当たり判定を追加
-	//当たり判定
+	// 子オブジェクトに当たり判定を追加
 	playerHitSphere = std::make_shared<BoundingSphereObj>(0.2f, m_Position);
 	actionModo = ActionModo::NONE;
 }
 
+// プレイヤーオブジェクトの更新
 void Player::PlayerObject::Update()
 {
 	Vector3 oldPosition = m_Position;
@@ -132,13 +121,13 @@ void Player::PlayerObject::Update()
 	Vector3 ZAxis = Vector3(viewmtx._13, 0.0f, viewmtx._33);
 	Vector3 XAxis = Vector3(viewmtx._11, 0.0f, viewmtx._31);
 
-	//前向きベクトルを取得
+	// 前向きベクトルを取得
 	Vector3 forward = ZAxis;
 
 	// フィールドオブジェクト取得
 	Field* fieldobj = nowscene->GetGameObject<Field>();
 
-	//　範囲チェック
+	// 範囲チェック
 	Vector3 max = fieldobj->GetMax();
 	Vector3 min = fieldobj->GetMin();
 
@@ -178,13 +167,10 @@ void Player::PlayerObject::Update()
 	// 回転を適用
 	m_Rotation = Vector3(pitch, yaw, m_Rotation.z);
 
-	//重力
-	//m_Velocity.y -= 0.015f;
-
-	//抵抗
+	// 抵抗
 	m_Velocity.y -= m_Velocity.y * 0.01f;
 
-	//移動
+	// 移動
 	m_Position += m_Velocity * moveSpeed;
 
 	if (m_Position.x <= min.x) {
@@ -201,7 +187,7 @@ void Player::PlayerObject::Update()
 		m_Position.z = max.z;
 	}
 
-	//接地
+	// 接地
 	float groundHeight = fieldobj->GetFieldHeightBySqno(m_Position);
 
 	// 位置が０以下なら地面位置にセットする
@@ -224,15 +210,16 @@ void Player::PlayerObject::Update()
 		m_BlendRate = 0.0f;
 	}
 
-	//当たり判定
+	// 当たり判定
 	playerHitSphere->SetCenter(m_Position);
 	std::vector<Score*> score = nowscene->GetGameObjects<Score>();
 	score.at(1)->SetCount(hp);
 }
 
+// プレイヤーオブジェクトの描画前処理
 void Player::PlayerObject::PreDraw()
 {
-	//マテリアル処理
+	// マテリアル処理
 	// デバイスコンテキスト取得
 	ID3D11DeviceContext* devicecontext;
 	devicecontext = Renderer::GetDeviceContext();
@@ -241,9 +228,9 @@ void Player::PlayerObject::PreDraw()
 	Matrix mtx;
 	DX11MakeWorldMatrixRadian(
 		mtx,
-		m_Scale,							// スケール
-		m_Rotation,							// 姿勢
-		m_Position);						// 位置
+		m_Scale,                            // スケール
+		m_Rotation,                         // 姿勢
+		m_Position);                        // 位置
 
 	// GPUに行列をセットする
 	Renderer::SetWorldMatrix(&mtx);
@@ -262,22 +249,26 @@ void Player::PlayerObject::PreDraw()
 	g_meshrenderer.Draw();
 }
 
+// プレイヤーオブジェクトの終了処理
 void Player::PlayerObject::Uninit()
 {
 	GameObject::Uninit();
 	g_staticmesh.Exit();
 }
 
+// アクティブ状態を設定する
 void Player::PlayerObject::SetIsActive(bool _isActive)
 {
 	isActive = _isActive;
 }
 
+// アクティブ状態を取得する
 bool Player::PlayerObject::GetIsActive()
 {
 	return isActive;
 }
 
+// ダメージを受ける
 void Player::PlayerObject::Damege(int damege)
 {
 	if (hp < damege)
@@ -290,16 +281,19 @@ void Player::PlayerObject::Damege(int damege)
 	}
 }
 
+// HPを取得する
 int Player::PlayerObject::GetHp()
 {
 	return hp;
 }
 
+// アクションモードを取得する
 ActionModo Player::PlayerObject::GetActionModo()
 {
 	return actionModo;
 }
 
+// アクションモードを設定する
 void Player::PlayerObject::SetActionModo(ActionModo actionmodo)
 {
 	actionModo = actionmodo;

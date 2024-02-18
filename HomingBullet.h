@@ -34,6 +34,14 @@ class HomingBullet : public Bullet
 	//ˆê’èˆÈã‚ÌŠp“x
 	float overAngle = 10.0f;
 
+	//ˆê’èˆÈ‰º‚Ì‘¬“x‚É‘«‚µ‚Ä‚¢‚é‚Æíœ‚·‚é•Ï”
+	float minVelocity = 0.001f;;
+
+	//‹…‚ÌÁ‚¦‚éŠÔ
+	std::shared_ptr <Timer::ScheduledTask> m_HomingTimeDestroy;
+	bool m_timerSet = false;
+	float m_timer = 3.0f;
+
 public:
 	HomingBullet();
 	HomingBullet(enum class CHARACTER chara);

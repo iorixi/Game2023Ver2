@@ -11,6 +11,7 @@ namespace Enemy
 
 	public:
 		void Init() override;
+		virtual void Uninit() override;
 		void Damege(int damege);
 		int GetHp();
 	};

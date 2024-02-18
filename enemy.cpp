@@ -11,6 +11,10 @@ void Enemy::EnemyObject::Init()
 	AddComponent<ModelRenderer>()->Load("asset\\model\\enemy.obj");
 }
 
+void Enemy::EnemyObject::Uninit()
+{
+}
+
 void Enemy::EnemyObject::Damege(int damege)
 {
 	if (hp < damege)

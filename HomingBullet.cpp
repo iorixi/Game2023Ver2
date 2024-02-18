@@ -60,6 +60,7 @@ void HomingBullet::Init()
 
 	//時間関係初期化
 	m_HomingPointUpdateTime = std::make_shared<ScheduledTask>(homingPointUpdateTime);
+	m_HomingTimeDestroy = std::make_shared<ScheduledTask>();
 }
 
 void HomingBullet::Update()
@@ -195,6 +196,18 @@ void HomingBullet::Update()
 
 			// 球の位置が一定範囲を超えた場合は削除
 			if (m_Position.Length() > 100.0f)
+			{
+				SetDestroy();
+			}
+
+			//球の消滅時間をセット
+			if (m_timerSet == false)
+			{
+				m_HomingTimeDestroy->SetTimer(m_timer);
+				m_timerSet = true;
+			}
+			// 指定時間経過で球消滅
+			if (m_HomingTimeDestroy->GetFlg())
 			{
 				SetDestroy();
 			}
