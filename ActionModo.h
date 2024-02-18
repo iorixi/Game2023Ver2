@@ -6,3 +6,10 @@ enum class ActionModo
 	SPELL1,
 	NONE,
 };
+
+enum class ActionFloatingModo
+{
+	UP,
+	DOWN,
+	NONE,
+};

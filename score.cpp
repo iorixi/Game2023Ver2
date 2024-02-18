@@ -96,7 +96,7 @@ void Score::Draw()
 
 	int count = m_Count;
 
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		int number = count % 10;
 		count /= 10;

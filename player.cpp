@@ -85,7 +85,7 @@ void Player::PlayerObject::Init()
 
 	// 音声用のコンポーネントを追加してロードする
 	m_SE = AddComponent<Sound::Audio>();
-	m_SE->Load("asset\\audio\\damage.wav");
+	m_SE->Load("asset\\audio\\damage2.wav");
 
 	m_Scale = Vector3(0.15f, 0.15f, 0.15f);
 
@@ -107,6 +107,10 @@ void Player::PlayerObject::Init()
 	// 子オブジェクトに当たり判定を追加
 	playerHitSphere = std::make_shared<BoundingSphereObj>(0.2f, m_Position);
 	actionModo = ActionModo::NONE;
+
+	m_BGM = AddComponent<Sound::Audio>();
+	m_BGM->Load("asset\\audio\\Dragoon_Rance.wav");
+	m_BGM->Play();
 }
 
 // プレイヤーオブジェクトの更新
@@ -123,13 +127,6 @@ void Player::PlayerObject::Update()
 
 	// 前向きベクトルを取得
 	Vector3 forward = ZAxis;
-
-	// フィールドオブジェクト取得
-	Field* fieldobj = nowscene->GetGameObject<Field>();
-
-	// 範囲チェック
-	Vector3 max = fieldobj->GetMax();
-	Vector3 min = fieldobj->GetMin();
 
 	actionModo = ActionModo::NONE;
 
@@ -172,6 +169,13 @@ void Player::PlayerObject::Update()
 
 	// 移動
 	m_Position += m_Velocity * moveSpeed;
+
+	// フィールドオブジェクト取得
+	Field* fieldobj = nowscene->GetGameObject<Field>();
+
+	// 範囲チェック
+	Vector3 max = fieldobj->GetMax();
+	Vector3 min = fieldobj->GetMin();
 
 	if (m_Position.x <= min.x) {
 		m_Position.x = min.x;

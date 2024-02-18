@@ -15,6 +15,12 @@ namespace Player
 		int	m_Frame;
 		float	m_BlendRate;
 		std::shared_ptr <Timer::ScheduledTask> m_ScheduledTask;
+		std::shared_ptr <Timer::ScheduledTask> m_ShootSkill;
+		std::shared_ptr <Timer::ScheduledTask> m_ShootSkillCool;
+		std::shared_ptr <Timer::ScheduledTask> m_ShootSkillRate;
+
+		bool m_ShootFlg = true;//‘Å‚Ä‚é‚©
+		bool m_ShootCoolEndFlg = true;//‘Å‚Ä‚é‚©
 
 		//‹…‚ÌƒXƒ|[ƒ“êŠ‚É‚Ç‚ê‚®‚ç‚¢
 		float AddForwardPlayerShotSpawnPos = 4.5f;

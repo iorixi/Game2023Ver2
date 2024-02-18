@@ -14,6 +14,8 @@
 #include "ActionModo.h"
 #include "score.h"
 #include <vector>
+#include "field.h"
+#include "audio.h"
 
 #include "newModel/CBoundingBox.h"
 #include "newModel/CShader.h"
@@ -82,6 +84,10 @@ void Enemy::HumanObject::Init()
 	m_MoveChangeTask = std::make_unique<Timer::ScheduledTask>(4.0f);
 
 	m_EnemyShot = AddComponent<Enemy::Shot>(); // 敵のショットコンポーネントの追加
+
+	// 音声用のコンポーネントを追加してロードする
+	m_SE = AddComponent<Sound::Audio>();
+	m_SE->Load("asset\\audio\\damage3.wav");
 }
 
 // 敵の人間オブジェクトの終了処理
@@ -139,10 +145,9 @@ void Enemy::HumanObject::Update()
 	{
 		C_Random random;
 		actionModoSelect = random.Get_Random(1, 5);
-		if (actionModoSelect == 5)
-		{
-			actionModoSelect = random.Get_Random(1, 5);
-		}
+
+		actionModoSelect = random.Get_Random(1, 5);
+		actionFloatingModoSelect = random.Get_Random(1, 3);
 	}
 
 	// 移動パターンによる行動
@@ -176,13 +181,65 @@ void Enemy::HumanObject::Update()
 		break;
 	}
 
+	switch (actionFloatingModoSelect)
+	{
+	case 1:
+		// 上移動
+		m_Position.y += 0.05f;
+		break;
+	case 2:
+		// 下移動
+		m_Position.y -= 0.05f;
+
+		break;
+	case 3:
+		//上下移動なし
+		break;
+
+	default:
+		break;
+	}
+
 	// 回転を適用
-	m_Rotation = Vector3(pitch, yaw, roll);
+	m_Rotation = Vector3(-pitch, yaw, roll);
+
+	// フィールドオブジェクト取得
+	Field* fieldobj = nowscene->GetGameObject<Field>();
+
+	// 範囲チェック
+	Vector3 max = fieldobj->GetMax();
+	Vector3 min = fieldobj->GetMin();
+
+	if (m_Position.x <= min.x) {
+		m_Position.x = min.x;
+	}
+	if (m_Position.x >= max.x) {
+		m_Position.x = max.x;
+	}
+
+	if (m_Position.z <= min.z) {
+		m_Position.z = min.z;
+	}
+	if (m_Position.z >= max.z) {
+		m_Position.z = max.z;
+	}
+
+	// 接地
+	float groundHeight = fieldobj->GetFieldHeightBySqno(m_Position);
+
+	// 位置が０以下なら地面位置にセットする
+	if (m_Position.y < groundHeight)
+	{
+		m_Position.y = m_oldPosition.y;
+		m_Position.y = groundHeight;
+	}
 
 	// 当たり判定
 	enemyHitSphere->SetCenter(m_Position);
 	std::vector<Score*> score = nowscene->GetGameObjects<Score>();
 	score.at(0)->SetCount(hp);
+
+	m_oldPosition = m_Position;
 }
 
 // 敵の人間オブジェクトの描画前処理

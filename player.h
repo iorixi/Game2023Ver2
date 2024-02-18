@@ -27,6 +27,7 @@ namespace Player
 
 		Timer::DelayCompnent* m_Delay{};
 		Sound::Audio* m_SE{};
+		Sound::Audio* m_BGM{};
 
 		//アクティブ状態か
 		bool isActive = false;

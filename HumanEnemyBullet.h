@@ -15,6 +15,7 @@ namespace Enemy
 		int	m_Frame;
 		float	m_BlendRate;
 		std::shared_ptr <Timer::ScheduledTask> m_ScheduledTask;
+		std::shared_ptr <Timer::ScheduledTask> m_SpellBulletRate;
 
 		//‹…‚ÌƒXƒ|[ƒ“êŠ‚É‚Ç‚ê‚®‚ç‚¢
 		float AddForwardEnemyShotSpawnPos = 4.5f;
