@@ -6,7 +6,6 @@
 #include "enemy.h"
 #include "shadow.h"
 #include "shader.h"
-#include "explosion.h"
 #include "score.h"
 #include "BoundingSphere.h"
 
@@ -21,9 +20,6 @@
 #include "CalculateAngle.h"
 
 using namespace DirectX::SimpleMath;
-using namespace Player;
-using namespace Enemy;
-using namespace Timer;
 
 HomingBullet::HomingBullet()
 {
@@ -50,7 +46,7 @@ void HomingBullet::Unload()
 
 void HomingBullet::Init()
 {
-	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");
+	AddComponent<Shader>()->Load("shader\\PlayerShootBulletVS.cso", "shader\\EnemyShootBulletVS.cso", "shader\\vertexLightingPS.cso");
 	AddComponent<ModelRenderer>()->Load("asset\\model\\bullet.obj");
 
 	AddComponent<Shadow>()->SetSize(0.5f);
@@ -59,8 +55,8 @@ void HomingBullet::Init()
 	m_Child = std::make_unique<BoundingSphereObj>(1, m_Position);
 
 	//時間関係初期化
-	m_HomingPointUpdateTime = std::make_shared<ScheduledTask>(homingPointUpdateTime);
-	m_HomingTimeDestroy = std::make_shared<ScheduledTask>();
+	m_HomingPointUpdateTime = std::make_shared<Timer::ScheduledTask>(homingPointUpdateTime);
+	m_HomingTimeDestroy = std::make_shared<Timer::ScheduledTask>();
 }
 
 void HomingBullet::Update()
@@ -70,12 +66,19 @@ void HomingBullet::Update()
 		//オーナーが設定されているか
 		if (ownerChara != CHARACTER::NONE)
 		{
+			if (ownerChara == CHARACTER::ENEMY)
+			{
+				Shader* shader = GetComponent<Shader>();
+
+				shader->SetPlayerShder(false);
+			}
+
 			// 現在のシーンを取得
 			Scene* currentScene = Manager::GetScene();
 			// 現在のシーンのプレイヤーのオブジェクトを取得
-			PlayerObject* player = currentScene->GetGameObject<PlayerObject>();
+			Player::PlayerObject* player = currentScene->GetGameObject<Player::PlayerObject>();
 			// 現在のシーンの敵のオブジェクトを取得
-			HumanObject* enemy = currentScene->GetGameObject<HumanObject>();
+			Enemy::HumanObject* enemy = currentScene->GetGameObject<Enemy::HumanObject>();
 
 			// プレイヤーの座標を取得
 			Vector3 playerPosition = player->GetPosition();

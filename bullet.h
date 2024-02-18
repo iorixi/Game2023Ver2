@@ -19,6 +19,7 @@ public:
 
 	virtual void Init() override;
 	virtual void Update() override;
+	virtual void PreDraw() override;
 
 	void SetPlayerShot(bool value) { m_PlayerShot = value; };
 	bool GetPlayerShot() { return m_PlayerShot; };

@@ -52,8 +52,7 @@ void Enemy::HumanObject::Init()
 
 		// モデルファイル名
 		std::string filename[] = {
-			"asset\\model\\youmu\\youmu2.pmx",
-			"asset\\model\\Akai_Run.fbx",
+			"asset\\model\\furan\\furan2.pmx",
 		};
 
 		// メッシュ生成（ジオメトリデータ）

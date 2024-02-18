@@ -4,6 +4,7 @@
 #include <memory>
 
 namespace Timer { class ScheduledTask; }
+class Shader;
 
 class HomingBullet : public Bullet
 {

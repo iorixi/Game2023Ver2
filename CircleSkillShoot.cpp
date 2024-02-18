@@ -1,29 +1,39 @@
-#include "main.h"
+#include "CircleSkillShoot.h"
 #include "scene.h"
 #include "manager.h"
-#include "renderer.h"
 #include "modelRenderer.h"
-#include "bullet.h"
 #include "enemy.h"
 #include "shadow.h"
 #include "shader.h"
-#include "explosion.h"
 #include "score.h"
 #include "BoundingSphere.h"
+#include "HumanEnemy.h"
+#include "player.h"
+#include "CharaEnum.h"
+#include "camera.h"
+#include "ScheduledTask.h"
+#include "CharaEnum.h"
 
 using namespace DirectX::SimpleMath;
-using namespace Enemy;
 
-void Bullet::Load()
+CircleSkillShoot::CircleSkillShoot()
+{
+}
+
+CircleSkillShoot::~CircleSkillShoot()
+{
+}
+
+void CircleSkillShoot::Load()
 {
 	ModelRenderer::Preload("asset\\model\\bullet.obj");
 }
 
-void Bullet::Unload()
+void CircleSkillShoot::Unload()
 {
 }
 
-void Bullet::Init()
+void CircleSkillShoot::Init()
 {
 	AddComponent<Shader>()->Load("shader\\vertexLightingVS.cso", "shader\\vertexLightingPS.cso");
 	AddComponent<ModelRenderer>()->Load("asset\\model\\bullet.obj");
@@ -32,23 +42,11 @@ void Bullet::Init()
 
 	//子オブジェクトに当たり判定を追加
 	m_Child = std::make_unique<BoundingSphereObj>(1, m_Position);
+
+	//時間関係初期化
+	m_ShootTime = std::unique_ptr<Timer::ScheduledTask>();
 }
 
-void Bullet::Update()
+void CircleSkillShoot::Update()
 {
-	m_Position += m_Velocity;
-
-	if (m_Position.Length() > 100.0f)
-		SetDestroy();
-
-	Scene* scene = Manager::GetScene();
-
-	//当たり判定
-	BoundingSphereObj* boundingSphere = GetBulletHitSphere();
-	m_Child->SetCenter(m_Position);
-}
-
-void Bullet::PreDraw()
-{
-	GameObject::PreDraw();
 }
